@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Habit Pro Ultra (v3.6)</title>
-    
+    <title>Habit Pro Ultra (v3.7)</title>
+
     <!-- PWA 配置 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,20 +25,20 @@
             --border: #e5e7eb;
             --input-bg: #f9fafb;
             --header-bg: rgba(255, 255, 255, 0.95);
-            
+
             /* 功能色 */
-            --success: #10b981; 
+            --success: #10b981;
             --success-bg: #ecfdf5;
             --warning: #f59e0b;
             --warning-bg: #fffbeb;
             --danger: #ef4444;
             --danger-bg: #fef2f2;
             --info: #3b82f6;
-            
+
             /* 时间银行色 (Indigo/Purple) */
             --time: #6366f1;
             --time-bg: #e0e7ff;
-            
+
             /* 阴影与边距 */
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --safe-area-bottom: env(safe-area-inset-bottom);
@@ -55,17 +55,17 @@
             --border: #374151;
             --input-bg: #111827;
             --header-bg: rgba(17, 24, 39, 0.95);
-            
+
             --success: #34d399;
             --success-bg: rgba(6, 78, 59, 0.4);
             --warning: #fbbf24;
             --warning-bg: rgba(69, 26, 3, 0.4);
             --danger: #f87171;
             --danger-bg: rgba(69, 10, 10, 0.4);
-            
+
             --time: #818cf8;
             --time-bg: rgba(67, 56, 202, 0.4);
-            
+
             --shadow: none;
         }
 
@@ -73,11 +73,11 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Roboto, sans-serif;
-            background: var(--bg-body); 
-            color: var(--text-main); 
-            margin: 0; 
+            background: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
             padding-bottom: calc(90px + var(--safe-area-bottom));
-            line-height: 1.5; 
+            line-height: 1.5;
             transition: background 0.3s ease, color 0.3s ease;
         }
 
@@ -90,14 +90,14 @@
             height: 60px;
         }
         .header-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0;}
-        .header-title h1 { 
-            margin: 0; font-size: 18px; font-weight: 800; 
+        .header-title h1 {
+            margin: 0; font-size: 18px; font-weight: 800;
             background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        
-        .sync-badge { 
-            font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 4px; 
+
+        .sync-badge {
+            font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 4px;
             opacity: 0.9; color: var(--text-sub); background: var(--input-bg);
             padding: 4px 8px; border-radius: 12px; border: 1px solid var(--border);
             cursor: pointer; transition: all 0.2s;
@@ -106,24 +106,25 @@
         .sync-icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; }
         .status-idle .sync-icon { background: var(--success); }
         .status-syncing .sync-icon { background: transparent; border: 2px solid var(--info); border-top-color: transparent; width: 10px; height: 10px; animation: spin 0.8s linear infinite; }
+        .status-error .sync-icon { background: var(--danger); }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .header-right { 
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             flex-wrap: nowrap;
         }
-        .theme-btn { 
-            background: none; border: 1px solid var(--border); font-size: 14px; 
-            cursor: pointer; padding: 0; width: 28px; height: 28px; 
-            border-radius: 50%; transition: all 0.3s; color: var(--text-main); 
+        .theme-btn {
+            background: none; border: 1px solid var(--border); font-size: 14px;
+            cursor: pointer; padding: 0; width: 28px; height: 28px;
+            border-radius: 50%; transition: all 0.3s; color: var(--text-main);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        
-        .fund-badge { 
-            padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; 
+
+        .fund-badge {
+            padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 700;
             box-shadow: var(--shadow); display: flex; align-items: center; gap: 4px;
             white-space: nowrap; flex-shrink: 0; height: 28px; cursor: pointer;
         }
@@ -132,13 +133,13 @@
         .badge-time { background: var(--time-bg); color: var(--time); border: 1px solid var(--border); }
 
         .container { max-width: 500px; margin: 20px auto; padding: 0 16px; position: relative; z-index: 1; }
-        .card { 
-            background: var(--bg-card); 
-            border-radius: 20px; 
-            padding: 24px; 
-            margin-bottom: 20px; 
-            box-shadow: var(--shadow); 
-            border: 1px solid var(--border); 
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
         .card-title { font-size: 16px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
 
@@ -160,46 +161,46 @@
         .input-group { margin-bottom: 16px; }
         .input-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-sub); margin-bottom: 8px; font-weight: 600;}
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        
-        input, select, textarea { 
-            width: 100%; padding: 14px; 
-            border: 2px solid var(--border); 
-            border-radius: 12px; 
-            font-size: 16px; 
-            background: var(--input-bg); 
-            color: var(--text-main); 
-            font-weight: 600; 
-            outline: none; -webkit-appearance: none; 
+
+        input, select, textarea {
+            width: 100%; padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none; -webkit-appearance: none;
             font-family: inherit;
         }
         textarea { resize: vertical; min-height: 40px; }
         input:focus, textarea:focus { border-color: var(--primary); }
-        
+
         button { user-select: none; -webkit-tap-highlight-color: transparent; }
-        .btn-calc { 
-            width: 100%; padding: 16px; border: none; 
-            border-radius: 14px; 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            color: white; font-size: 16px; font-weight: 700; 
-            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; 
-            margin-top: 12px; 
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); 
+        .btn-calc {
+            width: 100%; padding: 16px; border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; font-size: 16px; font-weight: 700;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
+            margin-top: 12px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
         [data-theme="dark"] .btn-calc { box-shadow: none; }
-        
+
         .btn-secondary { background: var(--border); color: var(--text-sub); box-shadow: none; }
         .btn-mini { width: auto; padding: 8px 16px; font-size: 13px; margin-top: 0; border-radius: 10px;}
         .btn-prevent { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; box-shadow:none;}
         [data-theme="dark"] .btn-prevent { background: rgba(55, 48, 163, 0.4); color: #818cf8; border-color: #4338ca; }
-        
-        .list-item { 
-            padding: 16px 0; border-bottom: 1px solid var(--border); 
-            display: flex; justify-content: space-between; align-items: center; 
+
+        .list-item {
+            padding: 16px 0; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
             position: relative;
         }
 
-        .btn-action { 
-            width: 32px; height: 32px; border-radius: 50%; 
+        .btn-action {
+            width: 32px; height: 32px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; color: var(--text-sub); margin-left: 4px;
             background: var(--input-bg); transition: all 0.2s;
@@ -208,7 +209,7 @@
         .btn-action:hover { background: var(--border); }
         .btn-edit:hover { background: var(--info); color: #fff; }
         .btn-del:hover { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
-        
+
         .btn-nuke {
             font-size: 11px;
             background: var(--danger-bg);
@@ -219,12 +220,12 @@
             cursor: pointer;
             margin-left: 8px;
         }
-        
+
         .privacy-check-label {
             display: flex; align-items: center; justify-content: center;
             font-size: 13px; color: var(--text-sub); margin-top: 12px;
             cursor: pointer; padding: 12px; background: var(--input-bg);
-            border-radius: 12px; border: 2px solid var(--border); 
+            border-radius: 12px; border: 2px solid var(--border);
             transition: all 0.2s; user-select: none;
         }
         .privacy-check-label:active { transform: scale(0.98); }
@@ -235,19 +236,19 @@
 
         .todo-section-title { font-size: 12px; font-weight: 800; color: var(--text-sub); margin: 25px 0 10px 4px; text-transform: uppercase; letter-spacing: 0.5px; display: none; align-items: center;}
         .todo-section-title.show { display: flex; }
-        
-        .todo-item { 
-            padding: 12px; border: 1px solid var(--border); 
-            border-radius: 12px; margin-bottom: 10px; 
-            display: flex; justify-content: space-between; align-items: center; 
+
+        .todo-item {
+            padding: 12px; border: 1px solid var(--border);
+            border-radius: 12px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
             background: var(--bg-card); transition: all 0.3s ease; position: relative;
         }
-        .todo-do { border-left: 4px solid var(--success); } 
+        .todo-do { border-left: 4px solid var(--success); }
         .todo-dont { border-left: 4px solid var(--danger); }
         .todo-other { border-left: 4px solid var(--info); }
-        
+
         .todo-expired-item { opacity: 0.6; background: var(--border); filter: grayscale(1); }
-        
+
         .todo-check { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #d1d5db; display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--success); font-weight:bold;}
         .click-anim { animation: press 0.3s ease-out; }
         @keyframes press { 0% { transform: scale(1); } 50% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
@@ -255,7 +256,7 @@
         /* 悬浮菜单 */
         .action-menu {
             position: absolute;
-            right: 46px; 
+            right: 46px;
             top: 50%;
             transform: translateY(-50%);
             background: var(--bg-card);
@@ -271,11 +272,11 @@
         .action-menu.show { display: flex; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translate(10px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
 
-        .tab-bar { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+        .tab-bar {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 460px; background: var(--header-bg); backdrop-filter: blur(20px);
-            border-radius: 24px; display: flex; padding: 12px 20px; 
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15); z-index: 1000; 
+            border-radius: 24px; display: flex; padding: 12px 20px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15); z-index: 1000;
             border: 1px solid var(--border); justify-content: space-between;
             padding-bottom: calc(12px + var(--safe-area-bottom));
         }
@@ -296,28 +297,28 @@
         .chip-removable { padding-right: 8px; display:inline-flex; align-items:center; }
         .chip-removable::after { content:'×'; font-weight:bold; margin-left:6px; font-size:14px; opacity:0.5; }
 
-        .record-img { 
-            width: 40px; height: 40px; 
-            border-radius: 6px; border: 1px solid var(--border); 
+        .record-img {
+            width: 40px; height: 40px;
+            border-radius: 6px; border: 1px solid var(--border);
             margin-left: 10px; object-fit: cover; cursor: zoom-in; background: #eee;
         }
 
         .close-pending { position: absolute; top: 12px; right: 12px; color: var(--text-sub); opacity: 0.5; cursor: pointer; font-weight: bold; }
         .close-pending:hover { opacity: 1; }
-        
+
         .todo-date-badge {
-            font-size: 10px; padding: 2px 6px; border-radius: 6px; 
+            font-size: 10px; padding: 2px 6px; border-radius: 6px;
             background: var(--border); color: var(--text-main); margin-left: 6px;
             font-weight: 600;
         }
-        
+
         .backup-file-item {
             padding: 12px; border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
             font-size: 13px; cursor: pointer;
         }
         .backup-file-item:hover { background: var(--input-bg); }
-        
+
         /* Time Bank Exchange Card */
         .exchange-card {
             display: none;
@@ -351,7 +352,7 @@
 
     <!-- 1. 首页 -->
     <div id="page-checkin" class="container page active">
-        
+
         <div class="toggle-container">
             <div id="btn-view-checkin" class="toggle-btn active" onclick="toggleHomeView('checkin')">☀️ 晨间打卡</div>
             <div id="btn-view-todo" class="toggle-btn" onclick="toggleHomeView('todo')">📝 今日待办</div>
@@ -365,7 +366,7 @@
                 <div style="font-size:13px; font-weight:800; color:var(--warning); margin-bottom:8px;">🔥 待执行补救措施</div>
                 <div id="pendingText" style="font-weight:600; color:var(--text-main); font-size:15px; line-height:1.4;"></div>
             </div>
-            
+
             <!-- 时间兑换卡片 -->
             <div id="exchangeCard" class="exchange-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -387,15 +388,15 @@
                     <div class="input-group"><label class="input-label">今早起床 <span id="targetWake" style="opacity:0.6;font-weight:normal"></span></label><input type="time" id="wakeInput" value="08:30"></div>
                 </div>
                 <div class="input-group"><label class="input-label">昨日专注时长 (h)</label><input type="number" id="studyInput" step="0.5"></div>
-                
+
                 <button class="btn-calc" onclick="autoCalculate()">⚡ 智能诊断</button>
-                
+
                 <div class="row" style="margin-top:12px;">
                     <button class="btn-calc btn-secondary" style="margin-top:0" onclick="checkLeaveQuota()">☕ 申请休息</button>
                     <button class="btn-calc btn-prevent" style="margin-top:0" onclick="forcePrevent()">🛡️ 主动干预</button>
                 </div>
             </div>
-            
+
             <div id="analysisCard" class="card" style="display:none; text-align:center;"></div>
             <div id="formContainer"></div>
         </div>
@@ -413,7 +414,7 @@
                 </div>
                 <input type="text" id="todoTitle" placeholder="事项名称" style="margin-bottom:8px;">
                 <textarea id="todoNote" placeholder="详细备注 (可选)" rows="2" style="margin-bottom:8px; font-weight:normal; font-size:14px;"></textarea>
-                
+
                 <div style="display:flex; gap:8px; align-items:center;">
                     <select id="todoType" style="flex:1.2; padding:10px;" onchange="checkTodoTypeChange()">
                         <option value="do">🟢 去做</option>
@@ -424,7 +425,7 @@
                         <input type="number" id="todoReward" placeholder="愿望金" value="1" style="border-color:var(--success);">
                         <input type="number" id="todoPenalty" placeholder="惩罚金" value="1" style="border-color:var(--danger);">
                     </div>
-                    
+
                     <!-- 按钮组：新增/编辑模式切换 -->
                     <div id="btn-group-add" style="display:block;">
                         <button class="btn-mini" style="background:var(--primary); color:#fff; height:46px; width:46px; font-size:20px;" onclick="saveTodo()">+</button>
@@ -434,12 +435,12 @@
                         <button class="btn-mini btn-secondary" style="font-size:11px; padding:6px;" onclick="cancelEdit()">✕ 取消</button>
                     </div>
                 </div>
-                
+
                 <div style="margin-top:10px; text-align:right;">
                     <button class="btn-mini btn-secondary" onclick="sortTodosByDate()">📅 按时间自动排序</button>
                 </div>
             </div>
-            
+
             <div id="todoContainer">
                 <div id="head-do" class="todo-section-title">🟢 必须完成 (Do)</div>
                 <div id="list-do"></div>
@@ -448,7 +449,7 @@
                 <div id="head-other" class="todo-section-title">🔵 其它杂项 (Other)</div>
                 <div id="list-other"></div>
                 <div id="head-expired" class="todo-section-title">
-                    ⏰ 已结束 / 历史归档 
+                    ⏰ 已结束 / 历史归档
                     <button class="btn-nuke" onclick="nukeExpiredTodos()">🗑️ 清空</button>
                 </div>
                 <div id="list-expired"></div>
@@ -467,14 +468,14 @@
                 <div style="background:var(--input-bg);padding:15px;border-radius:12px;"><div class="stat-num" id="statRate" style="font-weight:bold;font-size:20px;">0%</div><div style="font-size:12px;color:var(--text-sub)">完美率</div></div>
             </div>
         </div>
-        
+
         <div id="paySection" class="card" style="background:var(--danger-bg); border-color:var(--danger); text-align:center; display:none;">
             <div style="color:var(--danger); font-weight:800; font-size:28px; margin:10px 0;" id="debtAmount">0</div>
             <div style="color:var(--danger); font-size:13px; margin-bottom:15px; opacity:0.8;">待罚公益金 (To-Do失败/打卡惩罚)</div>
             <button class="btn-calc" style="background:var(--danger); width:auto; margin:0 auto;" onclick="document.getElementById('fileInput').click()">📸 上传凭证并清零</button>
             <input type="file" id="fileInput" hidden accept="image/*" onchange="handlePaymentWithCompress(this)">
         </div>
-        
+
         <div class="card">
             <div class="card-title">📜 历史档案 <button class="btn-mini btn-secondary" onclick="exportCSV()">导出CSV</button></div>
             <div id="historyList"></div>
@@ -486,7 +487,10 @@
         <div class="card" style="background: var(--bg-card); border: 1px solid var(--warning);">
             <div class="card-title" style="color:var(--warning)">
                 <span>🎁 愿望商店</span>
-                <span id="shopPrivacyBtn" style="cursor:pointer; font-size:20px; padding:8px;" onclick="toggleShopPrivacy()">🔒</span>
+                <div style="display:flex; gap:6px; align-items:center;">
+                     <button class="btn-mini" style="background:transparent; border:1px solid var(--warning); color:var(--warning);" onclick="sortShopByPrice()">💰 按价格排序</button>
+                     <span id="shopPrivacyBtn" style="cursor:pointer; font-size:20px; padding:4px;" onclick="toggleShopPrivacy()">🔒</span>
+                </div>
             </div>
             <div style="text-align:center; margin-bottom:15px; font-size:14px; color:var(--text-sub);">
                 可用愿望金: <span id="shopWalletDisplay" style="font-weight:bold; font-size:18px; color:var(--warning);">0</span> 元
@@ -501,7 +505,7 @@
             <button id="btnShopAdd" class="btn-calc" style="background:var(--warning);" onclick="addWish()">➕ 上架新愿望</button>
             <button id="btnShopCancel" class="btn-calc btn-secondary" style="display:none; margin-top:8px;" onclick="cancelShopEdit()">取消编辑</button>
         </div>
-        
+
         <div class="card">
             <div id="shopList"></div>
         </div>
@@ -514,7 +518,7 @@
              <div class="row"><div class="input-group"><label class="input-label">平日起床</label><input type="time" id="setWake"></div><div class="input-group"><label class="input-label">平日入睡</label><input type="time" id="setSleep"></div></div>
             <div class="row"><div class="input-group"><label class="input-label">周末起床</label><input type="time" id="setWakeW"></div><div class="input-group"><label class="input-label">周末入睡</label><input type="time" id="setSleepW"></div></div>
             <div class="input-group"><label class="input-label">每日专注 (h)</label><input type="number" id="setStudy"></div>
-            
+
             <div class="input-group" style="margin-top:12px;border-top:1px dashed var(--border);padding-top:12px;">
                 <label class="input-label">📅 周末定义</label>
                 <div style="display:flex; gap:12px;">
@@ -537,7 +541,7 @@
                     <input type="number" id="exchangeRate" value="5">
                 </div>
             </div>
-            
+
             <div style="font-size:12px; font-weight:700; color:var(--danger); margin:15px 0 8px 0; text-transform:uppercase;">惩罚阶梯 (左轻微 / 右严重)</div>
             <div class="row" style="margin-bottom:10px;">
                 <div><span style="font-size:11px;color:var(--text-sub)">起床&lt;30m</span><input type="number" id="pWakeS"></div>
@@ -551,7 +555,7 @@
                 <div><span style="font-size:11px;color:var(--text-sub)">学习&lt;1h</span><input type="number" id="pStudyS"></div>
                 <div><span style="font-size:11px;color:var(--text-sub)">学习≥1h</span><input type="number" id="pStudyL"></div>
             </div>
-            
+
              <div class="input-group" style="margin-top:10px;">
                 <label class="input-label">🛡️ 预防模式扣费</label>
                 <input type="number" id="preventCost" value="10">
@@ -624,45 +628,77 @@
     const DEFAULT_CONFIG = { wake: "08:30", sleep: "01:00", study: 4.0, wakeW: "10:00", sleepW: "02:00", reward: 5, preventCost: 10, exchangeRate: 5, penalties: { wakeS: 2, wakeL: 5, sleepS: 2, sleepL: 5, studyS: 5, studyL: 10 }, weekend: [0, 6] };
     let historyData = JSON.parse(localStorage.getItem('habit_data_v15')) || [];
     let config = JSON.parse(localStorage.getItem('habit_config_v7')) || DEFAULT_CONFIG;
+
     let wishList = JSON.parse(localStorage.getItem('habit_wishes_v1')) || [];
     let todoList = JSON.parse(localStorage.getItem('habit_todos_v1')) || [];
     let userStrategies = JSON.parse(localStorage.getItem('habit_strategies_v1')) || { study: ["⚡ 番茄钟"], sleep: ["📵 远离屏幕"], wake: ["⏰ 闹钟放远"] };
-    let timeBank = parseFloat(localStorage.getItem('habit_time_bank_v1')) || 0; 
+    let timeBank = parseFloat(localStorage.getItem('habit_time_bank_v1')) || 0;
     let ghConfig = JSON.parse(localStorage.getItem('habit_gh_v1')) || { token: '', repo: '', path: 'habit_backup.json' };
     let currentTheme = localStorage.getItem('habit_theme') || 'auto';
     let todayIsWeekend = false;
     let defaultFund = 0; let failedTypes = []; let calcReason = "";
     let globalWallet = 0; let globalDebt = 0;
     let pendingHiddenId = localStorage.getItem('habit_pending_hide') || null;
-    let isDeleting = false; 
-    let isShopPrivacyOn = true; 
-    let openMenuId = null; 
-    
-    let tempTimeDiff = 0; 
+    let isDeleting = false;
+    let isShopPrivacyOn = true;
+    let openMenuId = null;
+
+    let tempTimeDiff = 0;
     let useTimeBank = false;
     let editingWishIndex = -1; // 记录正在编辑的商品索引
 
     init();
 
+    /* ================== ✅ 同步修复：剥离图片字段（仅用于云端/拉取写入） ================== */
+    function stripImagesFromHistory(arr) {
+        if (!Array.isArray(arr)) return [];
+        return arr.map(r => {
+            if (!r || typeof r !== 'object') return r;
+            const nr = { ...r };
+            if (nr.details && typeof nr.details === 'object') {
+                const nd = { ...nr.details };
+                if (nd.image) delete nd.image; // 不同步/不落盘图片
+                nr.details = nd;
+            }
+            return nr;
+        });
+    }
+
+    function persistAllLocal() {
+        localStorage.setItem('habit_data_v15', JSON.stringify(historyData));
+        localStorage.setItem('habit_config_v7', JSON.stringify(config));
+        localStorage.setItem('habit_todos_v1', JSON.stringify(todoList));
+        localStorage.setItem('habit_wishes_v1', JSON.stringify(wishList));
+        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies));
+        localStorage.setItem('habit_time_bank_v1', timeBank);
+    }
+
+    function setSyncBadgeStatus(status, text) {
+        const badge = document.getElementById('syncBadge');
+        const badgeText = document.getElementById('syncText');
+        badge.className = `sync-badge ${status}`;
+        if (typeof text === 'string') badgeText.innerText = text;
+    }
+
     function init() {
-        fixCorruptData(); 
+        fixCorruptData();
         initTheme();
         const today = getLocalTodayStr();
         document.getElementById('dateInput').value = today;
-        document.getElementById('todoDate').value = today; 
+        document.getElementById('todoDate').value = today;
         initTodoTime();
-        checkWeekend(); applySettingsToUI(); 
+        checkWeekend(); applySettingsToUI();
         renderStrategySettings();
         if(ghConfig.token && ghConfig.repo) { document.getElementById('ghToken').value = ghConfig.token; document.getElementById('ghRepo').value = ghConfig.repo; }
         checkDateChange();
         updateUI();
-        
-        setInterval(() => { 
-            if(!isDeleting) { 
-                autoCheckTodos(); 
-            } 
-        }, 2000); 
-        
+
+        setInterval(() => {
+            if(!isDeleting) {
+                autoCheckTodos();
+            }
+        }, 2000);
+
         if(ghConfig.token && ghConfig.repo) syncGitHub('pull', true);
     }
 
@@ -671,16 +707,15 @@
         const idx = config.weekend.indexOf(day);
         if(idx > -1) config.weekend.splice(idx, 1);
         else config.weekend.push(day);
-        
-        applySettingsToUI(); 
+
+        applySettingsToUI();
         checkWeekend();
-        
-        // 修复：自动保存周末设置，防止刷新丢失
+
         config.weekend = config.weekend || [0, 6];
         localStorage.setItem('habit_config_v7', JSON.stringify(config));
         triggerAutoSave();
     }
-    
+
     function toggleExchangeCard() {
         const card = document.getElementById('exchangeCard');
         if(card.style.display === 'block') {
@@ -693,52 +728,52 @@
             document.getElementById('exchangeHours').value = '';
         }
     }
-    
+
     function executeExchange() {
         const hours = parseFloat(document.getElementById('exchangeHours').value);
         if(!hours || hours <= 0) return alert("请输入有效小时数");
         if(hours > timeBank) return alert(`余额不足，当前仅有 ${timeBank.toFixed(1)} 小时`);
-        
+
         const rate = config.exchangeRate || 5;
         const money = hours * rate;
-        
+
         if(!confirm(`确认消耗 ${hours} 小时兑换 ${money} 元愿望金？`)) return;
-        
+
         timeBank -= hours;
         saveRecord({
-            fund: money, 
-            title: '⏳ 时间兑换', 
-            theme: 'theme-success', 
-            details: { note: `消耗 ${hours}h, 汇率 ${rate}`, time_bank_change: `-${hours}h` } 
+            fund: money,
+            title: '⏳ 时间兑换',
+            theme: 'theme-success',
+            details: { note: `消耗 ${hours}h, 汇率 ${rate}`, time_bank_change: `-${hours}h` }
         });
-        
+
         toggleExchangeCard();
         alert("💰 兑换成功！");
     }
 
-    function renderStrategySettings() { 
-        ['wake', 'sleep', 'study'].forEach(type => { 
-            const listEl = document.getElementById(`list_${type}`); 
+    function renderStrategySettings() {
+        ['wake', 'sleep', 'study'].forEach(type => {
+            const listEl = document.getElementById(`list_${type}`);
             if(!listEl) return;
-            const items = userStrategies[type] || []; 
-            listEl.innerHTML = items.map((s, i) => `<div class="chip chip-removable" onclick="removeStrat('${type}', ${i})">${s}</div>`).join(''); 
-        }); 
+            const items = userStrategies[type] || [];
+            listEl.innerHTML = items.map((s, i) => `<div class="chip chip-removable" onclick="removeStrat('${type}', ${i})">${s}</div>`).join('');
+        });
     }
-    function addStrat(type) { 
-        const input = document.getElementById(`input_${type}`); 
-        const val = input.value.trim(); 
-        if(!val) return; 
-        if(!userStrategies[type]) userStrategies[type] = []; 
-        userStrategies[type].push(val); 
-        input.value = ''; 
-        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies)); 
-        renderStrategySettings(); triggerAutoSave(); 
+    function addStrat(type) {
+        const input = document.getElementById(`input_${type}`);
+        const val = input.value.trim();
+        if(!val) return;
+        if(!userStrategies[type]) userStrategies[type] = [];
+        userStrategies[type].push(val);
+        input.value = '';
+        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies));
+        renderStrategySettings(); triggerAutoSave();
     }
-    function removeStrat(type, idx) { 
-        if(!confirm(`删除此策略?`)) return; 
-        userStrategies[type].splice(idx, 1); 
-        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies)); 
-        renderStrategySettings(); triggerAutoSave(); 
+    function removeStrat(type, idx) {
+        if(!confirm(`删除此策略?`)) return;
+        userStrategies[type].splice(idx, 1);
+        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies));
+        renderStrategySettings(); triggerAutoSave();
     }
 
     function getTimestampStr() {
@@ -759,16 +794,16 @@
     function nukeExpiredTodos() {
         if(!confirm("⚠️ 确认清空列表中的所有【已结束/已过期】项目？此操作不可撤销。")) return;
         isDeleting = true;
-        const viewDate = document.getElementById('dateInput').value;
         const now = new Date();
         const currentHm = now.toTimeString().slice(0, 5);
         const todayStr = getLocalTodayStr();
         todoList = todoList.filter(t => {
-            if(t.date > todayStr) return true; 
-            if(t.date === todayStr && t.time >= currentHm) return true; 
-            let isExpired = (t.date < todayStr) || 
+            if(t.archived) return false; // 移除已归档
+            if(t.date > todayStr) return true;
+            if(t.date === todayStr && t.time >= currentHm) return true;
+            let isExpired = (t.date < todayStr) ||
                             (t.date === todayStr && currentHm > t.time && (t.status === 'pending' || t.status.startsWith('expired_')));
-            return !isExpired; 
+            return !isExpired;
         });
         localStorage.setItem('habit_todos_v1', JSON.stringify(todoList));
         renderTodos();
@@ -776,7 +811,7 @@
         setTimeout(() => isDeleting = false, 500);
         alert("🧹 已清空归档");
     }
-    
+
     function initTheme() {
         if(currentTheme === 'auto') {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -808,7 +843,7 @@
     function initTodoTime() {
         const now = new Date();
         now.setHours(now.getHours() + 1);
-        document.getElementById('todoTime').value = now.toTimeString().slice(0, 5); 
+        document.getElementById('todoTime').value = now.toTimeString().slice(0, 5);
     }
     function checkDateChange() {
         checkWeekend();
@@ -842,13 +877,13 @@
     function moveTodo(id, direction) {
         const index = todoList.findIndex(t => String(t.id) === String(id));
         if (index === -1) return;
-        if (direction === -1 && index > 0) { [todoList[index], todoList[index-1]] = [todoList[index-1], todoList[index]]; } 
-        else if (direction === 1 && index < todoList.length - 1) { [todoList[index], todoList[index+1]] = [todoList[index+1], todoList[index]]; } 
+        if (direction === -1 && index > 0) { [todoList[index], todoList[index-1]] = [todoList[index-1], todoList[index]]; }
+        else if (direction === 1 && index < todoList.length - 1) { [todoList[index], todoList[index+1]] = [todoList[index+1], todoList[index]]; }
         else { return; }
         localStorage.setItem('habit_todos_v1', JSON.stringify(todoList));
         renderTodos();
     }
-    
+
     function checkTodoTypeChange() {
         const type = document.getElementById('todoType').value;
         if(type === 'other') {
@@ -858,7 +893,6 @@
             document.getElementById('todoReward').value = 0;
             document.getElementById('todoPenalty').value = 0;
         } else {
-            // 修复：默认值读取全局配置，而非固定为 1
             if(document.getElementById('todoReward').value == 0) document.getElementById('todoReward').value = config.reward || 5;
             if(document.getElementById('todoPenalty').value == 0) document.getElementById('todoPenalty').value = 1;
             document.getElementById('todoDate').value = getLocalTodayStr();
@@ -869,14 +903,16 @@
         const todayStr = getLocalTodayStr();
         const now = new Date();
         const currentHm = now.toTimeString().slice(0, 5);
-        
+
         ['list-do','list-dont','list-other','list-expired'].forEach(id=>document.getElementById(id).innerHTML='');
         ['head-do','head-dont','head-other','head-expired'].forEach(id=>document.getElementById(id).classList.remove('show'));
-        
-        let activeCount = 0;
+
+        // 1. 分离 Active 和 Expired
+        let activeItems = [];
+        let expiredItems = [];
 
         todoList.forEach(t => {
-            let isExpired = (t.date < todayStr);
+            let isExpired = (t.date < todayStr) || t.archived; // 增加手动归档判断
             if (!isExpired && t.date === todayStr && currentHm >= t.time) {
                  if (currentHm > t.time) {
                      if (t.status === 'pending' || t.status.startsWith('expired_')) {
@@ -884,83 +920,35 @@
                      }
                  }
             }
-
-            let statusIcon = '', actionBtn = '';
-            const reward = t.reward || 0;
-            const penalty = t.penalty || 0;
-            const note = t.note ? `<div style="font-size:11px;color:var(--text-sub);margin-top:2px;background:var(--input-bg);padding:4px;border-radius:6px;word-break:break-all;">${t.note}</div>` : '';
-            const safeId = String(t.id);
-            const isFuture = t.date > todayStr;
-            const dateBadge = isFuture ? `<span class="todo-date-badge">📅 ${t.date.slice(5)}</span>` : '';
-
-            if (t.status === 'success') {
-                statusIcon = `<span style="color:var(--success)">✔</span>`;
-                actionBtn = `<span style="font-size:12px;color:var(--success);font-weight:bold;">+${reward}</span>`;
-            } else if (t.status === 'fail') {
-                statusIcon = `<span style="color:var(--danger)">✕</span>`;
-                actionBtn = `<span style="font-size:12px;color:var(--danger);font-weight:bold;">-${penalty}</span>`;
-            } else {
-                statusIcon = `<span style="background:var(--border);width:8px;height:8px;border-radius:50%;display:inline-block;"></span>`;
-                if (isExpired) {
-                    statusIcon = `<span style="color:var(--text-sub)">✕</span>`;
-                    if(t.status === 'expired_fail') actionBtn = `<span style="font-size:11px;color:var(--danger);">已超时(罚)</span>`;
-                    else if(t.status === 'expired_success') actionBtn = `<span style="font-size:11px;color:var(--success);">已达成(奖)</span>`;
-                    else actionBtn = `<span style="font-size:11px;color:var(--text-sub);">已过期</span>`;
-                } else {
-                    if (t.type === 'do' || t.type==='other') {
-                        actionBtn = `<div id="btn-${safeId}" class="todo-check" onclick="finishTodoWithAnim('${safeId}', 'success')">✔</div>`;
-                    } else {
-                        actionBtn = `<button class="btn-mini" style="background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);" onclick="finishTodoWithAnim('${safeId}', 'fail')">破戒</button>`;
-                    }
-                }
-            }
-            const wrapperClass = isExpired ? 'todo-item todo-expired-item' : `todo-item todo-${t.type}`;
-            
-            let menuHtml = '';
-            if(t.status === 'pending' || t.status.startsWith('expired_')) {
-                let moveBtns = !isExpired ? 
-                    `<div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveTodo('${safeId}', -1)">⬆️</div>
-                     <div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveTodo('${safeId}', 1)">⬇️</div>` : '';
-                
-                const showClass = (safeId === openMenuId) ? 'show' : '';
-                
-                menuHtml = `
-                    <div class="btn-action" onclick="toggleMenu(event, '${safeId}')">⋮</div>
-                    <div id="menu-${safeId}" class="action-menu ${showClass}">
-                        ${moveBtns}
-                        <div class="btn-action btn-edit" onclick="editTodo('${safeId}')">✏️</div>
-                        <div class="btn-action btn-del" onclick="deleteTodo('${safeId}')">🗑️</div>
-                    </div>
-                `;
-            } else {
-                menuHtml = `<div class="btn-action btn-del" onclick="deleteTodo('${safeId}')">✕</div>`;
-            }
-
-            const html = `
-            <div class="${wrapperClass}" id="todo-row-${safeId}">
-                <div style="flex:1; display:flex; align-items:flex-start; gap:8px;">
-                    <div style="margin-top:4px;">${statusIcon}</div>
-                    <div style="width:100%;">
-                        <div style="font-weight:700; color:var(--text-main);">${t.title} <span style="font-size:12px;color:var(--text-sub);background:var(--border);padding:2px 4px;border-radius:4px;">${t.time}</span> ${dateBadge}</div>
-                        <div style="font-size:11px; color:var(--text-sub); margin-top:2px;">奖${reward} / 罚${penalty}</div>
-                        ${note}
-                    </div>
-                </div>
-                <div style="display:flex;align-items:center; gap:4px;">
-                    ${actionBtn} ${menuHtml}
-                </div>
-            </div>`;
-            
-            if (isExpired) { document.getElementById('list-expired').insertAdjacentHTML('beforeend', html); document.getElementById('head-expired').classList.add('show'); } 
-            else { 
-                activeCount++;
-                if(t.type === 'do') { document.getElementById('list-do').insertAdjacentHTML('beforeend', html); document.getElementById('head-do').classList.add('show'); }
-                else if(t.type === 'dont') { document.getElementById('list-dont').insertAdjacentHTML('beforeend', html); document.getElementById('head-dont').classList.add('show'); }
-                else { document.getElementById('list-other').insertAdjacentHTML('beforeend', html); document.getElementById('head-other').classList.add('show'); }
-            }
+            if(isExpired) expiredItems.push(t);
+            else activeItems.push(t);
         });
+
+        // 2. 渲染 Active
+        let activeCount = 0;
+        activeItems.forEach(t => {
+            const html = generateTodoHtml(t, false);
+            activeCount++;
+            if(t.type === 'do') { document.getElementById('list-do').insertAdjacentHTML('beforeend', html); document.getElementById('head-do').classList.add('show'); }
+            else if(t.type === 'dont') { document.getElementById('list-dont').insertAdjacentHTML('beforeend', html); document.getElementById('head-dont').classList.add('show'); }
+            else { document.getElementById('list-other').insertAdjacentHTML('beforeend', html); document.getElementById('head-other').classList.add('show'); }
+        });
+
+        // 3. 渲染 Expired (强制倒序)
+        if(expiredItems.length > 0) {
+            expiredItems.sort((a, b) => {
+                const dtA = a.date + a.time;
+                const dtB = b.date + b.time;
+                return dtB.localeCompare(dtA); // Descending
+            });
+
+            const expiredHtml = expiredItems.map(t => generateTodoHtml(t, true)).join('');
+            document.getElementById('list-expired').innerHTML = expiredHtml;
+            document.getElementById('head-expired').classList.add('show');
+        }
+
         document.getElementById('empty-todo-hint').style.display = activeCount === 0 ? 'block' : 'none';
-        
+
         if(openMenuId) {
              const menu = document.getElementById(`menu-${openMenuId}`);
              if(menu && menu.classList.contains('show')) {
@@ -972,19 +960,105 @@
              }
         }
     }
-    
+
+    function generateTodoHtml(t, isExpired) {
+        let statusIcon = '', actionBtn = '';
+        const reward = t.reward || 0;
+        const penalty = t.penalty || 0;
+
+        const noteContent = t.hideNote ? '******' : t.note;
+        const note = t.note ? `<div style="font-size:11px;color:var(--text-sub);margin-top:2px;background:var(--input-bg);padding:4px;border-radius:6px;word-break:break-all;">${noteContent}</div>` : '';
+        const safeId = String(t.id);
+        const todayStr = getLocalTodayStr();
+        const isFuture = t.date > todayStr;
+        const dateBadge = (isFuture || isExpired) ? `<span class="todo-date-badge">📅 ${t.date.slice(5)}</span>` : '';
+
+        if (t.status === 'success') {
+            statusIcon = `<span style="color:var(--success)">✔</span>`;
+            actionBtn = `<span style="font-size:12px;color:var(--success);font-weight:bold;">+${reward}</span>`;
+        } else if (t.status === 'fail') {
+            statusIcon = `<span style="color:var(--danger)">✕</span>`;
+            actionBtn = `<span style="font-size:12px;color:var(--danger);font-weight:bold;">-${penalty}</span>`;
+        } else {
+            statusIcon = `<span style="background:var(--border);width:8px;height:8px;border-radius:50%;display:inline-block;"></span>`;
+            if (isExpired) {
+                statusIcon = `<span style="color:var(--text-sub)">✕</span>`;
+                if(t.status === 'expired_fail') actionBtn = `<span style="font-size:11px;color:var(--danger);">已超时(罚)</span>`;
+                else if(t.status === 'expired_success') actionBtn = `<span style="font-size:11px;color:var(--success);">已达成(奖)</span>`;
+                else actionBtn = `<span style="font-size:11px;color:var(--text-sub);">已过期</span>`;
+            } else {
+                if (t.type === 'do' || t.type==='other') {
+                    actionBtn = `<div id="btn-${safeId}" class="todo-check" onclick="finishTodoWithAnim('${safeId}', 'success')">✔</div>`;
+                } else {
+                    actionBtn = `<button class="btn-mini" style="background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);" onclick="finishTodoWithAnim('${safeId}', 'fail')">破戒</button>`;
+                }
+            }
+        }
+        const wrapperClass = isExpired ? 'todo-item todo-expired-item' : `todo-item todo-${t.type}`;
+
+        let menuHtml = '';
+        const showClass = (safeId === openMenuId) ? 'show' : '';
+
+        let customActions = '';
+        if (!isExpired && (t.status === 'success' || t.status === 'fail')) {
+            customActions += `<div class="btn-action" style="background:var(--input-bg);color:var(--text-sub);font-size:12px;" onclick="archiveTodo('${safeId}')">📥 归档</div>`;
+        }
+        if (t.note) {
+            customActions += `<div class="btn-action" style="font-size:12px;" onclick="toggleTodoNote('${safeId}')">${t.hideNote ? '👁️' : '🔒'} 备注</div>`;
+        }
+
+        if(t.status === 'pending' || t.status.startsWith('expired_')) {
+            let moveBtns = !isExpired ?
+                `<div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveTodo('${safeId}', -1)">⬆️</div>
+                 <div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveTodo('${safeId}', 1)">⬇️</div>` : '';
+
+            menuHtml = `
+                <div class="btn-action" onclick="toggleMenu(event, '${safeId}')">⋮</div>
+                <div id="menu-${safeId}" class="action-menu ${showClass}">
+                    ${moveBtns}
+                    ${customActions}
+                    <div class="btn-action btn-edit" onclick="editTodo('${safeId}')">✏️</div>
+                    <div class="btn-action btn-del" onclick="deleteTodo('${safeId}')">🗑️</div>
+                </div>
+            `;
+        } else {
+            menuHtml = `
+                <div class="btn-action" onclick="toggleMenu(event, '${safeId}')">⋮</div>
+                <div id="menu-${safeId}" class="action-menu ${showClass}">
+                    ${customActions}
+                    <div class="btn-action btn-del" onclick="deleteTodo('${safeId}')">✕</div>
+                </div>
+            `;
+        }
+
+        return `
+        <div class="${wrapperClass}" id="todo-row-${safeId}">
+            <div style="flex:1; display:flex; align-items:flex-start; gap:8px;">
+                <div style="margin-top:4px;">${statusIcon}</div>
+                <div style="width:100%;">
+                    <div style="font-weight:700; color:var(--text-main);">${t.title} <span style="font-size:12px;color:var(--text-sub);background:var(--border);padding:2px 4px;border-radius:4px;">${t.time}</span> ${dateBadge}</div>
+                    <div style="font-size:11px; color:var(--text-sub); margin-top:2px;">奖${reward} / 罚${penalty}</div>
+                    ${note}
+                </div>
+            </div>
+            <div style="display:flex;align-items:center; gap:4px;">
+                ${actionBtn} ${menuHtml}
+            </div>
+        </div>`;
+    }
+
     let menuTimer = null;
     function toggleMenu(e, id) {
         e.stopPropagation();
         const menu = document.getElementById(`menu-${id}`);
         const isShown = menu.classList.contains('show');
-        
-        closeAllMenus(); 
-        
+
+        closeAllMenus();
+
         if(!isShown) {
             menu.classList.add('show');
-            openMenuId = id; 
-            
+            openMenuId = id;
+
             clearTimeout(menuTimer);
             menuTimer = setTimeout(() => {
                 menu.classList.remove('show');
@@ -996,7 +1070,7 @@
     function closeAllMenus(e) {
         clearTimeout(menuTimer);
         document.querySelectorAll('.action-menu.show').forEach(el => el.classList.remove('show'));
-        openMenuId = null; 
+        openMenuId = null;
     }
 
     function saveTodo() {
@@ -1006,7 +1080,7 @@
         const time = document.getElementById('todoTime').value;
         const date = document.getElementById('todoDate').value;
         const type = document.getElementById('todoType').value;
-        const reward = parseFloat(document.getElementById('todoReward').value) || 0; 
+        const reward = parseFloat(document.getElementById('todoReward').value) || 0;
         const penalty = parseFloat(document.getElementById('todoPenalty').value) || 0;
 
         if(!title || !time || !date) return alert("请填写完整信息");
@@ -1022,21 +1096,22 @@
                 t.reward = reward;
                 t.penalty = penalty;
                 t.status = 'pending';
+                delete t.archived; // 编辑后取消归档状态
             }
         } else {
             const newId = 't_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
             todoList.push({ id: newId, date, title, note, time, type, reward, penalty, status: 'pending' });
         }
 
-        renderTodos(); 
+        renderTodos();
         triggerAutoSave();
-        cancelEdit(); 
+        cancelEdit();
     }
 
     function editTodo(id) {
         const t = todoList.find(x => String(x.id) === String(id));
         if (!t) return;
-        
+
         document.getElementById('editingId').value = t.id;
         document.getElementById('todoTitle').value = t.title;
         document.getElementById('todoNote').value = t.note || '';
@@ -1056,69 +1131,86 @@
         document.getElementById('todoTitle').value = '';
         document.getElementById('todoNote').value = '';
         document.getElementById('todoType').value = 'do';
-        
-        // 修复：取消编辑时，使用全局配置的默认值，而不是 1
+
         document.getElementById('todoReward').value = config.reward || 5;
         document.getElementById('todoPenalty').value = '1';
-        
-        initTodoTime(); 
-        document.getElementById('todoDate').value = getLocalTodayStr(); 
+
+        initTodoTime();
+        document.getElementById('todoDate').value = getLocalTodayStr();
 
         document.getElementById('btn-group-add').style.display = 'block';
         document.getElementById('btn-group-edit').style.display = 'none';
     }
 
+    function toggleTodoNote(id) {
+        const t = todoList.find(x => String(x.id) === String(id));
+        if (t) {
+            t.hideNote = !t.hideNote;
+            renderTodos();
+            triggerAutoSave();
+        }
+    }
+
+    function archiveTodo(id) {
+        const t = todoList.find(x => String(x.id) === String(id));
+        if (t) {
+            t.archived = true;
+            renderTodos();
+            triggerAutoSave();
+        }
+    }
+
     function addTodo() { saveTodo(); }
 
-    function deleteTodo(id) { 
-        if(!confirm("删除此待办？")) return; 
-        isDeleting = true; 
-        todoList = todoList.filter(t => String(t.id) !== String(id)); 
+    function deleteTodo(id) {
+        if(!confirm("删除此待办？")) return;
+        isDeleting = true;
+        todoList = todoList.filter(t => String(t.id) !== String(id));
         localStorage.setItem('habit_todos_v1', JSON.stringify(todoList));
         const el = document.getElementById(`todo-row-${id}`);
         if(el) el.remove();
         setTimeout(() => { renderTodos(); triggerAutoSave(); isDeleting = false; }, 300);
     }
-    
-    function finishTodoWithAnim(id, result) { 
-        const btn = document.getElementById(`btn-${id}`); 
-        if(btn) btn.classList.add('click-anim'); 
-        setTimeout(() => { finishTodo(id, result); }, 300); 
+
+    function finishTodoWithAnim(id, result) {
+        const btn = document.getElementById(`btn-${id}`);
+        if(btn) btn.classList.add('click-anim');
+        setTimeout(() => { finishTodo(id, result); }, 300);
     }
-    
+
     function finishTodo(id, result) {
-        const t = todoList.find(x => String(x.id) === String(id)); 
+        const t = todoList.find(x => String(x.id) === String(id));
         if(!t) return;
         t.status = result;
-        
+
         let fund, theme, displayTitle, recordType;
         if (t.type === 'do' || t.type === 'other') {
-            if (result === 'success') { fund = t.reward; theme = 'theme-success'; recordType = 'todo-success'; } 
+            if (result === 'success') { fund = t.reward; theme = 'theme-success'; recordType = 'todo-success'; }
             else { fund = -t.penalty; theme = 'theme-pay'; recordType = 'todo-fail'; }
         } else if (t.type === 'dont') {
-            if (result === 'fail') { fund = -t.penalty; theme = 'theme-pay'; recordType = 'todo-fail'; } 
+            if (result === 'fail') { fund = -t.penalty; theme = 'theme-pay'; recordType = 'todo-fail'; }
             else { fund = t.reward; theme = 'theme-success'; recordType = 'todo-success'; }
         }
-        
+
         displayTitle = (t.type==='do'?'🟢':(t.type==='dont'?'🔴':'🔵')) + ' ' + t.title;
         saveRecord({ fund, title: displayTitle, theme, details:{type:'Todo结算', result, recordType} }, false);
         renderTodos();
     }
-    
+
     function autoCheckTodos() {
-        if(isDeleting) return; 
-        const now = new Date(), currentHm = now.toTimeString().slice(0, 5), todayStr = getLocalTodayStr(); 
+        if(isDeleting) return;
+        const now = new Date(), currentHm = now.toTimeString().slice(0, 5), todayStr = getLocalTodayStr();
         let changed = false;
-        
+
         todoList.forEach(t => {
             if (t.date === todayStr && t.status === 'pending' && currentHm > t.time) {
                 if (t.type === 'dont') {
                     t.status = 'expired_success';
-                    saveRecord({ fund: t.reward, title: '🔴 ' + t.title, theme: 'theme-success', details: { note: '坚持达成', recordType: 'todo-success' } }, false); 
+                    saveRecord({ fund: t.reward, title: '🔴 ' + t.title, theme: 'theme-success', details: { note: '坚持达成', recordType: 'todo-success' } }, false);
                     changed = true;
                 } else {
                     t.status = 'expired_fail';
-                    saveRecord({ fund: -t.penalty, title: (t.type==='do'?'🟢':'🔵') + ' ' + t.title, theme: 'theme-pay', details: { note: '超时未完成', recordType: 'todo-fail' } }, false); 
+                    saveRecord({ fund: -t.penalty, title: (t.type==='do'?'🟢':'🔵') + ' ' + t.title, theme: 'theme-pay', details: { note: '超时未完成', recordType: 'todo-fail' } }, false);
                     changed = true;
                 }
             }
@@ -1132,6 +1224,12 @@
         renderShop();
     }
 
+    function sortShopByPrice() {
+        wishList.sort((a, b) => a.cost - b.cost);
+        renderShop();
+        triggerAutoSave();
+    }
+
     function renderShop() {
         const list = document.getElementById('shopList');
         if(wishList.length === 0) { list.innerHTML = '<div style="text-align:center;color:var(--text-sub);padding:20px;">暂无商品，请上架</div>'; return; }
@@ -1139,13 +1237,13 @@
             const isHidden = item.hidden && isShopPrivacyOn;
             const nameDisplay = isHidden ? '🔒 ******' : item.name;
             const btnState = isHidden ? 'disabled style="background:var(--border);cursor:not-allowed;"' : 'style="background:var(--warning);color:#fff;" onclick="buyItem(' + idx + ')"';
-            
-            const idSuffix = `shop-${idx}`; 
+
+            const idSuffix = `shop-${idx}`;
             const showClass = (openMenuId === idSuffix) ? 'show' : '';
-            
+
             const moveUp = idx > 0 ? `<div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveWish(${idx}, -1)">⬆️</div>` : '';
             const moveDown = idx < wishList.length - 1 ? `<div class="btn-action" style="background:var(--info);color:#fff;" onclick="moveWish(${idx}, 1)">⬇️</div>` : '';
-            
+
             return `
             <div class="list-item">
                 <div style="flex:1">
@@ -1155,7 +1253,7 @@
                 <div style="display:flex;gap:4px; align-items:center;">
                     <button class="btn-mini" ${btnState}>兑换</button>
                     <div class="btn-action" onclick="toggleMenu(event, '${idSuffix}')">⋮</div>
-                    
+
                     <div id="menu-${idSuffix}" class="action-menu ${showClass}">
                         ${moveUp} ${moveDown}
                         <div class="btn-action btn-edit" onclick="editWish(${idx})">✏️</div>
@@ -1165,36 +1263,36 @@
             </div>`;
         }).join('');
     }
-    
+
     function moveWish(index, direction) {
         if (direction === -1 && index > 0) { [wishList[index], wishList[index-1]] = [wishList[index-1], wishList[index]]; }
         else if (direction === 1 && index < wishList.length - 1) { [wishList[index], wishList[index+1]] = [wishList[index+1], wishList[index]]; }
         else return;
         renderShop(); triggerAutoSave();
     }
-    
+
     function editWish(index) {
         const item = wishList[index];
         document.getElementById('wishName').value = item.name;
         document.getElementById('wishCost').value = item.cost;
-        
+
         const checkbox = document.getElementById('wishHidden');
         checkbox.checked = item.hidden || false;
-        if(checkbox.checked) { document.getElementById('wishHiddenLabel').classList.add('checked'); } 
+        if(checkbox.checked) { document.getElementById('wishHiddenLabel').classList.add('checked'); }
         else { document.getElementById('wishHiddenLabel').classList.remove('checked'); }
-        
+
         editingWishIndex = index;
         document.getElementById('btnShopAdd').innerText = "💾 保存商品";
         document.getElementById('btnShopCancel').style.display = "inline-block";
         document.querySelector('#page-shop .card').scrollIntoView({behavior:'smooth'});
     }
-    
+
     function cancelShopEdit() {
         document.getElementById('wishName').value = '';
         document.getElementById('wishCost').value = '';
         document.getElementById('wishHidden').checked = false;
         document.getElementById('wishHiddenLabel').classList.remove('checked');
-        
+
         editingWishIndex = -1;
         document.getElementById('btnShopAdd').innerText = "➕ 上架新愿望";
         document.getElementById('btnShopCancel').style.display = "none";
@@ -1206,30 +1304,30 @@
         checkbox.checked = !checkbox.checked;
         if(checkbox.checked) { label.classList.add('checked'); } else { label.classList.remove('checked'); }
     }
-    
+
     function addWish() {
         const n = document.getElementById('wishName').value;
         const c = parseFloat(document.getElementById('wishCost').value);
         const checkbox = document.getElementById('wishHidden');
         const h = checkbox.checked;
         if(!n || isNaN(c)) return alert("请输入正确的名称和价格");
-        
+
         if (editingWishIndex > -1) {
             wishList[editingWishIndex] = {name:n, cost:c, hidden:h};
             cancelShopEdit();
         } else {
             wishList.push({name:n, cost:c, hidden:h});
-            document.getElementById('wishName').value = ''; document.getElementById('wishCost').value = ''; 
+            document.getElementById('wishName').value = ''; document.getElementById('wishCost').value = '';
             checkbox.checked = false; document.getElementById('wishHiddenLabel').classList.remove('checked');
         }
         renderShop(); triggerAutoSave();
     }
     function deleteWish(idx) { if(!confirm("确认删除此商品？")) return; wishList.splice(idx, 1); if(idx === editingWishIndex) cancelShopEdit(); renderShop(); triggerAutoSave(); }
-    function buyItem(idx){ 
+    function buyItem(idx){
         const item = wishList[idx];
-        if(globalWallet < item.cost) return alert(`❌ 余额不足！还差 ${item.cost - globalWallet} 元`); 
-        if(!confirm(`确认消耗 ${item.cost} 元兑换【${item.name}】?`)) return; 
-        saveRecord({fund: -item.cost, title:'🎁 商店兑换', theme:'theme-shop', details:{item: item.name}}); 
+        if(globalWallet < item.cost) return alert(`❌ 余额不足！还差 ${item.cost - globalWallet} 元`);
+        if(!confirm(`确认消耗 ${item.cost} 元兑换【${item.name}】?`)) return;
+        saveRecord({fund: -item.cost, title:'🎁 商店兑换', theme:'theme-shop', details:{item: item.name}});
     }
 
     function handlePaymentWithCompress(input) {
@@ -1243,14 +1341,14 @@
                 const ctx = canvas.getContext('2d');
                 const MAX_SIZE = 800;
                 let width = img.width; let height = img.height;
-                if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } }
                 else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
                 canvas.width = width; canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
                 const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
                 const payAmount = globalDebt;
                 saveRecord({
-                    fund: payAmount, title:'💸 支付清零', theme:'theme-pay', 
+                    fund: payAmount, title:'💸 支付清零', theme:'theme-pay',
                     details:{ note:'凭证已上传', amount_paid: payAmount, image: dataUrl }
                 });
                 alert("✅ 凭证上传成功");
@@ -1259,65 +1357,67 @@
         };
         reader.readAsDataURL(file);
     }
-    function updateUI() { 
-        calculateFunds(); 
+
+    function updateUI() {
+        calculateFunds();
         document.getElementById('timeBankDisplay').innerText = timeBank.toFixed(1); // 更新时间银行显示
-        
-        const list = document.getElementById('historyList'); 
+
+        const list = document.getElementById('historyList');
         list.innerHTML = historyData.length===0 ? '<div style="color:var(--text-sub);text-align:center;padding:30px;">暂无记录</div>' : historyData.map(i => {
             let imgHtml = '';
             if(i.details && i.details.image) {
                 imgHtml = `<img src="${i.details.image}" class="record-img" onclick="const w=window.open('about:blank');w.document.write('<img src=${i.details.image} style=width:100%>')">`;
             }
             return ` <div class="list-item"> <div style="flex:1"> <div style="display:flex;justify-content:space-between;align-items:center;"> <span style="font-size:13px;color:var(--text-sub);font-weight:600">${i.date}</span> <span style="font-weight:800;font-size:16px;color:${i.fund>=0 ? (i.theme==='theme-pay'?'var(--danger)':'var(--success)') : (i.theme==='theme-shop'?'var(--warning)':'var(--danger)')}"> ${i.fund>0?'+':''}${i.fund} </span> </div> <div><span style="padding:2px 8px;border-radius:6px;font-size:12px;font-weight:700;background:var(--border);color:var(--text-main);">${i.title}</span> ${imgHtml}</div> <div style="font-size:13px;color:var(--text-sub);margin-top:6px;">${Object.entries(i.details||{}).map(([k,v]) => { if(k==='manual_edit_reason') return `📝改:${v}`; if(k==='penalty_rule') return `⚖️${v}`; if(k==='image') return ''; return v; }).join(' · ')}</div> </div> <div class="btn-action btn-del" onclick="deleteItem(${i.id})">✕</div> </div>`;
-        }).join(''); 
-        
-        const pendingCard = document.getElementById('pendingCard'); 
-        const lastRecord = historyData[0]; 
-        if (lastRecord && (lastRecord.theme === 'theme-repair' || lastRecord.theme === 'theme-fix')) { 
-            const fixPlan = lastRecord.details.r_fix || lastRecord.details.f_plan; 
-            if (fixPlan && pendingHiddenId !== lastRecord.id.toString()) { 
-                pendingCard.style.display = 'block'; 
+        }).join('');
+
+        const pendingCard = document.getElementById('pendingCard');
+        const lastRecord = historyData[0];
+        if (lastRecord && (lastRecord.theme === 'theme-repair' || lastRecord.theme === 'theme-fix')) {
+            const fixPlan = lastRecord.details.r_fix || lastRecord.details.f_plan;
+            if (fixPlan && pendingHiddenId !== lastRecord.id.toString()) {
+                pendingCard.style.display = 'block';
                 pendingCard.dataset.id = lastRecord.id;
-                document.getElementById('pendingText').innerHTML = `📅 ${lastRecord.date}: ${fixPlan}`; 
-            } else { pendingCard.style.display = 'none'; } 
-        } else { pendingCard.style.display = 'none'; } 
-        
-        const paySection = document.getElementById('paySection'); 
-        if (globalDebt > 0) { paySection.style.display = 'block'; document.getElementById('debtAmount').innerText = globalDebt; } 
-        else { paySection.style.display = 'none'; } 
-        renderStats(); renderShop(); 
+                document.getElementById('pendingText').innerHTML = `📅 ${lastRecord.date}: ${fixPlan}`;
+            } else { pendingCard.style.display = 'none'; }
+        } else { pendingCard.style.display = 'none'; }
+
+        const paySection = document.getElementById('paySection');
+        if (globalDebt > 0) { paySection.style.display = 'block'; document.getElementById('debtAmount').innerText = globalDebt; }
+        else { paySection.style.display = 'none'; }
+        renderStats(); renderShop();
     }
+
     function closePendingCard() {
         const card = document.getElementById('pendingCard');
         const id = card.dataset.id;
         if(id) { pendingHiddenId = id.toString(); localStorage.setItem('habit_pending_hide', pendingHiddenId); card.style.display = 'none'; }
     }
-    
-    function calculateFunds() { 
-        let wallet = 0, debt = 0; 
-        historyData.forEach(i => { 
+
+    function calculateFunds() {
+        let wallet = 0, debt = 0;
+        historyData.forEach(i => {
             if(['theme-success'].includes(i.theme) || (i.details && i.details.recordType === 'todo-success')) { wallet += Math.abs(i.fund); }
             else if(i.theme === 'theme-shop') { wallet += i.fund; }
             else if(['theme-fix', 'theme-repair', 'theme-prevent'].includes(i.theme) || (i.details && i.details.recordType === 'todo-fail')) { debt += Math.abs(i.fund); }
             else if(i.theme === 'theme-pay' && i.title === '💸 支付清零') { debt -= Math.abs(i.fund); }
-        }); 
-        globalWallet = Math.max(0, wallet); globalDebt = Math.max(0, debt); 
-        document.getElementById('walletDisplay').innerText = globalWallet; 
-        document.getElementById('shopWalletDisplay').innerText = globalWallet; 
-        document.getElementById('debtDisplay').innerText = globalDebt; 
+        });
+        globalWallet = Math.max(0, wallet); globalDebt = Math.max(0, debt);
+        document.getElementById('walletDisplay').innerText = globalWallet;
+        document.getElementById('shopWalletDisplay').innerText = globalWallet;
+        document.getElementById('debtDisplay').innerText = globalDebt;
     }
-    
+
     function saveRecord(data, reload = true) { historyData.unshift({ id: Date.now(), date: document.getElementById('dateInput').value, ...data }); updateUI(); triggerAutoSave(); if(reload) setTimeout(() => location.reload(), 500); }
-    
+
     function deleteItem(id){
         const record = historyData.find(i => i.id === id);
         if (!record) return;
         if(confirm("删除此记录？\n(注意：关联的时间银行变动将自动回滚)")){
             if (record.details && record.details.time_bank_change) {
-                const amount = parseFloat(record.details.time_bank_change); 
+                const amount = parseFloat(record.details.time_bank_change);
                 if (!isNaN(amount)) {
-                    timeBank -= amount; 
+                    timeBank -= amount;
                     localStorage.setItem('habit_time_bank_v1', timeBank);
                     alert(`🔄 时间银行资金已回滚: ${amount > 0 ? '-' : '+'}${Math.abs(amount)}h`);
                 }
@@ -1329,78 +1429,81 @@
             triggerAutoSave();
         }
     }
-    
-    function autoCalculate() { 
+
+    function autoCalculate() {
         tempTimeDiff = 0; useTimeBank = false;
-        
-        const studyVal = parseFloat(document.getElementById('studyInput').value); 
-        const sleepVal = document.getElementById('sleepInput').value; 
-        const wakeVal = document.getElementById('wakeInput').value; 
-        
-        if (isNaN(studyVal) || !sleepVal || !wakeVal) { alert("请填全数据"); return; } 
-        
-        const limitWake = todayIsWeekend ? config.wakeW : config.wake; 
-        const limitSleep = todayIsWeekend ? config.sleepW : config.sleep; 
-        const p = config.penalties; 
-        let penalty = 0, reasons = [], faults = [], types = []; 
-        
+
+        const studyVal = parseFloat(document.getElementById('studyInput').value);
+        const sleepVal = document.getElementById('sleepInput').value;
+        const wakeVal = document.getElementById('wakeInput').value;
+
+        if (isNaN(studyVal) || !sleepVal || !wakeVal) { alert("请填全数据"); return; }
+
+        const limitWake = todayIsWeekend ? config.wakeW : config.wake;
+        const limitSleep = todayIsWeekend ? config.sleepW : config.sleep;
+        const p = config.penalties;
+        let penalty = 0, reasons = [], faults = [], types = [];
+
         const diff = studyVal - config.study;
         tempTimeDiff = diff;
 
         let studyFault = false;
-        if (diff < 0) { 
+        if (diff < 0) {
             if (timeBank >= Math.abs(diff)) {
                 if(confirm(`⚠️ 专注时长不足 ${Math.abs(diff)}h。\n⏳ 时间银行余额: ${timeBank.toFixed(1)}h。\n\n是否消耗存款抵消惩罚？`)) {
                     useTimeBank = true;
                 } else {
-                   studyFault = true; 
+                   studyFault = true;
                 }
             } else {
                 studyFault = true;
             }
-            
+
             if(studyFault) {
-                types.push('study'); 
-                const gap = Math.abs(diff); 
-                // 修复：使用 parseFloat 支持小数
-                if (gap < 1) { penalty += parseFloat(p.studyS); reasons.push(`少学<1h`); faults.push("轻微少学"); } 
-                else { penalty += parseFloat(p.studyL); reasons.push(`少学≥1h`); faults.push("严重少学"); } 
+                types.push('study');
+                const gap = Math.abs(diff);
+                if (gap < 1) { penalty += parseFloat(p.studyS); reasons.push(`少学<1h`); faults.push("轻微少学"); }
+                else { penalty += parseFloat(p.studyL); reasons.push(`少学≥1h`); faults.push("严重少学"); }
             }
-        } 
-        
-        if (wakeVal > limitWake) { types.push('wake'); const diffW = toMin(wakeVal) - toMin(limitWake); if (diffW < 30) { penalty += parseFloat(p.wakeS); reasons.push(`晚起<30m`); faults.push("轻微晚起"); } else { penalty += parseFloat(p.wakeL); reasons.push(`晚起≥30m`); faults.push("严重晚起"); } } 
-        const actSleep = toAdjMin(sleepVal); const limSleep = toAdjMin(limitSleep); 
-        if (actSleep > limSleep) { types.push('sleep'); const diffS = actSleep - limSleep; if (diffS < 60) { penalty += parseFloat(p.sleepS); reasons.push(`晚睡<1h`); faults.push("轻微晚睡"); } else { penalty += parseFloat(p.sleepL); reasons.push(`晚睡≥1h`); faults.push("严重晚睡"); } } 
-        
-        defaultFund = penalty > 0 ? -penalty : parseFloat(config.reward); 
-        calcReason = penalty > 0 ? reasons.join('+') : "完美达标奖励"; 
+        }
+
+        if (wakeVal > limitWake) { types.push('wake'); const diffW = toMin(wakeVal) - toMin(limitWake); if (diffW < 30) { penalty += parseFloat(p.wakeS); reasons.push(`晚起<30m`); faults.push("轻微晚起"); } else { penalty += parseFloat(p.wakeL); reasons.push(`晚起≥30m`); faults.push("严重晚起"); } }
+        const actSleep = toAdjMin(sleepVal); const limSleep = toAdjMin(limitSleep);
+        if (actSleep > limSleep) { types.push('sleep'); const diffS = actSleep - limSleep; if (diffS < 60) { penalty += parseFloat(p.sleepS); reasons.push(`晚睡<1h`); faults.push("轻微晚睡"); } else { penalty += parseFloat(p.sleepL); reasons.push(`晚睡≥1h`); faults.push("严重晚睡"); } }
+
+        defaultFund = penalty > 0 ? -penalty : parseFloat(config.reward);
+        calcReason = penalty > 0 ? reasons.join('+') : "完美达标奖励";
         if(useTimeBank && penalty === 0) calcReason = "完美达标 (时间银行抵扣)";
-        
-        failedTypes = types; 
-        renderForm(penalty > 0 ? (faults.length >= 2 ? 'repair' : 'fix') : 'success', null, useTimeBank); 
-        showAnalysis(faults); 
+
+        failedTypes = types;
+        renderForm(penalty > 0 ? (faults.length >= 2 ? 'repair' : 'fix') : 'success', null, useTimeBank);
+        showAnalysis(faults);
     }
-    
-    function renderForm(type, extraInfo = null, isUsingBank = false) { 
-        const con = document.getElementById('formContainer'); con.style.display = 'block'; document.getElementById('inputCard').style.opacity = '0.5'; document.getElementById('inputCard').style.pointerEvents = 'none'; let inputs = [], title = '', theme = '', extraHTML = ''; 
-        if (type === 'skip') { 
-            title = '🛌 请假申请'; theme = 'theme-skip'; defaultFund = 0; inputs = [{l:'原因', id:'s_reason', p:'必填'}]; extraHTML = `<div style="font-size:12px;color:var(--text-sub);background:var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">ℹ️ 本月已用 ${extraInfo}/2 次</div>`; 
-        } else if (type === 'prevent') { 
-            title = '🔵 预防模式'; theme = 'theme-prevent'; 
+
+    function renderForm(type, extraInfo = null, isUsingBank = false) {
+        const con = document.getElementById('formContainer');
+        con.style.display = 'block';
+        document.getElementById('inputCard').style.opacity = '0.5';
+        document.getElementById('inputCard').style.pointerEvents = 'none';
+        let inputs = [], title = '', theme = '', extraHTML = '';
+        if (type === 'skip') {
+            title = '🛌 请假申请'; theme = 'theme-skip'; defaultFund = 0; inputs = [{l:'原因', id:'s_reason', p:'必填'}]; extraHTML = `<div style="font-size:12px;color:var(--text-sub);background:var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">ℹ️ 本月已用 ${extraInfo}/2 次</div>`;
+        } else if (type === 'prevent') {
+            title = '🔵 预防模式'; theme = 'theme-prevent';
             const cost = config.preventCost || 10;
-            defaultFund = -cost; 
-            inputs = [{l:'允许清单', id:'p_allow'}, {l:'禁止清单', id:'p_ban'}]; 
-            extraHTML = `<div style="font-size:12px;color:var(--info);background:var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">🛡️ 扣除 ${cost} 元 (入待罚)</div>`; 
-        } else if (type === 'repair') { 
-            title = '🟡 修复响应'; theme = 'theme-repair'; inputs = [{l:'失控原因', id:'r_reason'}, {l:'补救措施', id:'r_fix', p:'明日展示'}]; 
-        } else if (type === 'fix') { 
-            title = '⚪ 一级修正'; theme = 'theme-fix'; inputs = [{l:'偏差原因', id:'f_reason'}, {l:'补偿计划', id:'f_plan', p:'明日展示'}]; 
-        } else { 
-            title = '✅ 完美达标'; theme = 'theme-success'; inputs = [{l:'今日心得', id:'s_note'}]; 
-        } 
-        
-        let moneyTip = defaultFund > 0 ? `💰 奖励: +${defaultFund} (入愿望)` : `💸 扣罚: ${defaultFund} (入待罚)`; if (defaultFund === 0) moneyTip = "无资金变动"; 
-        
+            defaultFund = -cost;
+            inputs = [{l:'允许清单', id:'p_allow'}, {l:'禁止清单', id:'p_ban'}];
+            extraHTML = `<div style="font-size:12px;color:var(--info);background:var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">🛡️ 扣除 ${cost} 元 (入待罚)</div>`;
+        } else if (type === 'repair') {
+            title = '🟡 修复响应'; theme = 'theme-repair'; inputs = [{l:'失控原因', id:'r_reason'}, {l:'补救措施', id:'r_fix', p:'明日展示'}];
+        } else if (type === 'fix') {
+            title = '⚪ 一级修正'; theme = 'theme-fix'; inputs = [{l:'偏差原因', id:'f_reason'}, {l:'补偿计划', id:'f_plan', p:'明日展示'}];
+        } else {
+            title = '✅ 完美达标'; theme = 'theme-success'; inputs = [{l:'今日心得', id:'s_note'}];
+        }
+
+        let moneyTip = defaultFund > 0 ? `💰 奖励: +${defaultFund} (入愿望)` : `💸 扣罚: ${defaultFund} (入待罚)`; if (defaultFund === 0) moneyTip = "无资金变动";
+
         let timeTip = '';
         if (isUsingBank) {
             timeTip = `<div style="font-size:12px;color:var(--time);background:var(--time-bg);padding:8px;border-radius:8px;margin-bottom:8px;">⏳ 自动扣除: ${Math.abs(tempTimeDiff)}h (剩余: ${(timeBank - Math.abs(tempTimeDiff)).toFixed(1)}h)</div>`;
@@ -1408,21 +1511,24 @@
             timeTip = `<div style="font-size:12px;color:var(--time);background:var(--time-bg);padding:8px;border-radius:8px;margin-bottom:8px;">⏳ 存入银行: +${tempTimeDiff}h (总计: ${(timeBank + tempTimeDiff).toFixed(1)}h)</div>`;
         }
 
-        extraHTML += timeTip + `<div style="font-size:12px;font-weight:bold; color:${defaultFund>=0?'var(--success)':'var(--danger)'};background:var(--bg-card);border:1px solid var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">${moneyTip} <br><span style="font-weight:normal;opacity:0.8;font-size:11px;color:var(--text-sub)">${calcReason}</span></div>`; 
-        
-        let html = ` <div class="card ${theme}" style="margin-top:20px; animation: slideUp 0.4s ease;"> <div class="card-title">${title}</div> ${extraHTML} <div style="background:var(--bg-body); border:1px solid var(--border); padding:12px; border-radius:12px; margin-bottom:15px;"> <div style="display:flex; align-items:center; justify-content:space-between;"> <span style="font-size:13px; font-weight:bold;">最终金额:</span> <div style="display:flex;align-items:center;"><span style="margin-right:4px;">¥</span><input type="number" id="fundInput" value="${defaultFund}" oninput="checkFundEdit()" style="width:80px; padding:8px; text-align:right;" ${type==='skip'?'readonly':''}></div> </div> <div id="fundReasonBox" style="display:none; margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;"> <label style="font-size:11px; color:var(--danger); font-weight:bold;">⚠️ 金额已修改，请填写原因:</label> <input type="text" id="fundReason" placeholder="必填..." style="margin-top:4px; font-size:13px;"> </div> </div> ${inputs.map(i => `<div class="input-group"><label class="input-label">${i.l}</label><input type="text" id="${i.id}" placeholder="${i.p||''}"></div>`).join('')} <div id="strategyArea" class="chips-container"></div> <button class="btn-calc" onclick="submitForm('${theme}', '${title}')" style="margin-top:20px;">💾 确认保存</button> </div>`; con.innerHTML = html; if (type !== 'success' && type !== 'skip' && type !== 'prevent') renderStrategies(); }
-    
+        extraHTML += timeTip + `<div style="font-size:12px;font-weight:bold; color:${defaultFund>=0?'var(--success)':'var(--danger)'};background:var(--bg-card);border:1px solid var(--border);padding:8px;border-radius:8px;margin-bottom:12px;">${moneyTip} <br><span style="font-weight:normal;opacity:0.8;font-size:11px;color:var(--text-sub)">${calcReason}</span></div>`;
+
+        let html = ` <div class="card ${theme}" style="margin-top:20px; animation: slideUp 0.4s ease;"> <div class="card-title">${title}</div> ${extraHTML} <div style="background:var(--bg-body); border:1px solid var(--border); padding:12px; border-radius:12px; margin-bottom:15px;"> <div style="display:flex; align-items:center; justify-content:space-between;"> <span style="font-size:13px; font-weight:bold;">最终金额:</span> <div style="display:flex;align-items:center;"><span style="margin-right:4px;">¥</span><input type="number" id="fundInput" value="${defaultFund}" oninput="checkFundEdit()" style="width:80px; padding:8px; text-align:right;" ${type==='skip'?'readonly':''}></div> </div> <div id="fundReasonBox" style="display:none; margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;"> <label style="font-size:11px; color:var(--danger); font-weight:bold;">⚠️ 金额已修改，请填写原因:</label> <input type="text" id="fundReason" placeholder="必填..." style="margin-top:4px; font-size:13px;"> </div> </div> ${inputs.map(i => `<div class="input-group"><label class="input-label">${i.l}</label><input type="text" id="${i.id}" placeholder="${i.p||''}"></div>`).join('')} <div id="strategyArea" class="chips-container"></div> <button class="btn-calc" onclick="submitForm('${theme}', '${title}')" style="margin-top:20px;">💾 确认保存</button> </div>`;
+        con.innerHTML = html;
+        if (type !== 'success' && type !== 'skip' && type !== 'prevent') renderStrategies();
+    }
+
     function checkFundEdit() { const val = parseFloat(document.getElementById('fundInput').value); const box = document.getElementById('fundReasonBox'); if (val !== defaultFund) { box.style.display = 'block'; } else { box.style.display = 'none'; } }
-    
-    function submitForm(theme, title) { 
-        if (theme === 'theme-skip' && !document.getElementById('s_reason').value.trim()) return alert("请填写原因"); 
-        const fund = parseFloat(document.getElementById('fundInput').value); 
-        const fundReason = document.getElementById('fundReason') ? document.getElementById('fundReason').value : ''; 
-        if (fund !== defaultFund && !fundReason.trim()) return alert("⚠️ 请填写修改原因！"); 
-        
-        let details = {}; 
-        document.getElementById('formContainer').querySelectorAll('input[type=text]').forEach(i => { if(i.id !== 'fundReason' && i.id.indexOf('input_')!==0) details[i.id] = i.value }); 
-        
+
+    function submitForm(theme, title) {
+        if (theme === 'theme-skip' && !document.getElementById('s_reason').value.trim()) return alert("请填写原因");
+        const fund = parseFloat(document.getElementById('fundInput').value);
+        const fundReason = document.getElementById('fundReason') ? document.getElementById('fundReason').value : '';
+        if (fund !== defaultFund && !fundReason.trim()) return alert("⚠️ 请填写修改原因！");
+
+        let details = {};
+        document.getElementById('formContainer').querySelectorAll('input[type=text]').forEach(i => { if(i.id !== 'fundReason' && i.id.indexOf('input_')!==0) details[i.id] = i.value });
+
         if (useTimeBank) {
             timeBank -= Math.abs(tempTimeDiff);
             details['time_bank_change'] = `-${Math.abs(tempTimeDiff)}h`;
@@ -1433,157 +1539,307 @@
             localStorage.setItem('habit_time_bank_v1', timeBank);
         }
 
-        if (calcReason && fund < 0 && theme !== 'theme-prevent') details['penalty_rule'] = calcReason; 
-        if (fund !== defaultFund) details['manual_edit_reason'] = fundReason; 
-        
-        saveRecord({ fund, title, theme, details }); 
+        if (calcReason && fund < 0 && theme !== 'theme-prevent') details['penalty_rule'] = calcReason;
+        if (fund !== defaultFund) details['manual_edit_reason'] = fundReason;
+
+        saveRecord({ fund, title, theme, details });
     }
 
     function checkLeaveQuota() { renderForm('skip', historyData.filter(r => r.date.startsWith(document.getElementById('dateInput').value.slice(0, 7)) && r.theme === 'theme-skip').length); }
     function forcePrevent() { document.getElementById('analysisCard').style.display='block'; document.getElementById('analysisCard').innerHTML=`<div style="font-weight:700;color:var(--primary)">🛡️ 主动干预</div>`; renderForm('prevent'); }
-    function switchPage(id){ 
+
+    function switchPage(id){
         closeAllMenus();
-        
+
         document.getElementById('exchangeCard').style.display = 'none';
-        
+
         if (id !== 'shop') {
             isShopPrivacyOn = true;
             document.getElementById('shopPrivacyBtn').innerText = '🔒';
         }
-        
-        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); 
-        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); 
-        document.getElementById('page-'+id).classList.add('active'); 
-        
-        const maps={checkin:0, stats:1, shop:2, settings:3}; 
-        document.querySelectorAll('.tab')[maps[id]].classList.add('active'); 
-        
-        if(id==='stats') renderStats(); 
+
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        document.getElementById('page-'+id).classList.add('active');
+
+        const maps={checkin:0, stats:1, shop:2, settings:3};
+        document.querySelectorAll('.tab')[maps[id]].classList.add('active');
+
+        if(id==='stats') renderStats();
         if(id==='shop') renderShop();
     }
+
     function toMin(t){ const[h,m]=t.split(':').map(Number); return h*60+m; }
     function toAdjMin(t){ let[h,m]=t.split(':').map(Number); if(h<12)h+=24; return h*60+m; }
-    function checkWeekend() { 
-        const date = new Date(document.getElementById('dateInput').value); 
-        const day = date.getDay(); 
+    function checkWeekend() {
+        const date = new Date(document.getElementById('dateInput').value);
+        const day = date.getDay();
         const we = config.weekend || [0, 6];
-        todayIsWeekend = we.includes(day); 
-        document.getElementById('dayTypeBadge').style.display = todayIsWeekend ? 'inline-block' : 'none'; 
-        document.getElementById('targetWake').innerText = `≤ ${todayIsWeekend ? config.wakeW : config.wake}`; 
-        document.getElementById('targetSleep').innerText = `≤ ${todayIsWeekend ? config.sleepW : config.sleep}`; 
+        todayIsWeekend = we.includes(day);
+        document.getElementById('dayTypeBadge').style.display = todayIsWeekend ? 'inline-block' : 'none';
+        document.getElementById('targetWake').innerText = `≤ ${todayIsWeekend ? config.wakeW : config.wake}`;
+        document.getElementById('targetSleep').innerText = `≤ ${todayIsWeekend ? config.sleepW : config.sleep}`;
     }
-    function renderStats() { const dates = []; for(let i=6; i>=0; i--) { const d=new Date(); d.setDate(d.getDate()-i); dates.push(d.toISOString().split('T')[0]); } const hm = document.getElementById('heatmap'); hm.innerHTML = dates.map(date => { const rec = historyData.find(r => r.date === date); let cls = 'hm-none'; if (rec) { if (rec.theme.includes('success')) cls = 'hm-success'; else if (rec.theme.includes('fix')) cls = 'hm-fix'; else if (rec.theme.includes('repair')) cls = 'hm-repair'; } return `<div class="heatmap-day"><div class="heatmap-box ${cls}"></div><div style="font-size:9px;color:var(--text-sub)">${date.slice(5)}</div></div>`; }).join(''); const last7 = historyData.filter(r => dates.includes(r.date) && !['theme-skip','theme-shop','theme-pay'].includes(r.theme)); const total = last7.reduce((a,c) => a + parseFloat(c.study||0), 0); const rate = last7.length ? Math.round((last7.filter(r => r.theme==='theme-success').length/last7.length)*100) : 0; document.getElementById('statStudy').innerText = total + 'h'; document.getElementById('statRate').innerText = rate + '%'; }
-    function exportCSV(){let c="日期,类型,基金,详情\n";historyData.forEach(i=>c+=`${i.date},${i.title},${i.fund},"${Object.values(i.details||{}).join('|')}"\n`);const l=document.createElement("a");l.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));l.download="data.csv";l.click();}
-    function exportJSON() { const backup = { history: historyData, config: config, todos: todoList, wishes: wishList, strategies: userStrategies, gh: ghConfig, timeBank: timeBank }; const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup)); const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", "habit_pro_backup_" + getTimestampStr() + ".json"); document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove(); }
-    function importJSON(input) { const file = input.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); restoreData(data); } catch(err) { alert("❌ 文件格式错误，无法恢复"); } }; reader.readAsText(file); }
-    
+
+    function renderStats() {
+        const dates = [];
+        for(let i=6; i>=0; i--) { const d=new Date(); d.setDate(d.getDate()-i); dates.push(d.toISOString().split('T')[0]); }
+        const hm = document.getElementById('heatmap');
+        hm.innerHTML = dates.map(date => {
+            const rec = historyData.find(r => r.date === date);
+            let cls = 'hm-none';
+            if (rec) { if (rec.theme.includes('success')) cls = 'hm-success'; else if (rec.theme.includes('fix')) cls = 'hm-fix'; else if (rec.theme.includes('repair')) cls = 'hm-repair'; }
+            return `<div class="heatmap-day"><div class="heatmap-box ${cls}"></div><div style="font-size:9px;color:var(--text-sub)">${date.slice(5)}</div></div>`;
+        }).join('');
+        const last7 = historyData.filter(r => dates.includes(r.date) && !['theme-skip','theme-shop','theme-pay'].includes(r.theme));
+        const total = last7.reduce((a,c) => a + parseFloat(c.study||0), 0);
+        const rate = last7.length ? Math.round((last7.filter(r => r.theme==='theme-success').length/last7.length)*100) : 0;
+        document.getElementById('statStudy').innerText = total + 'h';
+        document.getElementById('statRate').innerText = rate + '%';
+    }
+
+    function exportCSV(){
+        let c="日期,类型,基金,详情\n";
+        historyData.forEach(i=>c+=`${i.date},${i.title},${i.fund},"${Object.values(i.details||{}).join('|')}"\n`);
+        const l=document.createElement("a");
+        l.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));
+        l.download="data.csv";
+        l.click();
+    }
+
+    function exportJSON() {
+        const backup = { history: historyData, config: config, todos: todoList, wishes: wishList, strategies: userStrategies, gh: ghConfig, timeBank: timeBank };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "habit_pro_backup_" + getTimestampStr() + ".json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    function importJSON(input) {
+        const file = input.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try { const data = JSON.parse(e.target.result); restoreData(data); }
+            catch(err) { alert("❌ 文件格式错误，无法恢复"); }
+        };
+        reader.readAsText(file);
+    }
+
     function restoreData(data) {
-        if(confirm("⚠️ 警告：确定要覆盖当前所有数据吗？此操作不可撤销。")) { 
-            // 修复：兼容 "history" 和 "data" 两种字段名
+        if(confirm("⚠️ 警告：确定要覆盖当前所有数据吗？此操作不可撤销。")) {
             const historyToRestore = data.history || data.data;
-            if(historyToRestore) localStorage.setItem('habit_data_v15', JSON.stringify(historyToRestore)); 
-            
-            if(data.config) localStorage.setItem('habit_config_v7', JSON.stringify(data.config)); 
-            if(data.todos) localStorage.setItem('habit_todos_v1', JSON.stringify(data.todos)); 
-            if(data.wishes) localStorage.setItem('habit_wishes_v1', JSON.stringify(data.wishes)); 
-            if(data.strategies) localStorage.setItem('habit_strategies_v1', JSON.stringify(data.strategies)); 
-            if(data.gh) localStorage.setItem('habit_gh_v1', JSON.stringify(data.gh)); 
-            if(data.timeBank !== undefined) localStorage.setItem('habit_time_bank_v1', data.timeBank); 
-            alert("✅ 数据恢复成功！页面即将刷新..."); location.reload(); 
+            if(historyToRestore) localStorage.setItem('habit_data_v15', JSON.stringify(historyToRestore));
+
+            if(data.config) localStorage.setItem('habit_config_v7', JSON.stringify(data.config));
+            if(data.todos) localStorage.setItem('habit_todos_v1', JSON.stringify(data.todos));
+            if(data.wishes) localStorage.setItem('habit_wishes_v1', JSON.stringify(data.wishes));
+            if(data.strategies) localStorage.setItem('habit_strategies_v1', JSON.stringify(data.strategies));
+            if(data.gh) localStorage.setItem('habit_gh_v1', JSON.stringify(data.gh));
+            if(data.timeBank !== undefined) localStorage.setItem('habit_time_bank_v1', data.timeBank);
+            alert("✅ 数据恢复成功！页面即将刷新..."); location.reload();
         }
     }
 
-    function triggerAutoSave() { localStorage.setItem('habit_data_v15', JSON.stringify(historyData)); localStorage.setItem('habit_todos_v1', JSON.stringify(todoList)); localStorage.setItem('habit_wishes_v1', JSON.stringify(wishList)); localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies)); localStorage.setItem('habit_time_bank_v1', timeBank); syncGitHub('push', true); }
-    
-    function saveSettings(){ 
-        ghConfig.token = document.getElementById('ghToken').value.trim(); 
-        ghConfig.repo = document.getElementById('ghRepo').value.trim(); 
-        localStorage.setItem('habit_gh_v1', JSON.stringify(ghConfig)); 
-        
-        // 修复：强制解析为浮点数，防止保存为字符串
-        config = { 
-            wake: document.getElementById('setWake').value, 
-            sleep: document.getElementById('setSleep').value, 
-            study: parseFloat(document.getElementById('setStudy').value), 
-            wakeW: document.getElementById('setWakeW').value, 
-            sleepW: document.getElementById('setSleepW').value, 
-            reward: parseFloat(document.getElementById('rewardAmount').value) || 0, 
+    function triggerAutoSave() {
+        localStorage.setItem('habit_data_v15', JSON.stringify(historyData));
+        localStorage.setItem('habit_todos_v1', JSON.stringify(todoList));
+        localStorage.setItem('habit_wishes_v1', JSON.stringify(wishList));
+        localStorage.setItem('habit_strategies_v1', JSON.stringify(userStrategies));
+        localStorage.setItem('habit_time_bank_v1', timeBank);
+        syncGitHub('push', true);
+    }
+
+    function saveSettings(){
+        ghConfig.token = document.getElementById('ghToken').value.trim();
+        ghConfig.repo = document.getElementById('ghRepo').value.trim();
+        localStorage.setItem('habit_gh_v1', JSON.stringify(ghConfig));
+
+        config = {
+            wake: document.getElementById('setWake').value,
+            sleep: document.getElementById('setSleep').value,
+            study: parseFloat(document.getElementById('setStudy').value),
+            wakeW: document.getElementById('setWakeW').value,
+            sleepW: document.getElementById('setSleepW').value,
+            reward: parseFloat(document.getElementById('rewardAmount').value) || 0,
             preventCost: parseFloat(document.getElementById('preventCost').value) || 0,
-            exchangeRate: parseFloat(document.getElementById('exchangeRate').value) || 5, 
-            penalties: { 
-                wakeS: parseFloat(document.getElementById('pWakeS').value) || 0, 
-                wakeL: parseFloat(document.getElementById('pWakeL').value) || 0, 
-                sleepS: parseFloat(document.getElementById('pSleepS').value) || 0, 
-                sleepL: parseFloat(document.getElementById('pSleepL').value) || 0, 
-                studyS: parseFloat(document.getElementById('pStudyS').value) || 0, 
+            exchangeRate: parseFloat(document.getElementById('exchangeRate').value) || 5,
+            penalties: {
+                wakeS: parseFloat(document.getElementById('pWakeS').value) || 0,
+                wakeL: parseFloat(document.getElementById('pWakeL').value) || 0,
+                sleepS: parseFloat(document.getElementById('pSleepS').value) || 0,
+                sleepL: parseFloat(document.getElementById('pSleepL').value) || 0,
+                studyS: parseFloat(document.getElementById('pStudyS').value) || 0,
                 studyL: parseFloat(document.getElementById('pStudyL').value) || 0
             },
             weekend: config.weekend || [0, 6]
-        }; 
-        localStorage.setItem('habit_config_v7', JSON.stringify(config)); 
-        triggerAutoSave(); 
-        alert("配置已保存"); 
+        };
+        localStorage.setItem('habit_config_v7', JSON.stringify(config));
+        triggerAutoSave();
+        alert("配置已保存");
     }
-    
-    function applySettingsToUI(){ 
-        document.getElementById('setWake').value = config.wake; 
-        document.getElementById('setSleep').value = config.sleep; 
-        document.getElementById('setStudy').value = config.study; 
-        document.getElementById('setWakeW').value = config.wakeW; 
-        document.getElementById('setSleepW').value = config.sleepW; 
-        document.getElementById('rewardAmount').value = config.reward; 
+
+    function applySettingsToUI(){
+        document.getElementById('setWake').value = config.wake;
+        document.getElementById('setSleep').value = config.sleep;
+        document.getElementById('setStudy').value = config.study;
+        document.getElementById('setWakeW').value = config.wakeW;
+        document.getElementById('setSleepW').value = config.sleepW;
+        document.getElementById('rewardAmount').value = config.reward;
         document.getElementById('preventCost').value = config.preventCost || 10;
-        document.getElementById('exchangeRate').value = config.exchangeRate || 5; 
-        
-        if(config.penalties) { 
-            document.getElementById('pWakeS').value = config.penalties.wakeS; 
-            document.getElementById('pWakeL').value = config.penalties.wakeL; 
-            document.getElementById('pSleepS').value = config.penalties.sleepS; 
-            document.getElementById('pSleepL').value = config.penalties.sleepL; 
-            document.getElementById('pStudyS').value = config.penalties.studyS; 
-            document.getElementById('pStudyL').value = config.penalties.studyL; 
+        document.getElementById('exchangeRate').value = config.exchangeRate || 5;
+
+        if(config.penalties) {
+            document.getElementById('pWakeS').value = config.penalties.wakeS;
+            document.getElementById('pWakeL').value = config.penalties.wakeL;
+            document.getElementById('pSleepS').value = config.penalties.sleepS;
+            document.getElementById('pSleepL').value = config.penalties.sleepL;
+            document.getElementById('pStudyS').value = config.penalties.studyS;
+            document.getElementById('pStudyL').value = config.penalties.studyL;
         }
-        
+
         const we = config.weekend || [0, 6];
         document.getElementById('btn_week_6').className = `week-btn ${we.includes(6)?'active':''}`;
         document.getElementById('btn_week_0').className = `week-btn ${we.includes(0)?'active':''}`;
     }
-    
-    async function syncGitHub(action, isAuto) { const token = ghConfig.token; const repo = ghConfig.repo; const path = ghConfig.path || 'habit_backup.json'; if(!token || !repo) { if(!isAuto) alert("请先配置 GitHub"); return; } const badge = document.getElementById('syncBadge'); const badgeText = document.getElementById('syncText'); badge.className = 'status-syncing'; badgeText.innerText = action==='push'?'上传...':'同步...'; try { const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" }; const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers }); let sha, cloudData; if(getRes.ok) { const d=await getRes.json(); sha=d.sha; cloudData=JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,""))))); } if(action === 'pull') { if(cloudData && (cloudData.timestamp || 0) > (parseInt(localStorage.getItem('habit_last_save'))||0)) { if(cloudData.data) historyData=cloudData.data; if(cloudData.config) config=cloudData.config; if(cloudData.todos) todoList=cloudData.todos; if(cloudData.strategies) userStrategies=cloudData.strategies; if(cloudData.wishes) wishList=cloudData.wishes; if(cloudData.timeBank) timeBank=cloudData.timeBank; localStorage.setItem('habit_data_v15', JSON.stringify(historyData)); localStorage.setItem('habit_todos_v1', JSON.stringify(todoList)); localStorage.setItem('habit_last_save', cloudData.timestamp); badgeText.innerText = '已更新'; updateUI(); renderTodos(); checkDateChange(); applySettingsToUI(); if(!isAuto) alert("✅ 同步成功：从云端拉取了最新数据"); } else { badgeText.innerText = '已最新'; if(!isAuto) alert("✅ 同步完成：本地数据已是最新"); } } else { const content = { timestamp: Date.now(), data: historyData, config, todos: todoList, wishes: wishList, strategies: userStrategies, timeBank: timeBank }; const body = { message: "Sync", content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))), sha }; await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method:'PUT', headers, body: JSON.stringify(body) }); badgeText.innerText = '已同步'; localStorage.setItem('habit_last_save', content.timestamp); if(!isAuto) alert("✅ 同步成功：数据已上传至云端"); } } catch(e) { console.error(e); badge.className='status-error'; badgeText.innerText='失败'; if(!isAuto) alert("❌ 同步失败，请检查网络或Token"); } setTimeout(()=>badge.className='status-idle',2000); }
+
+    async function syncGitHub(action, isAuto) {
+        const token = ghConfig.token;
+        const repo = ghConfig.repo;
+        const path = ghConfig.path || 'habit_backup.json';
+        if(!token || !repo) {
+            if(!isAuto) alert("请先配置 GitHub");
+            return;
+        }
+
+        setSyncBadgeStatus('status-syncing', action==='push'?'上传...':'同步...');
+
+        try {
+            const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" };
+
+            const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers });
+
+            let sha = null, cloudData = null;
+
+            if(getRes.ok) {
+                const d = await getRes.json();
+                sha = d.sha || null;
+                cloudData = JSON.parse(decodeURIComponent(escape(atob((d.content || '').replace(/\n/g,"")))));
+            }
+
+            if(action === 'pull') {
+                const localTs = parseInt(localStorage.getItem('habit_last_save') || '0');
+                const cloudTs = cloudData ? (cloudData.timestamp || 0) : 0;
+
+                let shouldApply = false;
+                if (cloudData && cloudTs > localTs) {
+                    shouldApply = true;
+                } else if (cloudData && !isAuto) {
+                    shouldApply = confirm(`云端数据时间戳(${cloudTs})并不比本地新(${localTs})。\n仍要用云端覆盖本地（不含图片）吗？`);
+                }
+
+                if(shouldApply) {
+                    if(cloudData.data) historyData = stripImagesFromHistory(cloudData.data);
+                    else if (cloudData.history) historyData = stripImagesFromHistory(cloudData.history);
+
+                    if(cloudData.config) config = cloudData.config;
+                    if(cloudData.todos) todoList = cloudData.todos;
+                    if(cloudData.strategies) userStrategies = cloudData.strategies;
+                    if(cloudData.wishes) wishList = cloudData.wishes;
+
+                    if(cloudData.timeBank !== undefined) timeBank = cloudData.timeBank;
+                    else if (cloudData.time_bank !== undefined) timeBank = cloudData.time_bank;
+
+                    // ✅ 覆盖写入本地（剥离图片后的 history）
+                    persistAllLocal();
+                    localStorage.setItem('habit_last_save', String(cloudTs || Date.now()));
+
+                    setSyncBadgeStatus('status-idle', '已更新');
+                    updateUI(); renderTodos(); checkDateChange(); applySettingsToUI(); renderStrategySettings();
+
+                    if(!isAuto) alert("✅ 同步成功：已从云端覆盖写入本地（已剥离图片）");
+                } else {
+                    setSyncBadgeStatus('status-idle', '已最新');
+                    if(!isAuto) alert("✅ 同步完成：本地数据已是最新（未覆盖）");
+                }
+            } else {
+                // push：云端不保存图片，避免文件膨胀 / 超限
+                const content = {
+                    timestamp: Date.now(),
+                    data: stripImagesFromHistory(historyData),
+                    config,
+                    todos: todoList,
+                    wishes: wishList,
+                    strategies: userStrategies,
+                    timeBank: timeBank
+                };
+
+                const body = {
+                    message: "Sync",
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(content))))
+                };
+                if (sha) body.sha = sha; // 仅更新已存在文件时才带 sha
+
+                await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method:'PUT', headers, body: JSON.stringify(body) });
+
+                setSyncBadgeStatus('status-idle', '已同步');
+                localStorage.setItem('habit_last_save', String(content.timestamp));
+                if(!isAuto) alert("✅ 同步成功：数据已上传至云端（已剥离图片）");
+            }
+        } catch(e) {
+            console.error(e);
+            setSyncBadgeStatus('status-error', '失败');
+            if(!isAuto) alert("❌ 同步失败，请检查网络或Token");
+        }
+
+        setTimeout(()=>setSyncBadgeStatus('status-idle', document.getElementById('syncText').innerText || '本地模式'), 2000);
+    }
 
     async function archiveToGitHub() {
         const token = ghConfig.token; const repo = ghConfig.repo;
         if(!token || !repo) return alert("请先配置 GitHub Token");
         if(!confirm("确定要创建一个永久存档吗？\n此存档将使用独立文件名，不会被自动同步覆盖。")) return;
-        
-        const badge = document.getElementById('syncBadge');
-        badge.className = 'status-syncing';
+
+        setSyncBadgeStatus('status-syncing', '上传...');
+
         const timestamp = getTimestampStr();
-        const path = `backups/habit_archive_${timestamp}.json`; 
-        
+        const path = `backups/habit_archive_${timestamp}.json`;
+
         try {
-            const content = { timestamp: Date.now(), data: historyData, config, todos: todoList, wishes: wishList, strategies: userStrategies, timeBank: timeBank };
+            const content = {
+                timestamp: Date.now(),
+                data: stripImagesFromHistory(historyData),
+                config,
+                todos: todoList,
+                wishes: wishList,
+                strategies: userStrategies,
+                timeBank: timeBank
+            };
             const body = { message: `Archive ${timestamp}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))) };
             const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method:'PUT', headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" }, body: JSON.stringify(body) });
             if(res.ok) alert(`✅ 存档成功！\n文件名: ${path}`);
             else alert("❌ 存档失败，请检查网络或Token");
         } catch(e) { alert("❌ 发生错误"); }
-        badge.className = 'status-idle';
+
+        setSyncBadgeStatus('status-idle', '本地模式');
     }
 
     async function listCloudBackups() {
         const token = ghConfig.token; const repo = ghConfig.repo;
         if(!token || !repo) return alert("请先配置 GitHub Token");
-        
+
         const listEl = document.getElementById('cloudBackupList');
         listEl.style.display = 'block';
         listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">⌛ 正在加载列表...</div>';
-        
+
         try {
             const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" };
             const res = await fetch(`https://api.github.com/repos/${repo}/contents/backups`, { headers });
             if(!res.ok) throw new Error("Fetch failed");
-            
+
             const files = await res.json();
             if(!Array.isArray(files) || files.length === 0) {
                 listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">📂 云端没有 backups 文件夹或文件夹为空。</div>';
@@ -1610,7 +1866,7 @@
         const container = document.getElementById('strategyArea');
         if (!container) return;
         container.innerHTML = '';
-        
+
         if (!failedTypes || failedTypes.length === 0) return;
 
         let suggestions = [];
@@ -1630,12 +1886,12 @@
     }
 
     function fillStrategy(txt) {
-        const targetIds = ['r_fix', 'f_plan']; 
+        const targetIds = ['r_fix', 'f_plan'];
         let target = null;
         for(let id of targetIds) {
             if(document.getElementById(id)) { target = document.getElementById(id); break; }
         }
-        
+
         if(target) {
             const oldVal = target.value;
             target.value = oldVal ? (oldVal + " + " + txt) : txt;
@@ -1643,6 +1899,8 @@
             setTimeout(()=>target.style.borderColor='var(--border)', 300);
         }
     }
+
+    /* 原代码中引用但未展示的 showAnalysis() 继续沿用你的原实现（此处不改动）。 */
 </script>
 </body>
 </html>
