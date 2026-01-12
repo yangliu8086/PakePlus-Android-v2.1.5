@@ -3,83 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wealth Master One (Pro Sync)</title>
+    <title>Wealth Master One (Pro Sync & UI Fix)</title>
     <style>
         :root {
-            /* 基础色系整合 */
-            --primary: #4f46e5;      /* 基金端主色 */
-            --loan-primary: #1677ff; /* 借贷端主色 */
+            --primary: #4f46e5;
+            --loan-primary: #1677ff;
             --bg-body: #f3f4f6;
             --bg-card: #ffffff;
             --text-main: #1f2937;
             --text-sub: #6b7280;
             --border: #e5e7eb;
             --input-bg: #f9fafb;
-            
-            /* 功能色 */
             --danger: #ef4444;
             --success: #10b981;
             --warning: #f59e0b;
             --info: #3b82f6;
-            
-            /* 情绪色 */
-            --sent-pos: #ffe4e6;
-            --sent-pos-text: #be123c;
-            --sent-neg: #d1fae5;
-            --sent-neg-text: #047857;
-            --sent-neu: #f3f4f6;
-            --sent-neu-text: #4b5563;
-
-            /* 基金特定色 */
-            --type-sector: #3b82f6;
-            --type-mind: #f59e0b;
-            --type-know: #10b981;
-
-            /* 借贷特定色 */
-            --alert-bg: #fff2f0;
-            --alert-border: #ffccc7;
-            --alert-text: #cf1322;
+            --sent-pos: #ffe4e6; --sent-pos-text: #be123c;
+            --sent-neg: #d1fae5; --sent-neg-text: #047857;
+            --sent-neu: #f3f4f6; --sent-neu-text: #4b5563;
+            --type-sector: #3b82f6; --type-mind: #f59e0b; --type-know: #10b981;
+            --alert-bg: #fff2f0; --alert-border: #ffccc7; --alert-text: #cf1322;
         }
 
         [data-theme="dark"] {
-            --primary: #818cf8;
-            --loan-primary: #4096ff;
-            --bg-body: #111827;
-            --bg-card: #1f2937;
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --border: #374151;
-            --input-bg: #111827;
-            --alert-bg: #2a1215;
-            --alert-border: #58181c;
-            --alert-text: #ff7875;
-            --info: #60a5fa;
-            
-            --sent-pos: #4c0519; 
-            --sent-pos-text: #fda4af;
-            --sent-neg: #064e3b; 
-            --sent-neg-text: #6ee7b7;
-            --sent-neu: #374151;
-            --sent-neu-text: #9ca3af;
+            --primary: #818cf8; --loan-primary: #4096ff;
+            --bg-body: #111827; --bg-card: #1f2937;
+            --text-main: #f3f4f6; --text-sub: #9ca3af;
+            --border: #374151; --input-bg: #111827;
+            --alert-bg: #2a1215; --alert-border: #58181c; --alert-text: #ff7875; --info: #60a5fa;
+            --sent-pos: #4c0519; --sent-pos-text: #fda4af;
+            --sent-neg: #064e3b; --sent-neg-text: #6ee7b7;
+            --sent-neu: #374151; --sent-neu-text: #9ca3af;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; }
 
-        /* === 全局导航栏 === */
+        /* === 导航 === */
         .global-nav { background: var(--bg-card); padding: 10px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 10px; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
-        
         .header-left { display: flex; align-items: center; gap: 10px; }
         .app-title { font-size: 18px; font-weight: 800; background: -webkit-linear-gradient(0deg, var(--primary), var(--loan-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* 同步胶囊样式 (移植自 Habit Pro) */
-        .sync-badge { 
-            font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; 
-            color: var(--text-sub); background: var(--input-bg);
-            padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border);
-            cursor: pointer; transition: all 0.2s; user-select: none;
-        }
+        .sync-badge { font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; color: var(--text-sub); background: var(--input-bg); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; user-select: none; }
         .sync-badge:active { transform: scale(0.95); background: var(--border); }
         .sync-icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; }
         .status-idle .sync-icon { background: var(--success); }
@@ -95,10 +61,9 @@
 
         .container { max-width: 950px; margin: 20px auto; padding: 0 15px; display: none; }
         .container.active-view { display: block; }
-        
         .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-        /* === 通用组件 === */
+        /* === 控件基础 === */
         .btn { padding: 10px 20px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap:6px; transition: opacity 0.2s; }
         .btn:active { opacity: 0.8; }
         .btn-primary { background: var(--primary); color: white; width: 100%; }
@@ -110,7 +75,12 @@
         input:focus, select:focus, textarea:focus { border-color: var(--primary); }
         .loan-view input:focus, .loan-view select:focus { border-color: var(--loan-primary); }
 
-        /* === 基金模块特定样式 === */
+        /* === 组合控件优化 (Fix for "Too Long" & "No Reaction") === */
+        .combo-group { display: flex; gap: 6px; align-items: center; }
+        .combo-select { flex: 0 0 90px; font-size: 12px; padding: 10px 4px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; } 
+        .combo-input { flex: 1; min-width: 0; } /* min-width 0 prevents flex overflow */
+
+        /* === 基金模块 === */
         .fm-type-tabs { display: flex; background: var(--input-bg); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); }
         .fm-type-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; color: var(--text-sub); transition: all 0.2s; }
         .fm-type-tab.active { background: var(--bg-card); box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--text-main); }
@@ -118,21 +88,18 @@
         .fm-form-section { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 10px; padding: 12px; position: relative; }
         .fm-form-section-label { position: absolute; top: -10px; left: 10px; background: var(--bg-card); padding: 0 5px; font-size: 11px; color: var(--text-sub); font-weight: 700; }
         .fm-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .fm-col { flex: 1; display: flex; flex-direction: column; min-width: 150px; }
+        .fm-col { flex: 1; display: flex; flex-direction: column; min-width: 140px; }
         .sub-note { margin-top: 4px; border: none; border-bottom: 1px dashed var(--border); border-radius: 0; background: transparent; padding: 4px 0; font-size: 11px; color: var(--text-sub); }
 
-        /* 基金筛选 */
         .fm-filter-header { font-weight: 800; font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .fm-filter-bar { background: var(--input-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
         .fm-time-presets { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; align-items: center; }
         .fm-time-btn { padding: 6px 12px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--border); font-size: 12px; cursor: pointer; color: var(--text-sub); white-space: nowrap; transition: all 0.2s; }
         .fm-time-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .fm-n-input { width: 40px; padding: 4px; text-align: center; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); font-size: 12px; }
-        
         .fm-filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; width: 100%; }
         .fm-filter-select { padding: 6px; font-size: 12px; border-radius: 8px; }
 
-        /* 基金列表 */
         .fm-log-item { border-left: 4px solid transparent; padding-left: 15px; margin-bottom: 25px; position: relative; }
         .fm-log-item.type-sector { border-left-color: var(--type-sector); }
         .fm-log-item.type-mind { border-left-color: var(--type-mind); }
@@ -155,7 +122,7 @@
         .sent-neg { background: var(--sent-neg); color: var(--sent-neg-text); border: 1px solid var(--sent-neg-text); }
         .sent-neu { background: var(--sent-neu); color: var(--sent-neu-text); border: 1px solid var(--sent-neu-text); }
 
-        /* === 借贷模块特定样式 & 全局警报 === */
+        /* === 借贷模块 === */
         .global-alert-container { display: none; margin: 15px auto 0 auto; max-width: 950px; padding: 0 15px; animation: slideDown 0.3s ease-out; }
         .lm-alert-box { background: var(--alert-bg); border: 1px solid var(--alert-border); border-radius: 12px; padding: 15px; }
         .lm-alert-header { font-weight: 800; color: var(--alert-text); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 15px; }
@@ -172,7 +139,6 @@
         .lm-loan-item { border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 15px; background: var(--bg-card); }
         .lm-loan-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .lm-loan-total { font-weight: 800; font-size: 18px; color: var(--loan-primary); }
-        
         .lm-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
         .lm-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-sub); }
         .lm-tag.free { background: #fff1f0; color: #cf1322; border-color: #ffa39e; }
@@ -188,11 +154,8 @@
         .lm-btn-pay { padding: 5px 12px; font-size: 12px; border-radius: 6px; border: 1px solid var(--loan-primary); color: var(--loan-primary); background: transparent; cursor: pointer; }
         .lm-btn-pay:hover { background: var(--loan-primary); color: white; }
 
-        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; }
         .modal { background: var(--bg-card); width: 90%; max-width: 600px; padding: 20px; border-radius: 12px; max-height: 80vh; overflow-y: auto; }
-        
-        /* 备份文件列表 */
         .backup-file-item { padding: 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; cursor: pointer; }
         .backup-file-item:hover { background: var(--input-bg); }
 
@@ -201,12 +164,10 @@
 </head>
 <body>
 
-<!-- 全局头部 -->
 <header class="global-nav">
     <div class="nav-top">
         <div class="header-left">
             <div class="app-title">Wealth Master One</div>
-            <!-- 同步状态胶囊 -->
             <div id="syncBadge" class="sync-badge status-idle" onclick="syncGitHub('pull', false)">
                 <span class="sync-icon"></span><span id="syncText">本地</span>
             </div>
@@ -223,7 +184,6 @@
     </div>
 </header>
 
-<!-- 全局警报 -->
 <div id="global_alertContainer" class="global-alert-container">
     <div class="lm-alert-box">
         <div class="lm-alert-header">🔔 近期还款 / 免息到期 (7天内)</div>
@@ -231,13 +191,12 @@
     </div>
 </div>
 
-<!-- ================= 模块一：Fund Master (资产) ================= -->
+<!-- ================= Fund Master ================= -->
 <div class="container active-view" id="view-fund">
-    <!-- 1. 录入卡片 -->
     <div class="card" id="fm_inputCard">
         <div class="fm-filter-header">
             <span id="fm_formTitle">📝 录入新记录</span>
-            <button class="btn-outline" onclick="fm_resetForm()">重置 / 取消</button>
+            <button class="btn-outline" onclick="fm_resetForm()">重置</button>
         </div>
         <div class="fm-type-tabs">
             <div class="fm-type-tab active" data-type="sector" onclick="fm_switchType('sector')">📊 板块/个基</div>
@@ -251,19 +210,24 @@
             <div class="fm-col" style="flex:0.6"><label class="fm-form-section-label" style="position:static;margin-bottom:4px;">日期</label><input type="date" id="fm_date"></div>
             <div class="fm-col" id="fm_sectorNameGroup">
                 <label class="fm-form-section-label" style="position:static;margin-bottom:4px;">板块/基金名称</label>
-                <input type="text" id="fm_sectorName" placeholder="如: 半导体, 纳指..." list="fm-sector-options">
-                <datalist id="fm-sector-options"></datalist>
+                <!-- 组合控件优化: 板块 -->
+                <div class="combo-group">
+                    <select id="fm_sector_helper" class="combo-select" onchange="document.getElementById('fm_sectorName').value=this.value; this.value='';"><option value="">快选...</option></select>
+                    <input type="text" id="fm_sectorName" class="combo-input" placeholder="输入名称...">
+                </div>
             </div>
         </div>
 
-        <!-- 媒体舆情 -->
         <div class="fm-form-section">
             <span class="fm-form-section-label">📢 媒体与舆情 (可选)</span>
             <div class="fm-row">
                 <div class="fm-col" style="flex:0.8"><select id="fm_mediaPlatform"><option value="">平台...</option></select></div>
                 <div class="fm-col">
-                    <input type="text" id="fm_mediaKOL" placeholder="博主/大V (可手动/选填)" list="fm-kol-list">
-                    <datalist id="fm-kol-list"></datalist>
+                    <!-- 组合控件优化: 博主 -->
+                    <div class="combo-group">
+                        <select id="fm_kol_helper" class="combo-select" onchange="document.getElementById('fm_mediaKOL').value=this.value; this.value='';"><option value="">快选...</option></select>
+                        <input type="text" id="fm_mediaKOL" class="combo-input" placeholder="博主/大V...">
+                    </div>
                 </div>
             </div>
             <div class="fm-row">
@@ -273,8 +237,8 @@
                 <div class="fm-col" style="flex:0.4; min-width:80px;">
                     <select id="fm_mediaSentiment" style="color:var(--text-sub)">
                         <option value="">⚪ 态度...</option>
-                        <option value="pos">🔴 积极/看多</option>
-                        <option value="neg">🟢 消极/看空</option>
+                        <option value="pos">🔴 看多</option>
+                        <option value="neg">🟢 看空</option>
                         <option value="neu">⚪ 中性</option>
                     </select>
                 </div>
@@ -284,7 +248,6 @@
             </div>
         </div>
 
-        <!-- 板块详情 -->
         <div id="fm_sectorFields">
             <div class="fm-row">
                 <div class="fm-col fm-form-section">
@@ -305,7 +268,6 @@
             </div>
         </div>
 
-        <!-- 内容区 -->
         <div class="fm-form-section">
             <span class="fm-form-section-label" id="fm_mainContentLabel">📝 综合备注</span>
             <textarea id="fm_mainContent" placeholder="记录逻辑、计划..." style="min-height:80px;"></textarea>
@@ -314,7 +276,6 @@
         <button class="btn btn-primary" onclick="fm_addRecord()" id="fm_submitBtn">💾 提交记录</button>
     </div>
 
-    <!-- 2. 筛选与查看仪表盘 -->
     <div class="card">
         <div class="fm-filter-header">
             <span>🔍 筛选仪表盘</span>
@@ -322,7 +283,6 @@
         </div>
 
         <div class="fm-filter-bar">
-            <!-- 第一排：时间预设 -->
             <div class="fm-time-presets">
                 <div class="fm-time-btn" onclick="fm_setTimeRange('all')">📅 全部</div>
                 <div class="fm-time-btn" onclick="fm_setTimeRange('thisWeek')">📅 本周</div>
@@ -334,78 +294,61 @@
                 <div class="fm-time-btn" data-mode="nextN" onclick="fm_setTimeRange('nextN')">➡️ 未来n天</div>
             </div>
 
-            <!-- 第二排：详细控制 (多行布局) -->
             <div class="fm-filter-grid">
-                <!-- 时间范围 -->
                 <div style="display: flex; align-items: center; gap: 4px; background: var(--bg-card); padding: 4px 8px; border-radius: 8px; border: 1px solid var(--border); grid-column: span 2;">
                     <input type="date" id="fm_filterStart" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100px;font-size:11px;">
                     <span style="font-size:11px;color:var(--text-sub)">至</span>
                     <input type="date" id="fm_filterEnd" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100px;font-size:11px;">
                 </div>
-                <!-- 基础筛选 -->
-                <select id="fm_filterType" onchange="fm_applyFilters()" class="fm-filter-select">
-                    <option value="all">🌈 类型: 全部</option><option value="sector">📊 板块</option><option value="mind">💡 心得</option><option value="know">📚 知识</option>
-                </select>
+                <select id="fm_filterType" onchange="fm_applyFilters()" class="fm-filter-select"><option value="all">🌈 类型: 全部</option><option value="sector">📊 板块</option><option value="mind">💡 心得</option><option value="know">📚 知识</option></select>
                 <select id="fm_filterSector" onchange="fm_applyFilters()" class="fm-filter-select"><option value="all">📁 板块: 全部</option></select>
-                
-                <!-- 增强筛选 -->
                 <select id="fm_filterKOL" onchange="fm_applyFilters()" class="fm-filter-select"><option value="">👤 博主: 全部</option></select>
-                <select id="fm_filterSentiment" onchange="fm_applyFilters()" class="fm-filter-select">
-                    <option value="">🎭 情绪: 全部</option>
-                    <option value="pos">🔴 积极</option>
-                    <option value="neg">🟢 消极</option>
-                    <option value="neu">⚪ 中性</option>
-                </select>
-
+                <select id="fm_filterSentiment" onchange="fm_applyFilters()" class="fm-filter-select"><option value="">🎭 情绪: 全部</option><option value="pos">🔴 积极</option><option value="neg">🟢 消极</option><option value="neu">⚪ 中性</option></select>
                 <select id="fm_filterVal" onchange="fm_applyFilters()" class="fm-filter-select"><option value="">📊 估值: 全部</option></select>
                 <select id="fm_filterCat" onchange="fm_applyFilters()" class="fm-filter-select"><option value="">🚩 基本面: 全部</option></select>
                 <select id="fm_filterPos" onchange="fm_applyFilters()" class="fm-filter-select"><option value="">🏦 持仓: 全部</option></select>
-
-                <!-- 搜索框 -->
                 <input type="text" id="fm_filterSearch" placeholder="🔍 关键词搜索..." oninput="fm_applyFilters()" class="fm-filter-select" style="grid-column: span 2;">
             </div>
         </div>
-
         <div id="fm_listContainer"></div>
     </div>
 </div>
 
-<!-- ================= 模块二：Loan Master (负债) ================= -->
+<!-- ================= Loan Master ================= -->
 <div class="container loan-view" id="view-loan">
-    <!-- 录入表单 -->
     <div class="card" id="lm_formCard">
         <div class="fm-filter-header">
             <span id="lm_formTitle">✏️ 录入贷款</span>
-            <button class="btn-outline" onclick="lm_resetForm()">重置 / 取消</button>
+            <button class="btn-outline" onclick="lm_resetForm()">重置</button>
         </div>
         <input type="hidden" id="lm_editId">
 
         <div class="lm-form-grid">
             <div class="lm-input-group">
                 <label class="lm-label">借款平台</label>
-                <input type="text" id="lm_platform" list="lm-platform-list" placeholder="如: 借呗">
-                <datalist id="lm-platform-list"></datalist>
+                <!-- 组合控件优化: 平台 -->
+                <div class="combo-group">
+                    <select id="lm_platform_helper" class="combo-select" onchange="document.getElementById('lm_platform').value=this.value; this.value='';"><option value="">快选...</option></select>
+                    <input type="text" id="lm_platform" class="combo-input" placeholder="平台名称...">
+                </div>
             </div>
             <div class="lm-input-group"><label class="lm-label">借款本金</label><input type="number" id="lm_amount" placeholder="0.00"></div>
             <div class="lm-input-group"><label class="lm-label">起息日期</label><input type="date" id="lm_date" onchange="lm_applyDateOffset()"></div>
-            <div class="lm-input-group">
-                <label class="lm-label">首期还款日 <span style="font-weight:normal;color:var(--text-sub)">(自动+1月)</span></label>
-                <input type="date" id="lm_firstPayDate">
-            </div>
+            <div class="lm-input-group"><label class="lm-label">首期还款日 <span style="font-weight:normal;color:var(--text-sub)">(自动+1月)</span></label><input type="date" id="lm_firstPayDate"></div>
         </div>
 
         <div class="lm-form-grid">
             <div class="lm-input-group">
                 <label class="lm-label">年化利率 (%)</label>
-                <input type="number" id="lm_rate" list="lm-rate-list" placeholder="如: 3.5">
-                <datalist id="lm-rate-list"></datalist>
+                <!-- 组合控件优化: 利率 -->
+                <div class="combo-group">
+                    <select id="lm_rate_helper" class="combo-select" onchange="document.getElementById('lm_rate').value=this.value; this.value='';"><option value="">快选...</option></select>
+                    <input type="number" id="lm_rate" class="combo-input" placeholder="3.5">
+                </div>
             </div>
             <div class="lm-input-group">
                 <label class="lm-label">还款方式</label>
-                <select id="lm_method" onchange="lm_rememberSettings()">
-                    <option value="amortized">等额本息</option>
-                    <option value="interest_only">先息后本</option>
-                </select>
+                <select id="lm_method" onchange="lm_rememberSettings()"><option value="amortized">等额本息</option><option value="interest_only">先息后本</option></select>
             </div>
         </div>
 
@@ -413,9 +356,7 @@
             <div class="lm-input-group"><label class="lm-label">分期期数</label><input type="number" id="lm_periods" value="12"></div>
             <div class="lm-input-group">
                 <label class="lm-label">每期周期</label>
-                <select id="lm_periodUnit" onchange="lm_applyDateOffset()">
-                    <option value="month">1 个月</option><option value="week">1 周</option><option value="day">1 天</option><option value="year">1 年</option>
-                </select>
+                <select id="lm_periodUnit" onchange="lm_applyDateOffset()"><option value="month">1 个月</option><option value="week">1 周</option><option value="day">1 天</option><option value="year">1 年</option></select>
             </div>
         </div>
 
@@ -423,11 +364,7 @@
             <div class="lm-form-grid" style="margin-bottom:0;">
                 <div class="lm-input-group">
                     <label class="lm-label" style="color:#d46b08">🎁 免息券/优惠</label>
-                    <select id="lm_freeType" onchange="lm_toggleFreeInput()">
-                        <option value="none">无优惠</option>
-                        <option value="days">前 X 天免息</option>
-                        <option value="date">截止日期前免息</option>
-                    </select>
+                    <select id="lm_freeType" onchange="lm_toggleFreeInput()"><option value="none">无优惠</option><option value="days">前 X 天免息</option><option value="date">截止日期前免息</option></select>
                 </div>
                 <div class="lm-input-group" id="lm_freeInputGroup" style="display:none;">
                     <label class="lm-label" id="lm_freeLabel">设置详情</label>
@@ -439,26 +376,16 @@
 
         <button class="btn btn-loan" onclick="lm_saveLoan()" id="lm_submitBtn">➕ 生成精准还款计划</button>
     </div>
-
-    <!-- 列表 -->
     <div id="lm_loanList"></div>
 </div>
 
-<!-- ================= 弹窗区 ================= -->
-
-<!-- 1. 基金配置弹窗 -->
+<!-- ================= Modals ================= -->
 <div id="fm_configModal" class="modal-overlay">
     <div class="modal">
-        <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
-            <h3>⚙️ 资产配置</h3>
-            <button class="btn-outline" onclick="document.getElementById('fm_configModal').style.display='none'">✕</button>
-        </div>
-        <div style="margin-bottom:15px;">
-            <label style="font-size:12px;font-weight:bold;">常用板块/基金 (自动保存新输入)</label>
-            <textarea id="fm_cfg_sectors" style="height:60px;"></textarea>
-        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:15px;"><h3>⚙️ 资产配置</h3><button class="btn-outline" onclick="document.getElementById('fm_configModal').style.display='none'">✕</button></div>
+        <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">常用板块/基金</label><textarea id="fm_cfg_sectors" style="height:60px;"></textarea></div>
         <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">媒体平台</label><textarea id="fm_cfg_platforms"></textarea></div>
-        <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">关注博主</label><textarea id="fm_cfg_kols"></textarea></div>
+        <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">关注博主 (填入后出现在下拉框)</label><textarea id="fm_cfg_kols"></textarea></div>
         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
         <div class="fm-row">
             <div class="fm-col"><label style="font-size:12px;">估值选项</label><input type="text" id="fm_cfg_val"></div>
@@ -469,26 +396,15 @@
     </div>
 </div>
 
-<!-- 2. 借贷配置弹窗 -->
 <div id="lm_configModal" class="modal-overlay">
     <div class="modal">
-        <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
-            <h3>⚙️ 负债配置</h3>
-            <button class="btn-outline" onclick="document.getElementById('lm_configModal').style.display='none'">✕</button>
-        </div>
-        <div class="lm-input-group" style="margin-bottom:15px;">
-            <label class="lm-label">常用借款平台</label>
-            <textarea id="lm_cfg_platforms" rows="3"></textarea>
-        </div>
-        <div class="lm-input-group" style="margin-bottom:15px;">
-            <label class="lm-label">常用年化利率</label>
-            <input type="text" id="lm_cfg_rates">
-        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:15px;"><h3>⚙️ 负债配置</h3><button class="btn-outline" onclick="document.getElementById('lm_configModal').style.display='none'">✕</button></div>
+        <div class="lm-input-group" style="margin-bottom:15px;"><label class="lm-label">常用借款平台</label><textarea id="lm_cfg_platforms" rows="3"></textarea></div>
+        <div class="lm-input-group" style="margin-bottom:15px;"><label class="lm-label">常用年化利率</label><input type="text" id="lm_cfg_rates"></div>
         <button class="btn btn-loan" onclick="lm_saveConfig()">保存配置</button>
     </div>
 </div>
 
-<!-- 3. 还款详情弹窗 -->
 <div id="lm_repayModal" class="modal-overlay">
     <div class="modal">
         <div style="font-weight:800;font-size:16px;margin-bottom:15px;">💰 还款计算详情</div>
@@ -504,28 +420,18 @@
     </div>
 </div>
 
-<!-- 4. 增强版同步弹窗 -->
 <div id="syncModal" class="modal-overlay">
     <div class="modal">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
             <h3 style="font-size:16px;">☁️ 云端同步 & 备份</h3>
             <button class="btn-outline" onclick="document.getElementById('syncModal').style.display='none'">✕</button>
         </div>
-        
-        <div class="lm-input-group" style="margin-bottom:10px;">
-            <label class="lm-label">GitHub Token</label>
-            <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
-        </div>
-        <div class="lm-input-group" style="margin-bottom:15px;">
-            <label class="lm-label">GitHub 仓库 (用户名/仓库名)</label>
-            <input type="text" id="ghRepo" placeholder="username/repo">
-        </div>
-
+        <div class="lm-input-group" style="margin-bottom:10px;"><label class="lm-label">GitHub Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
+        <div class="lm-input-group" style="margin-bottom:15px;"><label class="lm-label">GitHub 仓库 (用户名/仓库名)</label><input type="text" id="ghRepo" placeholder="username/repo"></div>
         <div style="display:flex; gap:10px; margin-bottom:15px;">
             <button class="btn btn-primary" style="flex:1" onclick="saveGhConfigAndSync()">💾 保存并同步</button>
             <button class="btn btn-outline" style="flex:1; border-color:var(--info); color:var(--info);" onclick="archiveToGitHub()">☁️ 创建永久存档</button>
         </div>
-
         <div style="border-top:1px solid var(--border); padding-top:15px;">
             <div style="font-weight:700; font-size:14px; margin-bottom:10px;">⏳ 云端时光机</div>
             <button class="btn-outline" style="width:100%; margin-bottom:10px;" onclick="listCloudBackups()">📂 查看云端存档列表</button>
@@ -536,7 +442,7 @@
 
 <script>
     // ==========================================
-    // Core: Global & Switcher
+    // Core Logic
     // ==========================================
     let currentModule = 'fund';
     let ghConfig = JSON.parse(localStorage.getItem('wm_gh_config')) || { token: '', repo: '', path: 'wealth_data.json' };
@@ -547,56 +453,33 @@
         document.getElementById('lm_date').valueAsDate = new Date();
         fm_init();
         lm_init();
-        
-        // 恢复上次使用的模块
         const lastMod = localStorage.getItem('wm_last_module');
         if(lastMod) switchModule(lastMod);
-
         checkGlobalAlerts();
-
-        // Load GH config
         if(ghConfig.token) document.getElementById('ghToken').value = ghConfig.token;
         if(ghConfig.repo) document.getElementById('ghRepo').value = ghConfig.repo;
         if(ghConfig.token && ghConfig.repo) syncGitHub('pull', true);
     }
 
     function switchModule(mod) {
-        currentModule = mod;
-        localStorage.setItem('wm_last_module', mod);
-        
+        currentModule = mod; localStorage.setItem('wm_last_module', mod);
         document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
         document.getElementById('tab-' + mod).classList.add('active');
-        
         document.querySelectorAll('.container').forEach(c => c.classList.remove('active-view'));
         document.getElementById('view-' + mod).classList.add('active-view');
     }
-
-    function openCurrentConfig() {
-        if(currentModule === 'fund') document.getElementById('fm_configModal').style.display = 'flex';
-        else document.getElementById('lm_configModal').style.display = 'flex';
-    }
-    
-    function toggleTheme() { 
-        const newTheme = document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-    }
+    function openCurrentConfig() { document.getElementById(currentModule === 'fund' ? 'fm_configModal' : 'lm_configModal').style.display = 'flex'; }
+    function toggleTheme() { const newTheme = document.documentElement.getAttribute('data-theme')==='light'?'dark':'light'; document.documentElement.setAttribute('data-theme', newTheme); }
     function initTheme(){ if(window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme','dark'); }
 
-    // ==========================================
-    // Global Alerts Logic (Previously Loan-only)
-    // ==========================================
     function checkGlobalAlerts() {
         const container = document.getElementById('global_alertContainer');
         const list = document.getElementById('global_alertList');
         const today = new Date().toISOString().split('T')[0];
-        let alertHtml = '';
-        let hasAlert = false;
-
+        let alertHtml = ''; let hasAlert = false;
         lm_records.forEach(l => {
             const isCleared = l.plan.every(p => p.status === 'paid');
             if (isCleared) return; 
-
-            // 免息到期提醒
             if (l.freeEndDate) {
                 const diffDays = lm_getDiffDays(today, l.freeEndDate);
                 if (diffDays >= 0 && diffDays <= 7) {
@@ -604,8 +487,6 @@
                     alertHtml += `<div class="lm-alert-item free-type" style="border-left-color:var(--warning)"><div><b>${l.platform}</b><div style="font-size:11px">免息即将失效: ${l.freeEndDate}</div></div><div style="color:var(--danger);font-weight:800">剩 ${diffDays} 天</div></div>`;
                 }
             }
-
-            // 还款日提醒
             const nextPay = l.plan.find(p => p.status === 'pending');
             if (nextPay) {
                 const diffDays = lm_getDiffDays(today, nextPay.date);
@@ -615,103 +496,48 @@
                 }
             }
         });
-
-        if (hasAlert) { list.innerHTML = alertHtml; container.style.display = 'block'; }
-        else container.style.display = 'none';
+        if (hasAlert) { list.innerHTML = alertHtml; container.style.display = 'block'; } else container.style.display = 'none';
     }
 
-    // ==========================================
-    // Module 1: Fund Master Logic (Prefix: fm_)
-    // ==========================================
-    const FM_DEFAULT_CONFIG = {
-        sectors: ["半导体", "纳指", "标普500", "沪深300", "白酒", "医疗", "中概互联", "红利"],
-        platforms: ["雪球", "微博", "推特", "研报", "朋友圈"],
-        kols: ["管大宇", "唐朝", "银行螺丝钉", "北向资金"],
-        val: ["严重低估", "低估", "合理", "高估", "泡沫"],
-        cat: ["重大利好", "业绩超预期", "无变化", "利空"],
-        pos: ["国家队重仓", "机构抱团", "外资流入", "散户主导"]
-    };
+    // ================= Fund Master =================
+    const FM_DEFAULT_CONFIG = { sectors: ["半导体", "纳指", "标普500", "沪深300", "白酒"], platforms: ["雪球", "微博", "推特", "研报"], kols: ["管大宇", "唐朝", "银行螺丝钉"], val: ["严重低估", "低估", "合理", "高估"], cat: ["重大利好", "业绩超预期", "无变化", "利空"], pos: ["国家队重仓", "机构抱团", "外资流入"] };
     let fm_records = JSON.parse(localStorage.getItem('fmup_records')) || [];
     let fm_config = JSON.parse(localStorage.getItem('fmup_config')) || FM_DEFAULT_CONFIG;
-
     if(!fm_config.sectors) fm_config.sectors = FM_DEFAULT_CONFIG.sectors;
 
-    function fm_init() {
-        fm_loadConfigToUI();
-        fm_renderOptions();
-        fm_setTimeRange('thisWeek'); 
-    }
+    function fm_init() { fm_loadConfigToUI(); fm_renderOptions(); fm_setTimeRange('thisWeek'); }
 
     function fm_setTimeRange(rangeType) {
         document.querySelectorAll('.fm-time-btn').forEach(b => b.classList.remove('active'));
-        if (event && event.target && event.target.classList.contains('fm-time-btn')) {
-            event.target.classList.add('active');
-        } else {
-             const btn = document.querySelector(`.fm-time-btn[data-mode="${rangeType}"]`);
-             if(btn) btn.classList.add('active');
-        }
-
-        const today = new Date();
-        const formatDate = d => d.toISOString().split('T')[0];
-        let start = "", end = "";
-        const nInput = parseInt(document.getElementById('fm_time_n').value) || 7;
-
-        if (rangeType === '3days') {
-            const d = new Date(); d.setDate(d.getDate() - 3); start = formatDate(d); end = formatDate(today);
-        } else if (rangeType === 'thisWeek') {
-            const day = today.getDay() || 7; 
-            const mon = new Date(today); mon.setDate(today.getDate() - day + 1);
-            const sun = new Date(today); sun.setDate(today.getDate() - day + 7);
-            start = formatDate(mon); end = formatDate(sun);
-        } else if (rangeType === 'lastWeek') {
-            const day = today.getDay() || 7;
-            const lastSun = new Date(today); lastSun.setDate(today.getDate() - day);
-            const lastMon = new Date(lastSun); lastMon.setDate(lastSun.getDate() - 6);
-            start = formatDate(lastMon); end = formatDate(lastSun);
-        } else if (rangeType === 'nextWeek') {
-            start = formatDate(today); const next = new Date(today); next.setDate(today.getDate() + 7); end = formatDate(next);
-        } else if (rangeType === 'lastN') {
-            const d = new Date(); d.setDate(d.getDate() - nInput); 
-            start = formatDate(d); end = formatDate(today);
-        } else if (rangeType === 'nextN') {
-            start = formatDate(today); 
-            const d = new Date(); d.setDate(d.getDate() + nInput);
-            end = formatDate(d);
-        }
-
-        document.getElementById('fm_filterStart').value = start;
-        document.getElementById('fm_filterEnd').value = end;
+        if (event && event.target && event.target.classList.contains('fm-time-btn')) event.target.classList.add('active');
+        const today = new Date(); const formatDate = d => d.toISOString().split('T')[0];
+        let start = "", end = ""; const nInput = parseInt(document.getElementById('fm_time_n').value) || 7;
+        if (rangeType === '3days') { const d = new Date(); d.setDate(d.getDate() - 3); start = formatDate(d); end = formatDate(today); }
+        else if (rangeType === 'thisWeek') { const day = today.getDay() || 7; const mon = new Date(today); mon.setDate(today.getDate() - day + 1); const sun = new Date(today); sun.setDate(today.getDate() - day + 7); start = formatDate(mon); end = formatDate(sun); }
+        else if (rangeType === 'lastWeek') { const day = today.getDay() || 7; const lastSun = new Date(today); lastSun.setDate(today.getDate() - day); const lastMon = new Date(lastSun); lastMon.setDate(lastSun.getDate() - 6); start = formatDate(lastMon); end = formatDate(lastSun); }
+        else if (rangeType === 'nextWeek') { start = formatDate(today); const next = new Date(today); next.setDate(today.getDate() + 7); end = formatDate(next); }
+        else if (rangeType === 'lastN') { const d = new Date(); d.setDate(d.getDate() - nInput); start = formatDate(d); end = formatDate(today); }
+        else if (rangeType === 'nextN') { start = formatDate(today); const d = new Date(); d.setDate(d.getDate() + nInput); end = formatDate(d); }
+        else if (rangeType === 'all') { start = ""; end = ""; }
+        document.getElementById('fm_filterStart').value = start; document.getElementById('fm_filterEnd').value = end;
         fm_applyFilters();
     }
 
     function fm_applyFilters() {
-        const start = document.getElementById('fm_filterStart').value;
-        const end = document.getElementById('fm_filterEnd').value;
-        const sector = document.getElementById('fm_filterSector').value;
-        const type = document.getElementById('fm_filterType').value;
-        const kol = document.getElementById('fm_filterKOL').value;
-        const sentiment = document.getElementById('fm_filterSentiment').value; 
-        const val = document.getElementById('fm_filterVal').value;
-        const cat = document.getElementById('fm_filterCat').value;
-        const pos = document.getElementById('fm_filterPos').value;
+        const start = document.getElementById('fm_filterStart').value; const end = document.getElementById('fm_filterEnd').value;
+        const sector = document.getElementById('fm_filterSector').value; const type = document.getElementById('fm_filterType').value;
+        const kol = document.getElementById('fm_filterKOL').value; const sentiment = document.getElementById('fm_filterSentiment').value; 
+        const val = document.getElementById('fm_filterVal').value; const cat = document.getElementById('fm_filterCat').value; const pos = document.getElementById('fm_filterPos').value;
         const search = document.getElementById('fm_filterSearch').value.toLowerCase();
-
         const filtered = fm_records.filter(r => {
-            if (start && r.date < start) return false;
-            if (end && r.date > end) return false;
-            if (sector !== 'all' && r.sector !== sector) return false;
-            if (type !== 'all' && r.type !== type) return false;
-            if (kol && r.media?.kol !== kol) return false;
-            if (sentiment && r.media?.sentiment !== sentiment) return false; 
-            if (val && (!r.attrs || r.attrs.val !== val)) return false;
-            if (cat && (!r.attrs || r.attrs.cat !== cat)) return false;
-            if (pos && (!r.attrs || r.attrs.pos !== pos)) return false;
-
+            if (start && r.date < start) return false; if (end && r.date > end) return false;
+            if (sector !== 'all' && r.sector !== sector) return false; if (type !== 'all' && r.type !== type) return false;
+            if (kol && r.media?.kol !== kol) return false; if (sentiment && r.media?.sentiment !== sentiment) return false; 
+            if (val && (!r.attrs || r.attrs.val !== val)) return false; if (cat && (!r.attrs || r.attrs.cat !== cat)) return false; if (pos && (!r.attrs || r.attrs.pos !== pos)) return false;
             const content = `${r.sector||''} ${r.content||''} ${r.media?.kol||''} ${r.media?.content||''}`.toLowerCase();
             if (search && !content.includes(search)) return false;
             return true;
         });
-
         filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
         document.getElementById('fm_resultCount').innerText = `共 ${filtered.length} 条`;
         fm_renderList(filtered);
@@ -719,66 +545,32 @@
 
     function fm_renderList(data) {
         const container = document.getElementById('fm_listContainer');
-        if (!data || data.length === 0) {
-            container.innerHTML = '<div style="text-align:center;color:var(--text-sub);padding:30px;">🔍 无记录</div>';
-            return;
-        }
-
+        if (!data || data.length === 0) { container.innerHTML = '<div style="text-align:center;color:var(--text-sub);padding:30px;">🔍 无记录</div>'; return; }
         container.innerHTML = data.map(r => {
             let typeHtml = '', titleHtml = '', bodyHtml = '', gridHtml = '';
-            
             if (r.type === 'sector') {
-                typeHtml = `<span class="fm-log-badge" style="background:var(--type-sector)">📊 板块</span>`;
-                titleHtml = `<span style="font-weight:800;font-size:15px;color:var(--primary);">${r.sector}</span>`;
-                let grids = [];
-                const addAttr = (t, v, n) => { if(v||n) grids.push(`<div class="fm-attr-box"><div class="fm-attr-title">${t}</div><div class="fm-attr-val">${v||'-'}</div>${n?`<div class="sub-note" style="border:none;border-top:1px dashed var(--border);margin-top:2px;">${n}</div>`:''}</div>`); };
-                addAttr('估值', r.attrs.val, r.attrs.valNote);
-                addAttr('基本面', r.attrs.cat, r.attrs.catNote);
-                addAttr('持仓', r.attrs.pos, r.attrs.posNote);
+                typeHtml = `<span class="fm-log-badge" style="background:var(--type-sector)">📊 板块</span>`; titleHtml = `<span style="font-weight:800;font-size:15px;color:var(--primary);">${r.sector}</span>`;
+                let grids = []; const addAttr = (t, v, n) => { if(v||n) grids.push(`<div class="fm-attr-box"><div class="fm-attr-title">${t}</div><div class="fm-attr-val">${v||'-'}</div>${n?`<div class="sub-note" style="border:none;border-top:1px dashed var(--border);margin-top:2px;">${n}</div>`:''}</div>`); };
+                addAttr('估值', r.attrs.val, r.attrs.valNote); addAttr('基本面', r.attrs.cat, r.attrs.catNote); addAttr('持仓', r.attrs.pos, r.attrs.posNote);
                 if(grids.length) gridHtml = `<div class="fm-attr-grid">${grids.join('')}</div>`;
                 if(r.content) bodyHtml = `<div class="fm-main-content-box" style="background:var(--input-bg);border:1px solid var(--border)">${r.content}</div>`;
             } else if (r.type === 'mind') {
-                typeHtml = `<span class="fm-log-badge" style="background:var(--type-mind)">💡 心得</span>`;
-                bodyHtml = `<div class="fm-main-content-box fm-box-mind">${r.content}</div>`;
+                typeHtml = `<span class="fm-log-badge" style="background:var(--type-mind)">💡 心得</span>`; bodyHtml = `<div class="fm-main-content-box fm-box-mind">${r.content}</div>`;
             } else {
-                typeHtml = `<span class="fm-log-badge" style="background:var(--type-know)">📚 知识</span>`;
-                bodyHtml = `<div class="fm-main-content-box fm-box-know">${r.content}</div>`;
+                typeHtml = `<span class="fm-log-badge" style="background:var(--type-know)">📚 知识</span>`; bodyHtml = `<div class="fm-main-content-box fm-box-know">${r.content}</div>`;
             }
-
             let mediaHtml = '';
             if (r.media.content || r.media.kol || r.media.sentiment) {
                 let sentTag = '';
                 if(r.media.sentiment === 'pos') sentTag = '<span class="sent-tag sent-pos">积极</span>';
                 else if(r.media.sentiment === 'neg') sentTag = '<span class="sent-tag sent-neg">消极</span>';
                 else if(r.media.sentiment === 'neu') sentTag = '<span class="sent-tag sent-neu">中性</span>';
-
                 let bgStyle = 'background:#f0fdf4;border-color:#bbf7d0';
                 if(r.media.sentiment === 'pos') bgStyle = 'background:var(--sent-pos);border-color:var(--sent-pos-text);opacity:0.9';
                 if(r.media.sentiment === 'neg') bgStyle = 'background:var(--sent-neg);border-color:var(--sent-neg-text);opacity:0.9';
-
-                mediaHtml = `<div class="fm-attr-box" style="margin-top:8px;${bgStyle}">
-                    <div style="font-size:12px;font-weight:700;color:var(--text-sub);display:flex;align-items:center;">
-                        ${r.media.platform?`[${r.media.platform}]`:''} ${r.media.kol?`@${r.media.kol}`:''} ${sentTag}
-                    </div>
-                    <div style="font-weight:600;font-size:13px;margin-top:4px;">${r.media.content||''}</div>
-                    ${r.media.note?`<div style="font-size:11px;color:var(--text-sub);margin-top:2px;">📝 ${r.media.note}</div>`:''}
-                </div>`;
+                mediaHtml = `<div class="fm-attr-box" style="margin-top:8px;${bgStyle}"><div style="font-size:12px;font-weight:700;color:var(--text-sub);display:flex;align-items:center;">${r.media.platform?`[${r.media.platform}]`:''} ${r.media.kol?`@${r.media.kol}`:''} ${sentTag}</div><div style="font-weight:600;font-size:13px;margin-top:4px;">${r.media.content||''}</div>${r.media.note?`<div style="font-size:11px;color:var(--text-sub);margin-top:2px;">📝 ${r.media.note}</div>`:''}</div>`;
             }
-
-            return `
-            <div class="fm-log-item type-${r.type}">
-                <div class="fm-log-header">
-                    <div style="display:flex;align-items:center;">
-                        <span class="fm-log-date">${r.date}</span> ${typeHtml}
-                        <div style="margin-left:8px;">${titleHtml}</div>
-                    </div>
-                    <div style="display:flex;gap:5px;">
-                        <button class="btn-outline" style="border:none;padding:2px 6px;" onclick="fm_editRecord(${r.id})">✏️ 编辑</button>
-                        <button class="btn-outline" style="border:none;padding:2px 6px;color:var(--danger)" onclick="fm_deleteRecord(${r.id})">🗑️</button>
-                    </div>
-                </div>
-                ${gridHtml} ${mediaHtml} ${bodyHtml}
-            </div>`;
+            return `<div class="fm-log-item type-${r.type}"><div class="fm-log-header"><div style="display:flex;align-items:center;"><span class="fm-log-date">${r.date}</span> ${typeHtml}<div style="margin-left:8px;">${titleHtml}</div></div><div style="display:flex;gap:5px;"><button class="btn-outline" style="border:none;padding:2px 6px;" onclick="fm_editRecord(${r.id})">✏️ 编辑</button><button class="btn-outline" style="border:none;padding:2px 6px;color:var(--danger)" onclick="fm_deleteRecord(${r.id})">🗑️</button></div></div>${gridHtml} ${mediaHtml} ${bodyHtml}</div>`;
         }).join('');
     }
 
@@ -786,7 +578,6 @@
         document.getElementById('fm_recordType').value = type;
         document.querySelectorAll('.fm-type-tab').forEach(t=>t.classList.remove('active'));
         document.querySelector(`.fm-type-tab[data-type="${type}"]`).classList.add('active');
-        
         const isSector = type === 'sector';
         document.getElementById('fm_sectorNameGroup').style.display = isSector ? 'flex' : 'none';
         document.getElementById('fm_sectorFields').style.display = isSector ? 'block' : 'none';
@@ -795,563 +586,172 @@
     }
 
     function fm_addRecord() {
-        const type = document.getElementById('fm_recordType').value;
-        const date = document.getElementById('fm_date').value;
-        const sectorName = document.getElementById('fm_sectorName').value.trim();
-        const editId = document.getElementById('fm_editId').value;
-        
+        const type = document.getElementById('fm_recordType').value; const date = document.getElementById('fm_date').value; const sectorName = document.getElementById('fm_sectorName').value.trim(); const editId = document.getElementById('fm_editId').value;
         if(type==='sector' && !sectorName) return alert("请输入板块名称");
-        
-        if(type==='sector' && !fm_config.sectors.includes(sectorName)) {
-            fm_config.sectors.push(sectorName);
-            localStorage.setItem('fmup_config', JSON.stringify(fm_config));
-        }
-
-        const r = {
-            id: editId ? parseInt(editId) : Date.now(),
-            date, type,
-            sector: type==='sector' ? sectorName : null,
-            content: document.getElementById('fm_mainContent').value.trim(),
-            media: {
-                platform: document.getElementById('fm_mediaPlatform').value,
-                kol: document.getElementById('fm_mediaKOL').value.trim(),
-                sentiment: document.getElementById('fm_mediaSentiment').value,
-                content: document.getElementById('fm_mediaContent').value.trim(),
-                note: document.getElementById('fm_mediaNote').value.trim()
-            },
-            attrs: type==='sector' ? {
-                val: document.getElementById('fm_valSelect').value,
-                valNote: document.getElementById('fm_valNote').value.trim(),
-                cat: document.getElementById('fm_catSelect').value,
-                catNote: document.getElementById('fm_catNote').value.trim(),
-                pos: document.getElementById('fm_posSelect').value,
-                posNote: document.getElementById('fm_posNote').value.trim()
-            } : null
-        };
-        
-        if (editId) {
-            const idx = fm_records.findIndex(x => x.id == editId);
-            if(idx > -1) fm_records[idx] = r;
-        } else {
-            fm_records.unshift(r);
-        }
-
-        fm_saveToLocal();
-        triggerAutoSync(); 
-        
-        fm_resetForm();
-        fm_init(); 
+        if(type==='sector' && !fm_config.sectors.includes(sectorName)) { fm_config.sectors.push(sectorName); localStorage.setItem('fmup_config', JSON.stringify(fm_config)); }
+        const r = { id: editId ? parseInt(editId) : Date.now(), date, type, sector: type==='sector' ? sectorName : null, content: document.getElementById('fm_mainContent').value.trim(), media: { platform: document.getElementById('fm_mediaPlatform').value, kol: document.getElementById('fm_mediaKOL').value.trim(), sentiment: document.getElementById('fm_mediaSentiment').value, content: document.getElementById('fm_mediaContent').value.trim(), note: document.getElementById('fm_mediaNote').value.trim() }, attrs: type==='sector' ? { val: document.getElementById('fm_valSelect').value, valNote: document.getElementById('fm_valNote').value.trim(), cat: document.getElementById('fm_catSelect').value, catNote: document.getElementById('fm_catNote').value.trim(), pos: document.getElementById('fm_posSelect').value, posNote: document.getElementById('fm_posNote').value.trim() } : null };
+        if (editId) { const idx = fm_records.findIndex(x => x.id == editId); if(idx > -1) fm_records[idx] = r; } else { fm_records.unshift(r); }
+        fm_saveToLocal(); triggerAutoSync(); fm_resetForm(); fm_init(); 
     }
 
     function fm_editRecord(id) {
-        const r = fm_records.find(x => x.id === id);
-        if(!r) return;
-        
-        document.getElementById('fm_editId').value = r.id;
-        document.getElementById('fm_formTitle').innerText = "✏️ 编辑记录";
-        document.getElementById('fm_submitBtn').innerText = "💾 保存修改";
-        
-        document.getElementById('fm_date').value = r.date;
-        fm_switchType(r.type); // Switch tabs and show/hide fields
-        
-        if(r.type === 'sector') {
-            document.getElementById('fm_sectorName').value = r.sector;
-            if(r.attrs) {
-                document.getElementById('fm_valSelect').value = r.attrs.val;
-                document.getElementById('fm_valNote').value = r.attrs.valNote;
-                document.getElementById('fm_catSelect').value = r.attrs.cat;
-                document.getElementById('fm_catNote').value = r.attrs.catNote;
-                document.getElementById('fm_posSelect').value = r.attrs.pos;
-                document.getElementById('fm_posNote').value = r.attrs.posNote;
-            }
-        }
-        
-        if(r.media) {
-            document.getElementById('fm_mediaPlatform').value = r.media.platform;
-            document.getElementById('fm_mediaKOL').value = r.media.kol;
-            document.getElementById('fm_mediaSentiment').value = r.media.sentiment || '';
-            document.getElementById('fm_mediaContent').value = r.media.content;
-            document.getElementById('fm_mediaNote').value = r.media.note;
-        }
-        
-        document.getElementById('fm_mainContent').value = r.content;
-        document.getElementById('fm_inputCard').scrollIntoView({behavior:'smooth'});
+        const r = fm_records.find(x => x.id === id); if(!r) return;
+        document.getElementById('fm_editId').value = r.id; document.getElementById('fm_formTitle').innerText = "✏️ 编辑记录"; document.getElementById('fm_submitBtn').innerText = "💾 保存修改";
+        document.getElementById('fm_date').value = r.date; fm_switchType(r.type);
+        if(r.type === 'sector') { document.getElementById('fm_sectorName').value = r.sector; if(r.attrs) { document.getElementById('fm_valSelect').value = r.attrs.val; document.getElementById('fm_valNote').value = r.attrs.valNote; document.getElementById('fm_catSelect').value = r.attrs.cat; document.getElementById('fm_catNote').value = r.attrs.catNote; document.getElementById('fm_posSelect').value = r.attrs.pos; document.getElementById('fm_posNote').value = r.attrs.posNote; } }
+        if(r.media) { document.getElementById('fm_mediaPlatform').value = r.media.platform; document.getElementById('fm_mediaKOL').value = r.media.kol; document.getElementById('fm_mediaSentiment').value = r.media.sentiment || ''; document.getElementById('fm_mediaContent').value = r.media.content; document.getElementById('fm_mediaNote').value = r.media.note; }
+        document.getElementById('fm_mainContent').value = r.content; document.getElementById('fm_inputCard').scrollIntoView({behavior:'smooth'});
     }
 
-    function fm_deleteRecord(id) {
-        if(!confirm("确认删除这条记录吗？删除后无法恢复。")) return;
-        fm_records = fm_records.filter(r => r.id !== id);
-        fm_saveToLocal();
-        triggerAutoSync();
-        fm_init(); // Re-render
-    }
-
+    function fm_deleteRecord(id) { if(!confirm("确认删除？")) return; fm_records = fm_records.filter(r => r.id !== id); fm_saveToLocal(); triggerAutoSync(); fm_init(); }
     function fm_resetForm() {
-        document.getElementById('fm_editId').value = '';
-        document.getElementById('fm_formTitle').innerText = "📝 录入新记录";
-        document.getElementById('fm_submitBtn').innerText = "💾 提交记录";
-        document.getElementById('fm_sectorName').value = '';
-        document.getElementById('fm_mainContent').value = '';
-        document.getElementById('fm_mediaContent').value = '';
-        document.getElementById('fm_mediaNote').value = '';
-        document.getElementById('fm_mediaKOL').value = '';
-        document.getElementById('fm_mediaSentiment').value = '';
-        document.getElementById('fm_valNote').value = '';
-        document.getElementById('fm_catNote').value = '';
-        document.getElementById('fm_posNote').value = '';
-        
-        document.getElementById('fm_valSelect').value = '';
-        document.getElementById('fm_catSelect').value = '';
-        document.getElementById('fm_posSelect').value = '';
-        document.getElementById('fm_mediaPlatform').value = '';
-        
-        document.getElementById('fm_date').valueAsDate = new Date();
+        document.getElementById('fm_editId').value = ''; document.getElementById('fm_formTitle').innerText = "📝 录入新记录"; document.getElementById('fm_submitBtn').innerText = "💾 提交记录";
+        document.getElementById('fm_sectorName').value = ''; document.getElementById('fm_mainContent').value = ''; document.getElementById('fm_mediaContent').value = ''; document.getElementById('fm_mediaNote').value = ''; document.getElementById('fm_mediaKOL').value = ''; document.getElementById('fm_mediaSentiment').value = ''; document.getElementById('fm_valNote').value = ''; document.getElementById('fm_catNote').value = ''; document.getElementById('fm_posNote').value = '';
+        document.getElementById('fm_valSelect').value = ''; document.getElementById('fm_catSelect').value = ''; document.getElementById('fm_posSelect').value = ''; document.getElementById('fm_mediaPlatform').value = ''; document.getElementById('fm_date').valueAsDate = new Date();
     }
 
     function fm_renderOptions() {
         const fill = (id, arr, defaultTxt='--') => document.getElementById(id).innerHTML = `<option value="">${defaultTxt}</option>`+arr.map(s=>`<option value="${s}">${s}</option>`).join('');
+        fill('fm_mediaPlatform', fm_config.platforms); fill('fm_valSelect', fm_config.val); fill('fm_catSelect', fm_config.cat); fill('fm_posSelect', fm_config.pos);
+        fill('fm_filterVal', fm_config.val, '📊 估值: 全部'); fill('fm_filterCat', fm_config.cat, '🚩 基本面: 全部'); fill('fm_filterPos', fm_config.pos, '🏦 持仓: 全部');
         
-        fill('fm_mediaPlatform', fm_config.platforms);
-        fill('fm_valSelect', fm_config.val);
-        fill('fm_catSelect', fm_config.cat);
-        fill('fm_posSelect', fm_config.pos);
+        const configSectors = fm_config.sectors || []; const historySectors = fm_records.filter(r=>r.sector).map(r=>r.sector); const allSectors = Array.from(new Set([...configSectors, ...historySectors]));
+        fill('fm_filterSector', allSectors, '📁 板块: 全部');
+        // 修复：填充 helper select
+        fill('fm_sector_helper', allSectors, '快选...');
         
-        // 筛选下拉框渲染
-        fill('fm_filterVal', fm_config.val, '📊 估值: 全部');
-        fill('fm_filterCat', fm_config.cat, '🚩 基本面: 全部');
-        fill('fm_filterPos', fm_config.pos, '🏦 持仓: 全部');
-
-        const configSectors = fm_config.sectors || [];
-        const historySectors = fm_records.filter(r=>r.sector).map(r=>r.sector);
-        const allSectors = Array.from(new Set([...configSectors, ...historySectors]));
-        
-        document.getElementById('fm-sector-options').innerHTML = allSectors.map(s=>`<option value="${s}">`).join('');
-        document.getElementById('fm_filterSector').innerHTML = `<option value="all">📁 板块: 全部</option>` + allSectors.map(s=>`<option value="${s}">${s}</option>`).join('');
-
-        const kolSet = new Set([...fm_config.kols, ...fm_records.map(r=>r.media?.kol).filter(k=>k)]);
-        const kolArr = Array.from(kolSet);
-        document.getElementById('fm-kol-list').innerHTML = kolArr.map(k=>`<option value="${k}">`).join(''); 
-        fill('fm_filterKOL', kolArr, '👤 博主: 全部'); 
+        const kolSet = new Set([...fm_config.kols, ...fm_records.map(r=>r.media?.kol).filter(k=>k)]); const kolArr = Array.from(kolSet);
+        fill('fm_filterKOL', kolArr, '👤 博主: 全部');
+        // 修复：填充 helper select
+        fill('fm_kol_helper', kolArr, '快选...');
     }
-
     function fm_saveToLocal() { localStorage.setItem('fmup_records', JSON.stringify(fm_records)); }
-    function fm_loadConfigToUI() {
-        document.getElementById('fm_cfg_sectors').value = (fm_config.sectors||[]).join(',');
-        document.getElementById('fm_cfg_platforms').value = fm_config.platforms.join(',');
-        document.getElementById('fm_cfg_kols').value = fm_config.kols.join(',');
-        document.getElementById('fm_cfg_val').value = fm_config.val.join(',');
-        document.getElementById('fm_cfg_cat').value = fm_config.cat.join(',');
-        document.getElementById('fm_cfg_pos').value = fm_config.pos.join(',');
-    }
-    function fm_saveConfig() {
-        const parse = id => document.getElementById(id).value.split(/[,，]/).map(s=>s.trim()).filter(s=>s);
-        fm_config.sectors = parse('fm_cfg_sectors');
-        fm_config.platforms = parse('fm_cfg_platforms');
-        fm_config.kols = parse('fm_cfg_kols');
-        fm_config.val = parse('fm_cfg_val');
-        fm_config.cat = parse('fm_cfg_cat');
-        fm_config.pos = parse('fm_cfg_pos');
-        localStorage.setItem('fmup_config', JSON.stringify(fm_config));
-        document.getElementById('fm_configModal').style.display='none';
-        triggerAutoSync(); 
-        fm_init();
-    }
+    function fm_loadConfigToUI() { document.getElementById('fm_cfg_sectors').value = (fm_config.sectors||[]).join(','); document.getElementById('fm_cfg_platforms').value = fm_config.platforms.join(','); document.getElementById('fm_cfg_kols').value = fm_config.kols.join(','); document.getElementById('fm_cfg_val').value = fm_config.val.join(','); document.getElementById('fm_cfg_cat').value = fm_config.cat.join(','); document.getElementById('fm_cfg_pos').value = fm_config.pos.join(','); }
+    function fm_saveConfig() { const parse = id => document.getElementById(id).value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); fm_config.sectors = parse('fm_cfg_sectors'); fm_config.platforms = parse('fm_cfg_platforms'); fm_config.kols = parse('fm_cfg_kols'); fm_config.val = parse('fm_cfg_val'); fm_config.cat = parse('fm_cfg_cat'); fm_config.pos = parse('fm_cfg_pos'); localStorage.setItem('fmup_config', JSON.stringify(fm_config)); document.getElementById('fm_configModal').style.display='none'; triggerAutoSync(); fm_init(); }
 
-    // ==========================================
-    // Module 2: Loan Master Logic (Prefix: lm_)
-    // ==========================================
+    // ================= Loan Master =================
     const LM_DEFAULT_CONFIG = { platforms: ["借呗", "微粒贷", "京东白条", "信用卡分期", "房贷"], rates: ["3.5", "4.0", "7.2", "18.0"] };
     let lm_userSettings = JSON.parse(localStorage.getItem('loan_user_settings_v3')) || { method: 'amortized', offsetDays: 30 };
     let lm_records = JSON.parse(localStorage.getItem('loan_max_records_v3')) || [];
     let lm_config = JSON.parse(localStorage.getItem('loan_max_config_v3')) || LM_DEFAULT_CONFIG;
 
-    function lm_init() {
-        document.getElementById('lm_method').value = lm_userSettings.method;
-        lm_applyDateOffset(); 
-        lm_renderConfigOptions();
-        lm_renderList();
-    }
-
-    function lm_rememberSettings() {
-        lm_userSettings.method = document.getElementById('lm_method').value;
-        localStorage.setItem('loan_user_settings_v3', JSON.stringify(lm_userSettings));
-    }
-    function lm_rememberDateOffset() {
-        const start = new Date(document.getElementById('lm_date').value);
-        const first = new Date(document.getElementById('lm_firstPayDate').value);
-        if(!isNaN(start) && !isNaN(first)) {
-            lm_userSettings.offsetDays = Math.ceil(Math.abs(first - start) / (1000 * 60 * 60 * 24));
-            localStorage.setItem('loan_user_settings_v3', JSON.stringify(lm_userSettings));
-        }
-    }
-    function lm_applyDateOffset() {
-        const startStr = document.getElementById('lm_date').value;
-        if (!startStr) return;
-        const d = new Date(startStr);
-        d.setMonth(d.getMonth() + 1);
-        document.getElementById('lm_firstPayDate').value = d.toISOString().split('T')[0];
-    }
+    function lm_init() { document.getElementById('lm_method').value = lm_userSettings.method; lm_applyDateOffset(); lm_renderConfigOptions(); lm_renderList(); }
+    function lm_rememberSettings() { lm_userSettings.method = document.getElementById('lm_method').value; localStorage.setItem('loan_user_settings_v3', JSON.stringify(lm_userSettings)); }
+    function lm_applyDateOffset() { const startStr = document.getElementById('lm_date').value; if (!startStr) return; const d = new Date(startStr); d.setMonth(d.getMonth() + 1); document.getElementById('lm_firstPayDate').value = d.toISOString().split('T')[0]; }
     function lm_getDiffDays(startStr, endStr) { return Math.ceil((new Date(endStr) - new Date(startStr)) / (1000 * 3600 * 24)); }
     function lm_addDays(dateStr, days) { const d = new Date(dateStr); d.setDate(d.getDate() + days); return d.toISOString().split('T')[0]; }
 
     function lm_calculatePlan(amount, rate, periods, method, unit, startDateStr, firstPayDateStr, freeEndDateStr) {
-        let plan = [];
-        let prevDate = startDateStr;
-        let nextDate = firstPayDateStr;
-        let remainingPrincipal = amount;
-        
-        const dailyRate = (rate / 100) / 365;
-        const monthlyRate = dailyRate * 30; 
-        let standardPMT = 0;
-        if (method === 'amortized') {
-            if (monthlyRate === 0) standardPMT = amount / periods;
-            else standardPMT = amount * monthlyRate * Math.pow(1+monthlyRate, periods) / (Math.pow(1+monthlyRate, periods) - 1);
-        }
-
+        let plan = []; let prevDate = startDateStr; let nextDate = firstPayDateStr; let remainingPrincipal = amount;
+        const dailyRate = (rate / 100) / 365; const monthlyRate = dailyRate * 30; let standardPMT = 0;
+        if (method === 'amortized') { if (monthlyRate === 0) standardPMT = amount / periods; else standardPMT = amount * monthlyRate * Math.pow(1+monthlyRate, periods) / (Math.pow(1+monthlyRate, periods) - 1); }
         for (let i = 1; i <= periods; i++) {
-            let currentDate = nextDate;
-            let currentBalanceSnapshot = remainingPrincipal;
-            let theoreticalInterest = remainingPrincipal * monthlyRate;
+            let currentDate = nextDate; let currentBalanceSnapshot = remainingPrincipal; let theoreticalInterest = remainingPrincipal * monthlyRate;
             let principalPart = method === 'amortized' ? (standardPMT - theoreticalInterest) : (i===periods?remainingPrincipal:0);
             if(i===periods && method === 'amortized') principalPart = remainingPrincipal;
-
             let waiveRatio = 0, overlapDays = 0;
-            if (freeEndDateStr && freeEndDateStr >= prevDate) {
-                let overlapEnd = freeEndDateStr < currentDate ? freeEndDateStr : currentDate;
-                if (overlapEnd > prevDate) {
-                    overlapDays = lm_getDiffDays(prevDate, overlapEnd);
-                    let calcDays = 30;
-                    let effectiveWaiveDays = overlapDays > calcDays ? calcDays : overlapDays;
-                    waiveRatio = effectiveWaiveDays / calcDays;
-                    if(waiveRatio > 1) waiveRatio = 1;
-                }
-            }
-
-            let finalInterest = theoreticalInterest * (1 - waiveRatio);
-            let interestWaived = theoreticalInterest * waiveRatio;
-
-            plan.push({
-                idx: i, date: currentDate, expected: principalPart + finalInterest,
-                details: { principal: principalPart, interestRaw: theoreticalInterest, interestWaived: interestWaived, freeDays: overlapDays, balanceSnapshot: currentBalanceSnapshot },
-                actual: 0, status: 'pending'
-            });
-
-            remainingPrincipal -= principalPart;
-            if(remainingPrincipal < 0) remainingPrincipal = 0;
-            prevDate = currentDate;
-            if(unit === 'month') { let d = new Date(currentDate); d.setMonth(d.getMonth() + 1); nextDate = d.toISOString().split('T')[0]; }
-            else if (unit === 'week') nextDate = lm_addDays(currentDate, 7);
-            else nextDate = lm_addDays(currentDate, 1);
+            if (freeEndDateStr && freeEndDateStr >= prevDate) { let overlapEnd = freeEndDateStr < currentDate ? freeEndDateStr : currentDate; if (overlapEnd > prevDate) { overlapDays = lm_getDiffDays(prevDate, overlapEnd); let calcDays = 30; let effectiveWaiveDays = overlapDays > calcDays ? calcDays : overlapDays; waiveRatio = effectiveWaiveDays / calcDays; if(waiveRatio > 1) waiveRatio = 1; } }
+            let finalInterest = theoreticalInterest * (1 - waiveRatio); let interestWaived = theoreticalInterest * waiveRatio;
+            plan.push({ idx: i, date: currentDate, expected: principalPart + finalInterest, details: { principal: principalPart, interestRaw: theoreticalInterest, interestWaived: interestWaived, freeDays: overlapDays, balanceSnapshot: currentBalanceSnapshot }, actual: 0, status: 'pending' });
+            remainingPrincipal -= principalPart; if(remainingPrincipal < 0) remainingPrincipal = 0; prevDate = currentDate;
+            if(unit === 'month') { let d = new Date(currentDate); d.setMonth(d.getMonth() + 1); nextDate = d.toISOString().split('T')[0]; } else if (unit === 'week') nextDate = lm_addDays(currentDate, 7); else nextDate = lm_addDays(currentDate, 1);
         }
         return plan;
     }
 
     function lm_saveLoan() {
-        const id = document.getElementById('lm_editId').value;
-        const platform = document.getElementById('lm_platform').value;
-        const amount = parseFloat(document.getElementById('lm_amount').value);
-        const date = document.getElementById('lm_date').value;
-        const firstPayDate = document.getElementById('lm_firstPayDate').value; 
-        const rate = parseFloat(document.getElementById('lm_rate').value);
-        const periods = parseInt(document.getElementById('lm_periods').value);
-        const method = document.getElementById('lm_method').value;
-        const unit = document.getElementById('lm_periodUnit').value;
-        
-        let freeEndDate = null;
-        const freeType = document.getElementById('lm_freeType').value;
-        if(freeType === 'days') freeEndDate = lm_addDays(date, parseInt(document.getElementById('lm_freeValDays').value)||0);
-        else if (freeType === 'date') freeEndDate = document.getElementById('lm_freeValDate').value;
-
-        if(!platform || isNaN(amount) || !date || !firstPayDate) return alert("请填写完整");
-        lm_rememberSettings();
-
-        let oldPlanMap = {};
-        if (id) {
-            const old = lm_records.find(l => l.id == id);
-            if(old) old.plan.forEach(p => { if(p.status === 'paid') oldPlanMap[p.idx] = { actual: p.actual, payDate: p.payDate }; });
-        }
-
+        const id = document.getElementById('lm_editId').value; const platform = document.getElementById('lm_platform').value; const amount = parseFloat(document.getElementById('lm_amount').value); const date = document.getElementById('lm_date').value; const firstPayDate = document.getElementById('lm_firstPayDate').value; const rate = parseFloat(document.getElementById('lm_rate').value); const periods = parseInt(document.getElementById('lm_periods').value); const method = document.getElementById('lm_method').value; const unit = document.getElementById('lm_periodUnit').value;
+        let freeEndDate = null; const freeType = document.getElementById('lm_freeType').value; if(freeType === 'days') freeEndDate = lm_addDays(date, parseInt(document.getElementById('lm_freeValDays').value)||0); else if (freeType === 'date') freeEndDate = document.getElementById('lm_freeValDate').value;
+        if(!platform || isNaN(amount) || !date || !firstPayDate) return alert("请填写完整"); lm_rememberSettings();
+        let oldPlanMap = {}; if (id) { const old = lm_records.find(l => l.id == id); if(old) old.plan.forEach(p => { if(p.status === 'paid') oldPlanMap[p.idx] = { actual: p.actual, payDate: p.payDate }; }); }
         const newPlan = lm_calculatePlan(amount, rate, periods, method, unit, date, firstPayDate, freeEndDate);
         newPlan.forEach(p => { if(oldPlanMap[p.idx]) { p.status = 'paid'; p.actual = oldPlanMap[p.idx].actual; p.payDate = oldPlanMap[p.idx].payDate; } });
-
-        const record = {
-            id: id ? parseInt(id) : Date.now(),
-            platform, amount, date, firstPayDate, rate, periods, method, unit, plan: newPlan,
-            freeType, freeVal: freeType==='days'?document.getElementById('lm_freeValDays').value : document.getElementById('lm_freeValDate').value, freeEndDate
-        };
-
-        if(id) lm_records[lm_records.findIndex(l => l.id == id)] = record;
-        else lm_records.push(record);
-        
-        lm_saveToLocal(); 
-        triggerAutoSync(); 
-        lm_resetForm(); lm_renderList(); checkGlobalAlerts();
+        const record = { id: id ? parseInt(id) : Date.now(), platform, amount, date, firstPayDate, rate, periods, method, unit, plan: newPlan, freeType, freeVal: freeType==='days'?document.getElementById('lm_freeValDays').value : document.getElementById('lm_freeValDate').value, freeEndDate };
+        if(id) lm_records[lm_records.findIndex(l => l.id == id)] = record; else lm_records.push(record);
+        lm_saveToLocal(); triggerAutoSync(); lm_resetForm(); lm_renderList(); checkGlobalAlerts();
     }
 
     function lm_renderList() {
         const container = document.getElementById('lm_loanList');
         if(lm_records.length === 0) { container.innerHTML = '<div style="text-align:center;color:var(--text-sub);padding:30px;">暂无负债记录</div>'; return; }
-
         container.innerHTML = lm_records.map(l => {
-            const paidCount = l.plan.filter(p => p.status === 'paid').length;
-            const progress = (paidCount / l.periods) * 100;
-            const rows = l.plan.map(p => {
-                const isPaid = p.status === 'paid';
-                return `
-                <div class="lm-plan-row ${isPaid?'paid':''} ${p.details.interestWaived>0?'free-active':''}">
-                    <div style="flex:1;">
-                        <div style="font-weight:700; color:var(--text-main); font-size:14px;">¥${p.expected.toFixed(2)}</div>
-                        <div style="font-size:11px;color:var(--text-sub)">${p.idx}期 | ${p.date}</div>
-                    </div>
-                    <button class="lm-btn-pay" onclick="lm_openRepayModal(${l.id},${p.idx})" ${isPaid?'disabled style="border-color:#ccc;color:#ccc"':''}>${isPaid?'已还':'详细'}</button>
-                </div>`;
-            }).join('');
-
-            return `
-            <div class="lm-loan-item">
-                <div class="lm-loan-head">
-                    <div>
-                        <div style="font-weight:800;font-size:16px;">${l.platform}</div>
-                        <div class="lm-tags">
-                            <span class="lm-tag">${l.periods}${{'month':'月','week':'周','day':'天','year':'年'}[l.unit]}</span> 
-                            <span class="lm-tag">${l.rate}%</span>
-                            ${l.freeEndDate ? `<span class="lm-tag free">优惠至 ${l.freeEndDate}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="lm-loan-total">¥${l.amount}</div>
-                </div>
-                <div class="lm-progress-box">
-                    <div class="lm-progress-bar"><div class="lm-progress-fill" style="width:${progress}%"></div></div>
-                    <div style="font-size:11px;color:var(--text-sub);display:flex;justify-content:space-between"><span>进度: ${paidCount}/${l.periods}</span><span>${paidCount===l.periods?'已结清':'进行中'}</span></div>
-                </div>
-                <div style="display:flex;gap:10px;margin-top:10px;">
-                    <button class="btn-outline" onclick="document.getElementById('lm-plan-${l.id}').classList.toggle('show')">📋 详情</button>
-                    <button class="btn-outline" onclick="lm_editLoan(${l.id})">✏️ 编辑</button>
-                    <button class="btn-outline" style="color:var(--danger);border-color:var(--danger)" onclick="lm_deleteLoan(${l.id})">🗑️</button>
-                </div>
-                <div id="lm-plan-${l.id}" class="lm-plan-list">${rows}</div>
-            </div>`;
+            const paidCount = l.plan.filter(p => p.status === 'paid').length; const progress = (paidCount / l.periods) * 100;
+            const rows = l.plan.map(p => `<div class="lm-plan-row ${p.status==='paid'?'paid':''} ${p.details.interestWaived>0?'free-active':''}"><div style="flex:1;"><div style="font-weight:700; color:var(--text-main); font-size:14px;">¥${p.expected.toFixed(2)}</div><div style="font-size:11px;color:var(--text-sub)">${p.idx}期 | ${p.date}</div></div><button class="lm-btn-pay" onclick="lm_openRepayModal(${l.id},${p.idx})" ${p.status==='paid'?'disabled style="border-color:#ccc;color:#ccc"':''}>${p.status==='paid'?'已还':'详细'}</button></div>`).join('');
+            return `<div class="lm-loan-item"><div class="lm-loan-head"><div><div style="font-weight:800;font-size:16px;">${l.platform}</div><div class="lm-tags"><span class="lm-tag">${l.periods}${{'month':'月','week':'周','day':'天','year':'年'}[l.unit]}</span> <span class="lm-tag">${l.rate}%</span>${l.freeEndDate ? `<span class="lm-tag free">优惠至 ${l.freeEndDate}</span>` : ''}</div></div><div class="lm-loan-total">¥${l.amount}</div></div><div class="lm-progress-box"><div class="lm-progress-bar"><div class="lm-progress-fill" style="width:${progress}%"></div></div><div style="font-size:11px;color:var(--text-sub);display:flex;justify-content:space-between"><span>进度: ${paidCount}/${l.periods}</span><span>${paidCount===l.periods?'已结清':'进行中'}</span></div></div><div style="display:flex;gap:10px;margin-top:10px;"><button class="btn-outline" onclick="document.getElementById('lm-plan-${l.id}').classList.toggle('show')">📋 详情</button><button class="btn-outline" onclick="lm_editLoan(${l.id})">✏️ 编辑</button><button class="btn-outline" style="color:var(--danger);border-color:var(--danger)" onclick="lm_deleteLoan(${l.id})">🗑️</button></div><div id="lm-plan-${l.id}" class="lm-plan-list">${rows}</div></div>`;
         }).join('');
     }
 
-    function lm_openRepayModal(lid, idx) {
-        const l = lm_records.find(x => x.id === lid);
-        const p = l.plan.find(x => x.idx === idx);
-        const d = p.details;
-        document.getElementById('lm_repayModal').style.display='flex';
-        document.getElementById('lm_payLoanId').value=lid; document.getElementById('lm_payIdx').value=idx;
-        document.getElementById('lm_payExpected').value=p.expected.toFixed(2);
-        document.getElementById('lm_payActual').value=p.actual > 0 ? p.actual : p.expected.toFixed(2);
-        document.getElementById('lm_payDate').valueAsDate = new Date();
-        document.getElementById('lm_calcProcessBox').innerHTML = `本金: ¥${d.principal.toFixed(2)}<br>利息: ¥${d.interestRaw.toFixed(2)}<br>免息: -¥${d.interestWaived.toFixed(2)} (抵扣${d.freeDays}天)`;
-    }
-
-    function lm_confirmRepayment() {
-        const lid=parseInt(document.getElementById('lm_payLoanId').value);
-        const idx=parseInt(document.getElementById('lm_payIdx').value);
-        const act=parseFloat(document.getElementById('lm_payActual').value);
-        const d=document.getElementById('lm_payDate').value;
-        const loan=lm_records.find(l=>l.id===lid);
-        const p=loan.plan.find(x=>x.idx===idx);
-        p.status='paid'; p.actual=act; p.payDate=d;
-        lm_saveToLocal(); 
-        triggerAutoSync(); // 触发自动同步
-        document.getElementById('lm_repayModal').style.display='none'; lm_renderList(); checkGlobalAlerts();
-    }
-    
-    function lm_editLoan(id) {
-        const l=lm_records.find(x=>x.id===id); if(!l)return;
-        document.getElementById('lm_editId').value=l.id;
-        document.getElementById('lm_formTitle').innerText="📝 编辑贷款";
-        document.getElementById('lm_submitBtn').innerText="💾 保存修改";
-        document.getElementById('lm_platform').value=l.platform;
-        document.getElementById('lm_amount').value=l.amount;
-        document.getElementById('lm_date').value=l.date;
-        document.getElementById('lm_firstPayDate').value=l.firstPayDate || '';
-        document.getElementById('lm_rate').value=l.rate;
-        document.getElementById('lm_periods').value=l.periods;
-        document.getElementById('lm_method').value=l.method;
-        document.getElementById('lm_periodUnit').value=l.unit;
-        document.getElementById('lm_freeType').value=l.freeType||'none';
-        lm_toggleFreeInput();
-        if(l.freeType==='days') document.getElementById('lm_freeValDays').value=l.freeVal;
-        if(l.freeType==='date') document.getElementById('lm_freeValDate').value=l.freeVal;
-        document.getElementById('lm_formCard').scrollIntoView({behavior:'smooth'});
-    }
+    function lm_openRepayModal(lid, idx) { const l = lm_records.find(x => x.id === lid); const p = l.plan.find(x => x.idx === idx); const d = p.details; document.getElementById('lm_repayModal').style.display='flex'; document.getElementById('lm_payLoanId').value=lid; document.getElementById('lm_payIdx').value=idx; document.getElementById('lm_payExpected').value=p.expected.toFixed(2); document.getElementById('lm_payActual').value=p.actual > 0 ? p.actual : p.expected.toFixed(2); document.getElementById('lm_payDate').valueAsDate = new Date(); document.getElementById('lm_calcProcessBox').innerHTML = `本金: ¥${d.principal.toFixed(2)}<br>利息: ¥${d.interestRaw.toFixed(2)}<br>免息: -¥${d.interestWaived.toFixed(2)} (抵扣${d.freeDays}天)`; }
+    function lm_confirmRepayment() { const lid=parseInt(document.getElementById('lm_payLoanId').value); const idx=parseInt(document.getElementById('lm_payIdx').value); const act=parseFloat(document.getElementById('lm_payActual').value); const d=document.getElementById('lm_payDate').value; const loan=lm_records.find(l=>l.id===lid); const p=loan.plan.find(x=>x.idx===idx); p.status='paid'; p.actual=act; p.payDate=d; lm_saveToLocal(); triggerAutoSync(); document.getElementById('lm_repayModal').style.display='none'; lm_renderList(); checkGlobalAlerts(); }
+    function lm_editLoan(id) { const l=lm_records.find(x=>x.id===id); if(!l)return; document.getElementById('lm_editId').value=l.id; document.getElementById('lm_formTitle').innerText="📝 编辑贷款"; document.getElementById('lm_submitBtn').innerText="💾 保存修改"; document.getElementById('lm_platform').value=l.platform; document.getElementById('lm_amount').value=l.amount; document.getElementById('lm_date').value=l.date; document.getElementById('lm_firstPayDate').value=l.firstPayDate || ''; document.getElementById('lm_rate').value=l.rate; document.getElementById('lm_periods').value=l.periods; document.getElementById('lm_method').value=l.method; document.getElementById('lm_periodUnit').value=l.unit; document.getElementById('lm_freeType').value=l.freeType||'none'; lm_toggleFreeInput(); if(l.freeType==='days') document.getElementById('lm_freeValDays').value=l.freeVal; if(l.freeType==='date') document.getElementById('lm_freeValDate').value=l.freeVal; document.getElementById('lm_formCard').scrollIntoView({behavior:'smooth'}); }
     function lm_deleteLoan(id){ if(confirm("确认删除?")){ lm_records=lm_records.filter(l=>l.id!==id); lm_saveToLocal(); triggerAutoSync(); lm_renderList(); checkGlobalAlerts(); }}
-    function lm_resetForm(){
-        document.getElementById('lm_editId').value=''; document.getElementById('lm_formTitle').innerText="✏️ 录入贷款";
-        document.getElementById('lm_submitBtn').innerText="➕ 生成精准还款计划";
-        document.getElementById('lm_platform').value=''; document.getElementById('lm_amount').value='';
-        lm_applyDateOffset(); 
-    }
+    function lm_resetForm(){ document.getElementById('lm_editId').value=''; document.getElementById('lm_formTitle').innerText="✏️ 录入贷款"; document.getElementById('lm_submitBtn').innerText="➕ 生成精准还款计划"; document.getElementById('lm_platform').value=''; document.getElementById('lm_amount').value=''; lm_applyDateOffset(); }
     function lm_saveToLocal(){ localStorage.setItem('loan_max_records_v3', JSON.stringify(lm_records)); }
-    function lm_saveConfig() {
-        lm_config.platforms = document.getElementById('lm_cfg_platforms').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s);
-        lm_config.rates = document.getElementById('lm_cfg_rates').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s);
-        localStorage.setItem('loan_max_config_v3', JSON.stringify(lm_config));
-        lm_renderConfigOptions(); document.getElementById('lm_configModal').style.display = 'none';
-        triggerAutoSync(); 
-    }
+    function lm_saveConfig() { lm_config.platforms = document.getElementById('lm_cfg_platforms').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); lm_config.rates = document.getElementById('lm_cfg_rates').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); localStorage.setItem('loan_max_config_v3', JSON.stringify(lm_config)); lm_renderConfigOptions(); document.getElementById('lm_configModal').style.display = 'none'; triggerAutoSync(); }
     function lm_renderConfigOptions() {
-        document.getElementById('lm-platform-list').innerHTML = lm_config.platforms.map(p=>`<option value="${p}">`).join('');
-        document.getElementById('lm-rate-list').innerHTML = lm_config.rates.map(r=>`<option value="${r}">`).join('');
-        document.getElementById('lm_cfg_platforms').value = lm_config.platforms.join(',');
-        document.getElementById('lm_cfg_rates').value = lm_config.rates.join(',');
+        const fill = (id, arr) => document.getElementById(id).innerHTML = `<option value="">快选...</option>`+arr.map(r=>`<option value="${r}">${r}</option>`).join('');
+        fill('lm_platform_helper', lm_config.platforms); fill('lm_rate_helper', lm_config.rates);
+        document.getElementById('lm_cfg_platforms').value = lm_config.platforms.join(','); document.getElementById('lm_cfg_rates').value = lm_config.rates.join(',');
     }
-    function lm_toggleFreeInput() {
-        const t = document.getElementById('lm_freeType').value;
-        document.getElementById('lm_freeInputGroup').style.display = t==='none'?'none':'flex';
-        document.getElementById('lm_freeValDays').style.display = t==='days'?'block':'none';
-        document.getElementById('lm_freeValDate').style.display = t==='date'?'block':'none';
-    }
+    function lm_toggleFreeInput() { const t = document.getElementById('lm_freeType').value; document.getElementById('lm_freeInputGroup').style.display = t==='none'?'none':'flex'; document.getElementById('lm_freeValDays').style.display = t==='days'?'block':'none'; document.getElementById('lm_freeValDate').style.display = t==='date'?'block':'none'; }
 
-    // ==========================================
-    // Advanced GitHub Repository Sync (Ported from Habit Pro)
-    // ==========================================
+    // ================= GitHub Sync =================
     function openSyncModal() { document.getElementById('syncModal').style.display = 'flex'; }
     function triggerAutoSync() { if(ghConfig.token && ghConfig.repo) syncGitHub('push', true); }
-    function saveGhConfigAndSync() {
-        ghConfig.token = document.getElementById('ghToken').value.trim();
-        ghConfig.repo = document.getElementById('ghRepo').value.trim();
-        localStorage.setItem('wm_gh_config', JSON.stringify(ghConfig));
-        syncGitHub('pull', false); // First Pull, then UI updates
-        document.getElementById('syncModal').style.display = 'none';
-    }
-
-    function getTimestampStr() {
-        const now = new Date();
-        const pad = (n) => String(n).padStart(2, '0');
-        return now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + "_" + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
-    }
-
+    function saveGhConfigAndSync() { ghConfig.token = document.getElementById('ghToken').value.trim(); ghConfig.repo = document.getElementById('ghRepo').value.trim(); localStorage.setItem('wm_gh_config', JSON.stringify(ghConfig)); syncGitHub('pull', false); document.getElementById('syncModal').style.display = 'none'; }
+    function getTimestampStr() { const now = new Date(); const pad = (n) => String(n).padStart(2, '0'); return now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + "_" + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds()); }
     async function syncGitHub(action, isAuto) {
-        const {token, repo, path} = ghConfig;
-        if(!token || !repo) { if(!isAuto) alert("请先配置 GitHub"); return; }
-        
-        const badge = document.getElementById('syncBadge');
-        const badgeText = document.getElementById('syncText');
-        badge.className = 'sync-badge status-syncing';
-        badgeText.innerText = action==='push'?'上传...':'同步...';
-
+        const {token, repo, path} = ghConfig; if(!token || !repo) { if(!isAuto) alert("请先配置 GitHub"); return; }
+        const badge = document.getElementById('syncBadge'); const badgeText = document.getElementById('syncText'); badge.className = 'sync-badge status-syncing'; badgeText.innerText = action==='push'?'上传...':'同步...';
         try {
             const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" };
-            // Get current file
             const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers });
-            let sha, cloudData;
-
-            if(getRes.ok) {
-                const d = await getRes.json();
-                sha = d.sha;
-                cloudData = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,"")))));
-            }
-
+            let sha, cloudData; if(getRes.ok) { const d = await getRes.json(); sha = d.sha; cloudData = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,""))))); }
             if(action === 'pull') {
                 const localTS = parseInt(localStorage.getItem('wm_last_save_ts')) || 0;
-                if(cloudData && (cloudData.timestamp || 0) > localTS) {
-                    restoreData(cloudData);
-                    localStorage.setItem('wm_last_save_ts', cloudData.timestamp);
-                    badge.className = 'sync-badge status-idle';
-                    badgeText.innerText = '已更新';
-                    if(!isAuto) { alert("✅ 同步成功：从云端拉取了最新数据"); location.reload(); }
-                } else {
-                    badge.className = 'sync-badge status-idle';
-                    badgeText.innerText = '已最新';
-                    if(!isAuto) alert("✅ 同步完成：本地数据已是最新");
-                }
+                if(cloudData && (cloudData.timestamp || 0) > localTS) { restoreData(cloudData); localStorage.setItem('wm_last_save_ts', cloudData.timestamp); badge.className = 'sync-badge status-idle'; badgeText.innerText = '已更新'; if(!isAuto) { alert("✅ 同步成功"); location.reload(); } }
+                else { badge.className = 'sync-badge status-idle'; badgeText.innerText = '已最新'; if(!isAuto) alert("✅ 本地已最新"); }
             } else {
-                // PUSH
-                const content = {
-                    timestamp: Date.now(),
-                    fm_records, fm_config,
-                    lm_records, lm_config, lm_userSettings
-                };
-                
-                const body = {
-                    message: "Wealth Master Sync",
-                    content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))),
-                    sha
-                };
-
-                const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-                    method: 'PUT', headers, body: JSON.stringify(body)
-                });
-                
-                if(res.ok) {
-                    localStorage.setItem('wm_last_save_ts', content.timestamp);
-                    badge.className = 'sync-badge status-idle';
-                    badgeText.innerText = '已同步';
-                } else { throw new Error("Upload failed"); }
+                const content = { timestamp: Date.now(), fm_records, fm_config, lm_records, lm_config, lm_userSettings };
+                const body = { message: "Wealth Master Sync", content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))), sha };
+                const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method: 'PUT', headers, body: JSON.stringify(body) });
+                if(res.ok) { localStorage.setItem('wm_last_save_ts', content.timestamp); badge.className = 'sync-badge status-idle'; badgeText.innerText = '已同步'; } else throw new Error("Upload failed");
             }
-        } catch(e) {
-            console.error(e);
-            badge.className = 'sync-badge status-error';
-            badgeText.innerText = '失败';
-            if(!isAuto) alert("❌ 同步失败，请检查网络或Token");
-        }
+        } catch(e) { console.error(e); badge.className = 'sync-badge status-error'; badgeText.innerText = '失败'; if(!isAuto) alert("❌ 同步失败"); }
     }
-
     async function archiveToGitHub() {
-        const {token, repo} = ghConfig;
-        if(!token || !repo) return alert("请先配置 GitHub Token");
-        if(!confirm("确定要创建一个永久存档吗？\n此存档将使用独立文件名，不会被自动同步覆盖。")) return;
-        
-        const timestamp = getTimestampStr();
-        const path = `backups/wealth_archive_${timestamp}.json`;
-        
+        const {token, repo} = ghConfig; if(!token || !repo) return alert("请先配置 GitHub");
+        if(!confirm("创建永久存档？")) return;
+        const timestamp = getTimestampStr(); const path = `backups/wealth_archive_${timestamp}.json`;
         try {
             const content = { timestamp: Date.now(), fm_records, fm_config, lm_records, lm_config, lm_userSettings };
-            const body = { 
-                message: `Archive ${timestamp}`, 
-                content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))) 
-            };
-            
-            const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-                method:'PUT', headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" },
-                body: JSON.stringify(body)
-            });
-            if(res.ok) alert(`✅ 存档成功！\n文件名: ${path}`);
-            else alert("❌ 存档失败");
-        } catch(e) { alert("❌ 发生错误"); }
+            const body = { message: `Archive ${timestamp}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(content)))) };
+            const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method:'PUT', headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" }, body: JSON.stringify(body) });
+            if(res.ok) alert(`✅ 存档成功: ${path}`); else alert("❌ 存档失败");
+        } catch(e) { alert("❌ 错误"); }
     }
-
     async function listCloudBackups() {
-        const {token, repo} = ghConfig;
-        if(!token || !repo) return alert("请先配置 GitHub");
-        
-        const listEl = document.getElementById('cloudBackupList');
-        listEl.style.display = 'block';
-        listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">⌛ 正在加载列表...</div>';
-        
+        const {token, repo} = ghConfig; if(!token || !repo) return alert("请配置 GitHub");
+        const listEl = document.getElementById('cloudBackupList'); listEl.style.display = 'block'; listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">⌛ 加载中...</div>';
         try {
             const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" };
             const res = await fetch(`https://api.github.com/repos/${repo}/contents/backups`, { headers });
-            if(!res.ok) throw new Error("No backups found");
-            
-            const files = await res.json();
-            if(!Array.isArray(files) || files.length === 0) {
-                listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">📂 云端没有 backups 文件夹或文件夹为空。</div>';
-                return;
-            }
+            if(!res.ok) throw new Error(); const files = await res.json();
+            if(!Array.isArray(files) || files.length === 0) { listEl.innerHTML = '<div style="padding:12px;color:var(--text-sub);">📂 无备份</div>'; return; }
             files.sort((a,b) => b.name.localeCompare(a.name));
             listEl.innerHTML = files.map(f => `<div class="backup-file-item" onclick="restoreCloudBackup('${f.path}')"><span>📄 ${f.name}</span><span style="font-size:10px; color:var(--info);">恢复此版</span></div>`).join('');
         } catch(e) { listEl.innerHTML = '<div style="padding:12px;color:var(--danger);">❌ 获取失败或无备份文件夹</div>'; }
     }
-
     async function restoreCloudBackup(path) {
-        if(!confirm("⚠️ 确定要从云端文件 [" + path + "] 恢复数据吗？\n当前本地数据将被覆盖！")) return;
+        if(!confirm("从 [" + path + "] 恢复？本地数据将被覆盖！")) return;
         const {token, repo} = ghConfig;
         try {
             const headers = { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" };
             const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers });
-            const d = await res.json();
-            const content = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,"")))));
-            restoreData(content);
-            alert("✅ 数据恢复成功！页面即将刷新...");
-            location.reload();
-        } catch(e) { alert("❌ 恢复失败，文件可能已损坏。"); }
+            const d = await res.json(); const content = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,"")))));
+            restoreData(content); alert("✅ 恢复成功"); location.reload();
+        } catch(e) { alert("❌ 恢复失败"); }
     }
-
     function restoreData(data) {
         if(data.fm_records) localStorage.setItem('fmup_records', JSON.stringify(data.fm_records));
         if(data.fm_config) localStorage.setItem('fmup_config', JSON.stringify(data.fm_config));
@@ -1359,7 +759,6 @@
         if(data.lm_config) localStorage.setItem('loan_max_config_v3', JSON.stringify(data.lm_config));
         if(data.lm_userSettings) localStorage.setItem('loan_user_settings_v3', JSON.stringify(data.lm_userSettings));
     }
-
     initGlobal();
 </script>
 </body>
