@@ -2,8 +2,8 @@
 <html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wealth Master One (Pro Sync & UI Fix)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wealth</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -36,130 +36,147 @@
             --sent-neu: #374151; --sent-neu-text: #9ca3af;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; font-size: 14px; }
 
         /* === 导航 === */
-        .global-nav { background: var(--bg-card); padding: 10px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 10px; }
+        .global-nav { background: var(--bg-card); padding: 10px 15px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
-        .header-left { display: flex; align-items: center; gap: 10px; }
-        .app-title { font-size: 18px; font-weight: 800; background: -webkit-linear-gradient(0deg, var(--primary), var(--loan-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-left { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+        .app-title { font-size: 18px; font-weight: 800; background: -webkit-linear-gradient(0deg, var(--primary), var(--loan-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
         
-        .sync-badge { font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; color: var(--text-sub); background: var(--input-bg); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; user-select: none; }
+        .sync-badge { font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; color: var(--text-sub); background: var(--input-bg); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; user-select: none; }
         .sync-badge:active { transform: scale(0.95); background: var(--border); }
-        .sync-icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; }
+        .sync-icon { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #d1d5db; }
         .status-idle .sync-icon { background: var(--success); }
         .status-error .sync-icon { background: var(--danger); }
-        .status-syncing .sync-icon { background: transparent; border: 2px solid var(--info); border-top-color: transparent; width: 10px; height: 10px; animation: spin 0.8s linear infinite; }
+        .status-syncing .sync-icon { background: transparent; border: 2px solid var(--info); border-top-color: transparent; width: 8px; height: 8px; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .module-switcher { display: flex; background: var(--input-bg); padding: 4px; border-radius: 10px; border: 1px solid var(--border); width: 100%; max-width: 400px; margin: 0 auto; }
-        .module-tab { flex: 1; text-align: center; padding: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border-radius: 8px; color: var(--text-sub); transition: all 0.2s; }
-        .module-tab.active { background: var(--bg-card); box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--text-main); }
+        .module-switcher { display: flex; background: var(--input-bg); padding: 3px; border-radius: 10px; border: 1px solid var(--border); width: 100%; margin: 0 auto; }
+        .module-tab { flex: 1; text-align: center; padding: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 8px; color: var(--text-sub); transition: all 0.2s; }
+        .module-tab.active { background: var(--bg-card); box-shadow: 0 1px 2px rgba(0,0,0,0.1); color: var(--text-main); }
         .module-tab.fund-active { color: var(--primary); }
         .module-tab.loan-active { color: var(--loan-primary); }
 
-        .container { max-width: 950px; margin: 20px auto; padding: 0 15px; display: none; }
-        .container.active-view { display: block; }
-        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .container { max-width: 950px; margin: 15px auto; padding: 0 12px; display: none; }
+        .container.active-view { display: block; animation: fadeInView 0.2s ease-out; }
+        @keyframes fadeInView { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
 
         /* === 控件基础 === */
-        .btn { padding: 10px 20px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap:6px; transition: opacity 0.2s; }
+        .btn { padding: 10px 0; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap:6px; transition: opacity 0.2s; width: 100%; }
         .btn:active { opacity: 0.8; }
-        .btn-primary { background: var(--primary); color: white; width: 100%; }
-        .btn-loan { background: var(--loan-primary); color: white; width: 100%; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-sub); padding: 6px 12px; font-size: 12px; cursor: pointer; border-radius: 6px; }
-        .btn-icon { background: transparent; border: 1px solid var(--border); color: var(--text-sub); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-loan { background: var(--loan-primary); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-sub); padding: 6px 12px; font-size: 12px; cursor: pointer; border-radius: 6px; width: auto; }
+        .btn-icon { background: transparent; border: 1px solid var(--border); color: var(--text-sub); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; font-size: 16px; }
 
-        input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); font-size: 13px; outline: none; }
+        input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); font-size: 16px; outline: none; -webkit-appearance: none; }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); }
         .loan-view input:focus, .loan-view select:focus { border-color: var(--loan-primary); }
+        input[type="date"] { padding: 9px 10px; min-height: 42px; }
 
-        /* === 组合控件优化 (Fix for "Too Long" & "No Reaction") === */
+        /* === 快捷选择胶囊 === */
+        .quick-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .quick-opt-btn { font-size: 11px; padding: 3px 10px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text-sub); cursor: pointer; transition: all 0.2s; user-select: none; }
+        .quick-opt-btn:active { transform: scale(0.95); background: var(--border); }
+        /* 选中态/高亮态 */
+        .fm-view .quick-opt-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .loan-view .quick-opt-btn:hover { border-color: var(--loan-primary); color: var(--loan-primary); }
+
+        /* === 组合控件 & 标签系统 === */
         .combo-group { display: flex; gap: 6px; align-items: center; }
-        .combo-select { flex: 0 0 90px; font-size: 12px; padding: 10px 4px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; } 
-        .combo-input { flex: 1; min-width: 0; } /* min-width 0 prevents flex overflow */
+        .combo-select { flex: 0 0 85px; font-size: 13px; padding: 10px 4px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; } 
+        .combo-input { flex: 1; min-width: 0; font-size: 16px; }
+        
+        .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; min-height: 0; }
+        .tag-item { background: var(--input-bg); border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; font-size: 12px; display: flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; animation: fadeIn 0.2s; }
+        .tag-remove { cursor: pointer; opacity: 0.6; font-weight: bold; font-size: 14px; padding: 2px; }
+        .tag-remove:hover { opacity: 1; color: var(--danger); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* === 基金模块 === */
-        .fm-type-tabs { display: flex; background: var(--input-bg); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .fm-type-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; color: var(--text-sub); transition: all 0.2s; }
-        .fm-type-tab.active { background: var(--bg-card); box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--text-main); }
+        .fm-type-tabs { display: flex; background: var(--input-bg); padding: 3px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .fm-type-tab { flex: 1; text-align: center; padding: 8px 4px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; color: var(--text-sub); transition: all 0.2s; }
+        .fm-type-tab.active { background: var(--bg-card); box-shadow: 0 1px 2px rgba(0,0,0,0.1); color: var(--text-main); }
         
         .fm-form-section { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 10px; padding: 12px; position: relative; }
-        .fm-form-section-label { position: absolute; top: -10px; left: 10px; background: var(--bg-card); padding: 0 5px; font-size: 11px; color: var(--text-sub); font-weight: 700; }
+        .fm-form-section-label { position: absolute; top: -9px; left: 10px; background: var(--bg-card); padding: 0 5px; font-size: 11px; color: var(--text-sub); font-weight: 700; line-height: 1; }
         .fm-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .fm-col { flex: 1; display: flex; flex-direction: column; min-width: 140px; }
-        .sub-note { margin-top: 4px; border: none; border-bottom: 1px dashed var(--border); border-radius: 0; background: transparent; padding: 4px 0; font-size: 11px; color: var(--text-sub); }
+        .fm-col { flex: 1; display: flex; flex-direction: column; min-width: 130px; }
+        .sub-note { margin-top: 4px; border: none; border-bottom: 1px dashed var(--border); border-radius: 0; background: transparent; padding: 4px 0; font-size: 12px; color: var(--text-sub); }
 
         .fm-filter-header { font-weight: 800; font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .fm-filter-bar { background: var(--input-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-        .fm-time-presets { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; align-items: center; }
-        .fm-time-btn { padding: 6px 12px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--border); font-size: 12px; cursor: pointer; color: var(--text-sub); white-space: nowrap; transition: all 0.2s; }
+        
+        .fm-time-presets { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; align-items: center; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .fm-time-presets::-webkit-scrollbar { display: none; }
+        .fm-time-btn { padding: 6px 10px; border-radius: 20px; background: var(--bg-card); border: 1px solid var(--border); font-size: 12px; cursor: pointer; color: var(--text-sub); white-space: nowrap; flex-shrink: 0; }
         .fm-time-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .fm-n-input { width: 40px; padding: 4px; text-align: center; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); font-size: 12px; }
-        .fm-filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; width: 100%; }
-        .fm-filter-select { padding: 6px; font-size: 12px; border-radius: 8px; }
+        .fm-n-input { width: 36px; padding: 4px; text-align: center; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); font-size: 12px; }
+        
+        .fm-filter-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
+        .fm-filter-select { padding: 8px; font-size: 12px; border-radius: 8px; }
 
-        .fm-log-item { border-left: 4px solid transparent; padding-left: 15px; margin-bottom: 25px; position: relative; }
+        .fm-log-item { border-left: 4px solid transparent; padding-left: 12px; margin-bottom: 20px; position: relative; }
         .fm-log-item.type-sector { border-left-color: var(--type-sector); }
         .fm-log-item.type-mind { border-left-color: var(--type-mind); }
         .fm-log-item.type-know { border-left-color: var(--type-know); }
-        .fm-log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .fm-log-date { font-size: 12px; color: var(--text-sub); font-weight: 700; background: var(--input-bg); padding: 2px 6px; border-radius: 4px; }
-        .fm-log-badge { font-size: 10px; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
-        .fm-attr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 8px; }
+        .fm-log-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .fm-log-date { font-size: 11px; color: var(--text-sub); font-weight: 700; background: var(--input-bg); padding: 2px 6px; border-radius: 4px; display: inline-block; }
+        .fm-attr-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 8px; }
         .fm-attr-box { background: var(--input-bg); border-radius: 6px; padding: 8px; border: 1px solid var(--border); }
         .fm-attr-title { font-size: 10px; color: var(--text-sub); font-weight: 700; }
         .fm-attr-val { font-size: 13px; font-weight: 600; color: var(--text-main); }
-        .fm-main-content-box { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 14px; line-height: 1.6; }
+        .fm-main-content-box { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 14px; line-height: 1.6; word-break: break-all; }
         .fm-box-mind { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
         .fm-box-know { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
-        [data-theme="dark"] .fm-box-mind { background: #451a03; color: #fcd34d; border-color: #78350f; }
-        [data-theme="dark"] .fm-box-know { background: #064e3b; color: #6ee7b7; border-color: #047857; }
         
-        .sent-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; margin-left: 6px; }
+        .sent-tag { display: inline-block; padding: 1px 4px; border-radius: 4px; font-size: 10px; font-weight: 800; margin-left: 4px; vertical-align: middle; }
         .sent-pos { background: var(--sent-pos); color: var(--sent-pos-text); border: 1px solid var(--sent-pos-text); }
         .sent-neg { background: var(--sent-neg); color: var(--sent-neg-text); border: 1px solid var(--sent-neg-text); }
         .sent-neu { background: var(--sent-neu); color: var(--sent-neu-text); border: 1px solid var(--sent-neu-text); }
 
         /* === 借贷模块 === */
-        .global-alert-container { display: none; margin: 15px auto 0 auto; max-width: 950px; padding: 0 15px; animation: slideDown 0.3s ease-out; }
-        .lm-alert-box { background: var(--alert-bg); border: 1px solid var(--alert-border); border-radius: 12px; padding: 15px; }
-        .lm-alert-header { font-weight: 800; color: var(--alert-text); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 15px; }
+        .global-alert-container { display: none; margin: 15px auto 0 auto; max-width: 950px; padding: 0 12px; animation: slideDown 0.3s ease-out; }
+        .lm-alert-box { background: var(--alert-bg); border: 1px solid var(--alert-border); border-radius: 12px; padding: 12px; }
+        .lm-alert-header { font-weight: 800; color: var(--alert-text); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
         .lm-alert-list { display: flex; flex-direction: column; gap: 8px; }
-        .lm-alert-item { background: rgba(255,255,255,0.6); padding: 10px; border-radius: 8px; border-left: 4px solid var(--danger); font-size: 13px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-        [data-theme="dark"] .lm-alert-item { background: rgba(0,0,0,0.2); }
+        .lm-alert-item { background: rgba(255,255,255,0.7); padding: 10px; border-radius: 8px; border-left: 4px solid var(--danger); font-size: 13px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
         
-        .lm-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .lm-form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 15px; }
+        @media (min-width: 600px) {
+             .lm-form-grid { grid-template-columns: 1fr 1fr; }
+             .fm-filter-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+        }
+
         .lm-input-group { display: flex; flex-direction: column; }
         .lm-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; font-weight: 700; }
-        
         .lm-free-box { background: #fff7e6; border: 1px dashed #ffd591; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
         
-        .lm-loan-item { border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 15px; background: var(--bg-card); }
-        .lm-loan-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .lm-loan-total { font-weight: 800; font-size: 18px; color: var(--loan-primary); }
-        .lm-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-        .lm-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-sub); }
+        .lm-loan-item { border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 15px; background: var(--bg-card); }
+        .lm-loan-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .lm-loan-total { font-weight: 800; font-size: 18px; color: var(--loan-primary); white-space: nowrap; margin-left: 10px;}
+        .lm-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+        .lm-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-sub); }
         .lm-tag.free { background: #fff1f0; color: #cf1322; border-color: #ffa39e; }
         
-        .lm-progress-box { margin: 10px 0; }
+        .lm-progress-box { margin: 8px 0; }
         .lm-progress-bar { height: 6px; background: var(--input-bg); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
         .lm-progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s; }
         .lm-plan-list { margin-top: 15px; border-top: 1px dashed var(--border); display: none; }
         .lm-plan-list.show { display: block; }
-        .lm-plan-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 13px; }
+        .lm-plan-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 13px; }
         .lm-plan-row.paid { opacity: 0.6; }
-        .lm-plan-row.free-active { background: #fffbe6; margin: 0 -10px; padding: 12px 10px; border-bottom:1px solid #f0f0f0; }
-        .lm-btn-pay { padding: 5px 12px; font-size: 12px; border-radius: 6px; border: 1px solid var(--loan-primary); color: var(--loan-primary); background: transparent; cursor: pointer; }
-        .lm-btn-pay:hover { background: var(--loan-primary); color: white; }
+        .lm-plan-row.free-active { background: #fffbe6; margin: 0 -10px; padding: 10px 10px; border-bottom:1px solid #f0f0f0; }
+        .lm-btn-pay { padding: 4px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--loan-primary); color: var(--loan-primary); background: transparent; cursor: pointer; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; }
-        .modal { background: var(--bg-card); width: 90%; max-width: 600px; padding: 20px; border-radius: 12px; max-height: 80vh; overflow-y: auto; }
-        .backup-file-item { padding: 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; cursor: pointer; }
-        .backup-file-item:hover { background: var(--input-bg); }
-
-        @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+        .modal { background: var(--bg-card); width: 100%; max-width: 600px; padding: 20px; border-radius: 12px; max-height: 85vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .backup-file-item { padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -167,7 +184,7 @@
 <header class="global-nav">
     <div class="nav-top">
         <div class="header-left">
-            <div class="app-title">Wealth Master One</div>
+            <div class="app-title">Wealth</div>
             <div id="syncBadge" class="sync-badge status-idle" onclick="syncGitHub('pull', false)">
                 <span class="sync-icon"></span><span id="syncText">本地</span>
             </div>
@@ -192,7 +209,7 @@
 </div>
 
 <!-- ================= Fund Master ================= -->
-<div class="container active-view" id="view-fund">
+<div class="container active-view fm-view" id="view-fund">
     <div class="card" id="fm_inputCard">
         <div class="fm-filter-header">
             <span id="fm_formTitle">📝 录入新记录</span>
@@ -205,29 +222,37 @@
         </div>
         <input type="hidden" id="fm_recordType" value="sector">
         <input type="hidden" id="fm_editId">
+        <input type="hidden" id="fm_sectorName">
 
         <div class="fm-row">
-            <div class="fm-col" style="flex:0.6"><label class="fm-form-section-label" style="position:static;margin-bottom:4px;">日期</label><input type="date" id="fm_date"></div>
+            <div class="fm-col" style="flex:0.6"><label class="fm-form-section-label">日期</label><input type="date" id="fm_date"></div>
             <div class="fm-col" id="fm_sectorNameGroup">
-                <label class="fm-form-section-label" style="position:static;margin-bottom:4px;">板块/基金名称</label>
-                <!-- 组合控件优化: 板块 -->
+                <label class="fm-form-section-label">板块/基金名称 (支持多选)</label>
                 <div class="combo-group">
-                    <select id="fm_sector_helper" class="combo-select" onchange="document.getElementById('fm_sectorName').value=this.value; this.value='';"><option value="">快选...</option></select>
-                    <input type="text" id="fm_sectorName" class="combo-input" placeholder="输入名称...">
+                    <select id="fm_sector_helper" class="combo-select" onchange="fm_addSectorTag(this.value); this.value='';"><option value="">快选...</option></select>
+                    <input type="text" id="fm_sectorInputTemp" class="combo-input" placeholder="输入按回车..." onkeydown="if(event.key==='Enter'){event.preventDefault();fm_addSectorTag(this.value);this.value='';}">
                 </div>
+                <!-- 快捷选项：板块 -->
+                <div id="fm_quick_sectors" class="quick-options"></div>
+                <div id="fm_sectorTags" class="tags-container"></div>
             </div>
         </div>
 
         <div class="fm-form-section">
             <span class="fm-form-section-label">📢 媒体与舆情 (可选)</span>
             <div class="fm-row">
-                <div class="fm-col" style="flex:0.8"><select id="fm_mediaPlatform"><option value="">平台...</option></select></div>
+                <div class="fm-col" style="flex:0.8">
+                    <select id="fm_mediaPlatform"><option value="">平台...</option></select>
+                    <!-- 快捷选项：媒体平台 -->
+                    <div id="fm_quick_platforms" class="quick-options"></div>
+                </div>
                 <div class="fm-col">
-                    <!-- 组合控件优化: 博主 -->
                     <div class="combo-group">
                         <select id="fm_kol_helper" class="combo-select" onchange="document.getElementById('fm_mediaKOL').value=this.value; this.value='';"><option value="">快选...</option></select>
                         <input type="text" id="fm_mediaKOL" class="combo-input" placeholder="博主/大V...">
                     </div>
+                    <!-- 快捷选项：KOL -->
+                    <div id="fm_quick_kols" class="quick-options"></div>
                 </div>
             </div>
             <div class="fm-row">
@@ -253,16 +278,24 @@
                 <div class="fm-col fm-form-section">
                     <span class="fm-form-section-label">📊 估值</span>
                     <select id="fm_valSelect"><option value="">--</option></select>
+                    <!-- 快捷选项：估值 -->
+                    <div id="fm_quick_vals" class="quick-options"></div>
                     <input type="text" id="fm_valNote" class="sub-note" placeholder="备注...">
                 </div>
                 <div class="fm-col fm-form-section">
                     <span class="fm-form-section-label">🚩 基本面</span>
                     <select id="fm_catSelect"><option value="">--</option></select>
+                    <!-- 快捷选项：基本面 -->
+                    <div id="fm_quick_cats" class="quick-options"></div>
                     <input type="text" id="fm_catNote" class="sub-note" placeholder="备注...">
                 </div>
+            </div>
+             <div class="fm-row">
                 <div class="fm-col fm-form-section">
                     <span class="fm-form-section-label">🏦 持仓</span>
                     <select id="fm_posSelect"><option value="">--</option></select>
+                    <!-- 快捷选项：持仓 -->
+                    <div id="fm_quick_pos" class="quick-options"></div>
                     <input type="text" id="fm_posNote" class="sub-note" placeholder="备注...">
                 </div>
             </div>
@@ -287,18 +320,18 @@
                 <div class="fm-time-btn" onclick="fm_setTimeRange('all')">📅 全部</div>
                 <div class="fm-time-btn" onclick="fm_setTimeRange('thisWeek')">📅 本周</div>
                 <div class="fm-time-btn" onclick="fm_setTimeRange('lastWeek')">🔙 上周</div>
-                <div style="border-left:1px solid var(--border); height:16px; margin:0 4px;"></div>
+                <div style="border-left:1px solid var(--border); height:16px; margin:0 4px; flex-shrink:0;"></div>
                 <input type="number" id="fm_time_n" value="7" class="fm-n-input" onchange="if(document.querySelector('.fm-time-btn.active').dataset.mode) fm_setTimeRange(document.querySelector('.fm-time-btn.active').dataset.mode)">
-                <span style="font-size:11px;color:var(--text-sub)">天:</span>
+                <span style="font-size:11px;color:var(--text-sub); flex-shrink:0;">天:</span>
                 <div class="fm-time-btn" data-mode="lastN" onclick="fm_setTimeRange('lastN')">⬅️ 近n天</div>
                 <div class="fm-time-btn" data-mode="nextN" onclick="fm_setTimeRange('nextN')">➡️ 未来n天</div>
             </div>
 
             <div class="fm-filter-grid">
                 <div style="display: flex; align-items: center; gap: 4px; background: var(--bg-card); padding: 4px 8px; border-radius: 8px; border: 1px solid var(--border); grid-column: span 2;">
-                    <input type="date" id="fm_filterStart" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100px;font-size:11px;">
+                    <input type="date" id="fm_filterStart" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100%;font-size:12px;">
                     <span style="font-size:11px;color:var(--text-sub)">至</span>
-                    <input type="date" id="fm_filterEnd" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100px;font-size:11px;">
+                    <input type="date" id="fm_filterEnd" onchange="fm_applyFilters()" style="border:none;padding:2px;background:transparent;width:100%;font-size:12px;">
                 </div>
                 <select id="fm_filterType" onchange="fm_applyFilters()" class="fm-filter-select"><option value="all">🌈 类型: 全部</option><option value="sector">📊 板块</option><option value="mind">💡 心得</option><option value="know">📚 知识</option></select>
                 <select id="fm_filterSector" onchange="fm_applyFilters()" class="fm-filter-select"><option value="all">📁 板块: 全部</option></select>
@@ -326,11 +359,12 @@
         <div class="lm-form-grid">
             <div class="lm-input-group">
                 <label class="lm-label">借款平台</label>
-                <!-- 组合控件优化: 平台 -->
                 <div class="combo-group">
                     <select id="lm_platform_helper" class="combo-select" onchange="document.getElementById('lm_platform').value=this.value; this.value='';"><option value="">快选...</option></select>
                     <input type="text" id="lm_platform" class="combo-input" placeholder="平台名称...">
                 </div>
+                <!-- 快捷选项：借款平台 -->
+                <div id="lm_quick_platforms" class="quick-options"></div>
             </div>
             <div class="lm-input-group"><label class="lm-label">借款本金</label><input type="number" id="lm_amount" placeholder="0.00"></div>
             <div class="lm-input-group"><label class="lm-label">起息日期</label><input type="date" id="lm_date" onchange="lm_applyDateOffset()"></div>
@@ -340,11 +374,12 @@
         <div class="lm-form-grid">
             <div class="lm-input-group">
                 <label class="lm-label">年化利率 (%)</label>
-                <!-- 组合控件优化: 利率 -->
                 <div class="combo-group">
                     <select id="lm_rate_helper" class="combo-select" onchange="document.getElementById('lm_rate').value=this.value; this.value='';"><option value="">快选...</option></select>
                     <input type="number" id="lm_rate" class="combo-input" placeholder="3.5">
                 </div>
+                <!-- 快捷选项：利率 -->
+                <div id="lm_quick_rates" class="quick-options"></div>
             </div>
             <div class="lm-input-group">
                 <label class="lm-label">还款方式</label>
@@ -385,11 +420,13 @@
         <div style="display:flex;justify-content:space-between;margin-bottom:15px;"><h3>⚙️ 资产配置</h3><button class="btn-outline" onclick="document.getElementById('fm_configModal').style.display='none'">✕</button></div>
         <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">常用板块/基金</label><textarea id="fm_cfg_sectors" style="height:60px;"></textarea></div>
         <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">媒体平台</label><textarea id="fm_cfg_platforms"></textarea></div>
-        <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">关注博主 (填入后出现在下拉框)</label><textarea id="fm_cfg_kols"></textarea></div>
+        <div style="margin-bottom:15px;"><label style="font-size:12px;font-weight:bold;">关注博主</label><textarea id="fm_cfg_kols"></textarea></div>
         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
         <div class="fm-row">
             <div class="fm-col"><label style="font-size:12px;">估值选项</label><input type="text" id="fm_cfg_val"></div>
             <div class="fm-col"><label style="font-size:12px;">基本面选项</label><input type="text" id="fm_cfg_cat"></div>
+        </div>
+        <div class="fm-row">
             <div class="fm-col"><label style="font-size:12px;">持仓选项</label><input type="text" id="fm_cfg_pos"></div>
         </div>
         <button class="btn btn-primary" onclick="fm_saveConfig()" style="margin-top:15px;">保存配置</button>
@@ -492,7 +529,18 @@
                 const diffDays = lm_getDiffDays(today, nextPay.date);
                 if (diffDays >= 0 && diffDays <= 7) {
                     hasAlert = true;
-                    alertHtml += `<div class="lm-alert-item"><div><b>${l.platform}</b> (本期 ¥${nextPay.expected.toFixed(2)})<div style="font-size:11px">还款日: ${nextPay.date}</div></div><div style="color:var(--danger);font-weight:800">${diffDays===0?'今天':'剩 '+diffDays+' 天'}</div></div>`;
+                    // 升级警报信息
+                    alertHtml += `
+                    <div class="lm-alert-item">
+                        <div>
+                            <b>${l.platform}</b> <span style="font-size:10px;color:var(--text-sub)">(${l.rate}%)</span><br>
+                            <span style="font-size:11px;">还款日: ${nextPay.date}</span><br>
+                            本期: <span style="color:var(--loan-primary);font-weight:700">¥${nextPay.expected.toFixed(2)}</span>
+                        </div>
+                        <div style="color:var(--danger);font-weight:800;text-align:right;">
+                            ${diffDays===0?'今天':'剩 '+diffDays+' 天'}
+                        </div>
+                    </div>`;
                 }
             }
         });
@@ -505,7 +553,52 @@
     let fm_config = JSON.parse(localStorage.getItem('fmup_config')) || FM_DEFAULT_CONFIG;
     if(!fm_config.sectors) fm_config.sectors = FM_DEFAULT_CONFIG.sectors;
 
-    function fm_init() { fm_loadConfigToUI(); fm_renderOptions(); fm_setTimeRange('thisWeek'); }
+    // 多选标签状态
+    let fm_selectedSectors = new Set();
+
+    function fm_init() { 
+        fm_loadConfigToUI(); 
+        fm_renderOptions(); 
+        fm_setTimeRange('thisWeek'); 
+        const lastPlat = localStorage.getItem('wm_last_fm_platform');
+        if(lastPlat) document.getElementById('fm_mediaPlatform').value = lastPlat;
+    }
+
+    // --- 标签系统逻辑 ---
+    function fm_addSectorTag(val) {
+        val = val.trim();
+        if(!val) return;
+        if(fm_selectedSectors.has(val)) return;
+        fm_selectedSectors.add(val);
+        fm_renderSectorTags();
+        // 如果是新标签，加入配置
+        if(!fm_config.sectors.includes(val)) {
+            fm_config.sectors.push(val);
+            localStorage.setItem('fmup_config', JSON.stringify(fm_config));
+            fm_renderOptions();
+        }
+    }
+    function fm_removeSectorTag(val) {
+        fm_selectedSectors.delete(val);
+        fm_renderSectorTags();
+    }
+    function fm_renderSectorTags() {
+        const container = document.getElementById('fm_sectorTags');
+        const hiddenInput = document.getElementById('fm_sectorName');
+        const arr = Array.from(fm_selectedSectors);
+        hiddenInput.value = arr.join(',');
+        
+        container.innerHTML = arr.map(s => `
+            <div class="tag-item">
+                ${s} <span class="tag-remove" onclick="fm_removeSectorTag('${s}')">×</span>
+            </div>
+        `).join('');
+    }
+    function fm_clearSectorTags() {
+        fm_selectedSectors.clear();
+        fm_renderSectorTags();
+    }
+    // ------------------
 
     function fm_setTimeRange(rangeType) {
         document.querySelectorAll('.fm-time-btn').forEach(b => b.classList.remove('active'));
@@ -529,9 +622,14 @@
         const kol = document.getElementById('fm_filterKOL').value; const sentiment = document.getElementById('fm_filterSentiment').value; 
         const val = document.getElementById('fm_filterVal').value; const cat = document.getElementById('fm_filterCat').value; const pos = document.getElementById('fm_filterPos').value;
         const search = document.getElementById('fm_filterSearch').value.toLowerCase();
+        
         const filtered = fm_records.filter(r => {
             if (start && r.date < start) return false; if (end && r.date > end) return false;
-            if (sector !== 'all' && r.sector !== sector) return false; if (type !== 'all' && r.type !== type) return false;
+            // 修复多选板块的筛选逻辑：使用 includes 而不是全等
+            if (sector !== 'all') {
+                if (!r.sector || !r.sector.includes(sector)) return false;
+            }
+            if (type !== 'all' && r.type !== type) return false;
             if (kol && r.media?.kol !== kol) return false; if (sentiment && r.media?.sentiment !== sentiment) return false; 
             if (val && (!r.attrs || r.attrs.val !== val)) return false; if (cat && (!r.attrs || r.attrs.cat !== cat)) return false; if (pos && (!r.attrs || r.attrs.pos !== pos)) return false;
             const content = `${r.sector||''} ${r.content||''} ${r.media?.kol||''} ${r.media?.content||''}`.toLowerCase();
@@ -549,7 +647,13 @@
         container.innerHTML = data.map(r => {
             let typeHtml = '', titleHtml = '', bodyHtml = '', gridHtml = '';
             if (r.type === 'sector') {
-                typeHtml = `<span class="fm-log-badge" style="background:var(--type-sector)">📊 板块</span>`; titleHtml = `<span style="font-weight:800;font-size:15px;color:var(--primary);">${r.sector}</span>`;
+                typeHtml = `<span class="fm-log-badge" style="background:var(--type-sector)">📊 板块</span>`; 
+                // 显示多板块
+                const sectorBadges = (r.sector || '').split(',').map(s => 
+                    `<span style="background:#eef2ff;color:var(--primary);padding:1px 6px;border-radius:4px;font-size:12px;margin-right:4px;">${s}</span>`
+                ).join('');
+                titleHtml = `<div style="font-weight:700;">${sectorBadges}</div>`;
+                
                 let grids = []; const addAttr = (t, v, n) => { if(v||n) grids.push(`<div class="fm-attr-box"><div class="fm-attr-title">${t}</div><div class="fm-attr-val">${v||'-'}</div>${n?`<div class="sub-note" style="border:none;border-top:1px dashed var(--border);margin-top:2px;">${n}</div>`:''}</div>`); };
                 addAttr('估值', r.attrs.val, r.attrs.valNote); addAttr('基本面', r.attrs.cat, r.attrs.catNote); addAttr('持仓', r.attrs.pos, r.attrs.posNote);
                 if(grids.length) gridHtml = `<div class="fm-attr-grid">${grids.join('')}</div>`;
@@ -570,7 +674,7 @@
                 if(r.media.sentiment === 'neg') bgStyle = 'background:var(--sent-neg);border-color:var(--sent-neg-text);opacity:0.9';
                 mediaHtml = `<div class="fm-attr-box" style="margin-top:8px;${bgStyle}"><div style="font-size:12px;font-weight:700;color:var(--text-sub);display:flex;align-items:center;">${r.media.platform?`[${r.media.platform}]`:''} ${r.media.kol?`@${r.media.kol}`:''} ${sentTag}</div><div style="font-weight:600;font-size:13px;margin-top:4px;">${r.media.content||''}</div>${r.media.note?`<div style="font-size:11px;color:var(--text-sub);margin-top:2px;">📝 ${r.media.note}</div>`:''}</div>`;
             }
-            return `<div class="fm-log-item type-${r.type}"><div class="fm-log-header"><div style="display:flex;align-items:center;"><span class="fm-log-date">${r.date}</span> ${typeHtml}<div style="margin-left:8px;">${titleHtml}</div></div><div style="display:flex;gap:5px;"><button class="btn-outline" style="border:none;padding:2px 6px;" onclick="fm_editRecord(${r.id})">✏️ 编辑</button><button class="btn-outline" style="border:none;padding:2px 6px;color:var(--danger)" onclick="fm_deleteRecord(${r.id})">🗑️</button></div></div>${gridHtml} ${mediaHtml} ${bodyHtml}</div>`;
+            return `<div class="fm-log-item type-${r.type}"><div class="fm-log-header"><div style="display:flex;flex-direction:column;gap:4px;"><div style="display:flex;align-items:center;gap:6px;"><span class="fm-log-date">${r.date}</span> ${typeHtml}</div><div style="margin-top:2px;">${titleHtml}</div></div><div style="display:flex;gap:5px;flex-shrink:0;"><button class="btn-outline" style="border:none;padding:2px 6px;" onclick="fm_editRecord(${r.id})">✏️</button><button class="btn-outline" style="border:none;padding:2px 6px;color:var(--danger)" onclick="fm_deleteRecord(${r.id})">🗑️</button></div></div>${gridHtml} ${mediaHtml} ${bodyHtml}</div>`;
         }).join('');
     }
 
@@ -586,28 +690,67 @@
     }
 
     function fm_addRecord() {
-        const type = document.getElementById('fm_recordType').value; const date = document.getElementById('fm_date').value; const sectorName = document.getElementById('fm_sectorName').value.trim(); const editId = document.getElementById('fm_editId').value;
-        if(type==='sector' && !sectorName) return alert("请输入板块名称");
-        if(type==='sector' && !fm_config.sectors.includes(sectorName)) { fm_config.sectors.push(sectorName); localStorage.setItem('fmup_config', JSON.stringify(fm_config)); }
-        const r = { id: editId ? parseInt(editId) : Date.now(), date, type, sector: type==='sector' ? sectorName : null, content: document.getElementById('fm_mainContent').value.trim(), media: { platform: document.getElementById('fm_mediaPlatform').value, kol: document.getElementById('fm_mediaKOL').value.trim(), sentiment: document.getElementById('fm_mediaSentiment').value, content: document.getElementById('fm_mediaContent').value.trim(), note: document.getElementById('fm_mediaNote').value.trim() }, attrs: type==='sector' ? { val: document.getElementById('fm_valSelect').value, valNote: document.getElementById('fm_valNote').value.trim(), cat: document.getElementById('fm_catSelect').value, catNote: document.getElementById('fm_catNote').value.trim(), pos: document.getElementById('fm_posSelect').value, posNote: document.getElementById('fm_posNote').value.trim() } : null };
+        const type = document.getElementById('fm_recordType').value; 
+        const date = document.getElementById('fm_date').value; 
+        const sectorName = document.getElementById('fm_sectorName').value; 
+        const editId = document.getElementById('fm_editId').value;
+        
+        if(type==='sector' && !sectorName) return alert("请至少添加一个板块");
+        
+        const platform = document.getElementById('fm_mediaPlatform').value;
+        if(platform) localStorage.setItem('wm_last_fm_platform', platform);
+
+        const r = { id: editId ? parseInt(editId) : Date.now(), date, type, sector: type==='sector' ? sectorName : null, content: document.getElementById('fm_mainContent').value.trim(), media: { platform: platform, kol: document.getElementById('fm_mediaKOL').value.trim(), sentiment: document.getElementById('fm_mediaSentiment').value, content: document.getElementById('fm_mediaContent').value.trim(), note: document.getElementById('fm_mediaNote').value.trim() }, attrs: type==='sector' ? { val: document.getElementById('fm_valSelect').value, valNote: document.getElementById('fm_valNote').value.trim(), cat: document.getElementById('fm_catSelect').value, catNote: document.getElementById('fm_catNote').value.trim(), pos: document.getElementById('fm_posSelect').value, posNote: document.getElementById('fm_posNote').value.trim() } : null };
         if (editId) { const idx = fm_records.findIndex(x => x.id == editId); if(idx > -1) fm_records[idx] = r; } else { fm_records.unshift(r); }
-        fm_saveToLocal(); triggerAutoSync(); fm_resetForm(); fm_init(); 
+        
+        fm_saveToLocal(); 
+        triggerAutoSync(); 
+        fm_resetForm(); 
+        fm_init(); 
+        fm_applyFilters();
     }
 
     function fm_editRecord(id) {
         const r = fm_records.find(x => x.id === id); if(!r) return;
         document.getElementById('fm_editId').value = r.id; document.getElementById('fm_formTitle').innerText = "✏️ 编辑记录"; document.getElementById('fm_submitBtn').innerText = "💾 保存修改";
         document.getElementById('fm_date').value = r.date; fm_switchType(r.type);
-        if(r.type === 'sector') { document.getElementById('fm_sectorName').value = r.sector; if(r.attrs) { document.getElementById('fm_valSelect').value = r.attrs.val; document.getElementById('fm_valNote').value = r.attrs.valNote; document.getElementById('fm_catSelect').value = r.attrs.cat; document.getElementById('fm_catNote').value = r.attrs.catNote; document.getElementById('fm_posSelect').value = r.attrs.pos; document.getElementById('fm_posNote').value = r.attrs.posNote; } }
+        if(r.type === 'sector') { 
+            // 恢复多选标签
+            fm_clearSectorTags();
+            if(r.sector) {
+                r.sector.split(',').forEach(s => fm_addSectorTag(s));
+            }
+            if(r.attrs) { document.getElementById('fm_valSelect').value = r.attrs.val; document.getElementById('fm_valNote').value = r.attrs.valNote; document.getElementById('fm_catSelect').value = r.attrs.cat; document.getElementById('fm_catNote').value = r.attrs.catNote; document.getElementById('fm_posSelect').value = r.attrs.pos; document.getElementById('fm_posNote').value = r.attrs.posNote; } 
+        }
         if(r.media) { document.getElementById('fm_mediaPlatform').value = r.media.platform; document.getElementById('fm_mediaKOL').value = r.media.kol; document.getElementById('fm_mediaSentiment').value = r.media.sentiment || ''; document.getElementById('fm_mediaContent').value = r.media.content; document.getElementById('fm_mediaNote').value = r.media.note; }
         document.getElementById('fm_mainContent').value = r.content; document.getElementById('fm_inputCard').scrollIntoView({behavior:'smooth'});
     }
 
     function fm_deleteRecord(id) { if(!confirm("确认删除？")) return; fm_records = fm_records.filter(r => r.id !== id); fm_saveToLocal(); triggerAutoSync(); fm_init(); }
+    
     function fm_resetForm() {
         document.getElementById('fm_editId').value = ''; document.getElementById('fm_formTitle').innerText = "📝 录入新记录"; document.getElementById('fm_submitBtn').innerText = "💾 提交记录";
-        document.getElementById('fm_sectorName').value = ''; document.getElementById('fm_mainContent').value = ''; document.getElementById('fm_mediaContent').value = ''; document.getElementById('fm_mediaNote').value = ''; document.getElementById('fm_mediaKOL').value = ''; document.getElementById('fm_mediaSentiment').value = ''; document.getElementById('fm_valNote').value = ''; document.getElementById('fm_catNote').value = ''; document.getElementById('fm_posNote').value = '';
-        document.getElementById('fm_valSelect').value = ''; document.getElementById('fm_catSelect').value = ''; document.getElementById('fm_posSelect').value = ''; document.getElementById('fm_mediaPlatform').value = ''; document.getElementById('fm_date').valueAsDate = new Date();
+        
+        fm_clearSectorTags(); 
+        document.getElementById('fm_sectorName').value = ''; 
+        
+        document.getElementById('fm_mainContent').value = ''; document.getElementById('fm_mediaContent').value = ''; document.getElementById('fm_mediaNote').value = ''; document.getElementById('fm_mediaKOL').value = ''; document.getElementById('fm_mediaSentiment').value = ''; document.getElementById('fm_valNote').value = ''; document.getElementById('fm_catNote').value = ''; document.getElementById('fm_posNote').value = '';
+        document.getElementById('fm_valSelect').value = ''; document.getElementById('fm_catSelect').value = ''; document.getElementById('fm_posSelect').value = ''; 
+        
+        document.getElementById('fm_mediaPlatform').value = localStorage.getItem('wm_last_fm_platform') || ''; 
+        
+        document.getElementById('fm_date').valueAsDate = new Date();
+    }
+
+    // 渲染快捷胶囊
+    function renderQuickTags(containerId, inputId, options, isTagMode=false) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        // 取前5个作为常用
+        const topOptions = options.slice(0, 6);
+        container.innerHTML = topOptions.map(opt => 
+            `<div class="quick-opt-btn" onclick="${isTagMode ? `fm_addSectorTag('${opt}')` : `document.getElementById('${inputId}').value='${opt}'`}">${opt}</div>`
+        ).join('');
     }
 
     function fm_renderOptions() {
@@ -615,16 +758,26 @@
         fill('fm_mediaPlatform', fm_config.platforms); fill('fm_valSelect', fm_config.val); fill('fm_catSelect', fm_config.cat); fill('fm_posSelect', fm_config.pos);
         fill('fm_filterVal', fm_config.val, '📊 估值: 全部'); fill('fm_filterCat', fm_config.cat, '🚩 基本面: 全部'); fill('fm_filterPos', fm_config.pos, '🏦 持仓: 全部');
         
-        const configSectors = fm_config.sectors || []; const historySectors = fm_records.filter(r=>r.sector).map(r=>r.sector); const allSectors = Array.from(new Set([...configSectors, ...historySectors]));
-        fill('fm_filterSector', allSectors, '📁 板块: 全部');
-        // 修复：填充 helper select
-        fill('fm_sector_helper', allSectors, '快选...');
+        let allSectors = new Set(fm_config.sectors);
+        fm_records.forEach(r => { if(r.sector) r.sector.split(',').forEach(s => allSectors.add(s)); });
+        const sectorArr = Array.from(allSectors);
+        
+        fill('fm_filterSector', sectorArr, '📁 板块: 全部');
+        fill('fm_sector_helper', sectorArr, '快选...');
         
         const kolSet = new Set([...fm_config.kols, ...fm_records.map(r=>r.media?.kol).filter(k=>k)]); const kolArr = Array.from(kolSet);
         fill('fm_filterKOL', kolArr, '👤 博主: 全部');
-        // 修复：填充 helper select
         fill('fm_kol_helper', kolArr, '快选...');
+
+        // 渲染资产端快捷胶囊
+        renderQuickTags('fm_quick_sectors', 'fm_sectorName', sectorArr, true);
+        renderQuickTags('fm_quick_platforms', 'fm_mediaPlatform', fm_config.platforms);
+        renderQuickTags('fm_quick_kols', 'fm_mediaKOL', fm_config.kols);
+        renderQuickTags('fm_quick_vals', 'fm_valSelect', fm_config.val);
+        renderQuickTags('fm_quick_cats', 'fm_catSelect', fm_config.cat);
+        renderQuickTags('fm_quick_pos', 'fm_posSelect', fm_config.pos);
     }
+
     function fm_saveToLocal() { localStorage.setItem('fmup_records', JSON.stringify(fm_records)); }
     function fm_loadConfigToUI() { document.getElementById('fm_cfg_sectors').value = (fm_config.sectors||[]).join(','); document.getElementById('fm_cfg_platforms').value = fm_config.platforms.join(','); document.getElementById('fm_cfg_kols').value = fm_config.kols.join(','); document.getElementById('fm_cfg_val').value = fm_config.val.join(','); document.getElementById('fm_cfg_cat').value = fm_config.cat.join(','); document.getElementById('fm_cfg_pos').value = fm_config.pos.join(','); }
     function fm_saveConfig() { const parse = id => document.getElementById(id).value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); fm_config.sectors = parse('fm_cfg_sectors'); fm_config.platforms = parse('fm_cfg_platforms'); fm_config.kols = parse('fm_cfg_kols'); fm_config.val = parse('fm_cfg_val'); fm_config.cat = parse('fm_cfg_cat'); fm_config.pos = parse('fm_cfg_pos'); localStorage.setItem('fmup_config', JSON.stringify(fm_config)); document.getElementById('fm_configModal').style.display='none'; triggerAutoSync(); fm_init(); }
@@ -635,7 +788,15 @@
     let lm_records = JSON.parse(localStorage.getItem('loan_max_records_v3')) || [];
     let lm_config = JSON.parse(localStorage.getItem('loan_max_config_v3')) || LM_DEFAULT_CONFIG;
 
-    function lm_init() { document.getElementById('lm_method').value = lm_userSettings.method; lm_applyDateOffset(); lm_renderConfigOptions(); lm_renderList(); }
+    function lm_init() { 
+        document.getElementById('lm_method').value = lm_userSettings.method; 
+        lm_applyDateOffset(); 
+        lm_renderConfigOptions(); 
+        lm_renderList(); 
+        
+        const lastPlat = localStorage.getItem('wm_last_lm_platform');
+        if(lastPlat) document.getElementById('lm_platform').value = lastPlat;
+    }
     function lm_rememberSettings() { lm_userSettings.method = document.getElementById('lm_method').value; localStorage.setItem('loan_user_settings_v3', JSON.stringify(lm_userSettings)); }
     function lm_applyDateOffset() { const startStr = document.getElementById('lm_date').value; if (!startStr) return; const d = new Date(startStr); d.setMonth(d.getMonth() + 1); document.getElementById('lm_firstPayDate').value = d.toISOString().split('T')[0]; }
     function lm_getDiffDays(startStr, endStr) { return Math.ceil((new Date(endStr) - new Date(startStr)) / (1000 * 3600 * 24)); }
@@ -660,9 +821,14 @@
     }
 
     function lm_saveLoan() {
-        const id = document.getElementById('lm_editId').value; const platform = document.getElementById('lm_platform').value; const amount = parseFloat(document.getElementById('lm_amount').value); const date = document.getElementById('lm_date').value; const firstPayDate = document.getElementById('lm_firstPayDate').value; const rate = parseFloat(document.getElementById('lm_rate').value); const periods = parseInt(document.getElementById('lm_periods').value); const method = document.getElementById('lm_method').value; const unit = document.getElementById('lm_periodUnit').value;
+        const id = document.getElementById('lm_editId').value; 
+        const platform = document.getElementById('lm_platform').value; 
+        const amount = parseFloat(document.getElementById('lm_amount').value); const date = document.getElementById('lm_date').value; const firstPayDate = document.getElementById('lm_firstPayDate').value; const rate = parseFloat(document.getElementById('lm_rate').value); const periods = parseInt(document.getElementById('lm_periods').value); const method = document.getElementById('lm_method').value; const unit = document.getElementById('lm_periodUnit').value;
         let freeEndDate = null; const freeType = document.getElementById('lm_freeType').value; if(freeType === 'days') freeEndDate = lm_addDays(date, parseInt(document.getElementById('lm_freeValDays').value)||0); else if (freeType === 'date') freeEndDate = document.getElementById('lm_freeValDate').value;
         if(!platform || isNaN(amount) || !date || !firstPayDate) return alert("请填写完整"); lm_rememberSettings();
+        
+        if(platform) localStorage.setItem('wm_last_lm_platform', platform);
+
         let oldPlanMap = {}; if (id) { const old = lm_records.find(l => l.id == id); if(old) old.plan.forEach(p => { if(p.status === 'paid') oldPlanMap[p.idx] = { actual: p.actual, payDate: p.payDate }; }); }
         const newPlan = lm_calculatePlan(amount, rate, periods, method, unit, date, firstPayDate, freeEndDate);
         newPlan.forEach(p => { if(oldPlanMap[p.idx]) { p.status = 'paid'; p.actual = oldPlanMap[p.idx].actual; p.payDate = oldPlanMap[p.idx].payDate; } });
@@ -685,14 +851,26 @@
     function lm_confirmRepayment() { const lid=parseInt(document.getElementById('lm_payLoanId').value); const idx=parseInt(document.getElementById('lm_payIdx').value); const act=parseFloat(document.getElementById('lm_payActual').value); const d=document.getElementById('lm_payDate').value; const loan=lm_records.find(l=>l.id===lid); const p=loan.plan.find(x=>x.idx===idx); p.status='paid'; p.actual=act; p.payDate=d; lm_saveToLocal(); triggerAutoSync(); document.getElementById('lm_repayModal').style.display='none'; lm_renderList(); checkGlobalAlerts(); }
     function lm_editLoan(id) { const l=lm_records.find(x=>x.id===id); if(!l)return; document.getElementById('lm_editId').value=l.id; document.getElementById('lm_formTitle').innerText="📝 编辑贷款"; document.getElementById('lm_submitBtn').innerText="💾 保存修改"; document.getElementById('lm_platform').value=l.platform; document.getElementById('lm_amount').value=l.amount; document.getElementById('lm_date').value=l.date; document.getElementById('lm_firstPayDate').value=l.firstPayDate || ''; document.getElementById('lm_rate').value=l.rate; document.getElementById('lm_periods').value=l.periods; document.getElementById('lm_method').value=l.method; document.getElementById('lm_periodUnit').value=l.unit; document.getElementById('lm_freeType').value=l.freeType||'none'; lm_toggleFreeInput(); if(l.freeType==='days') document.getElementById('lm_freeValDays').value=l.freeVal; if(l.freeType==='date') document.getElementById('lm_freeValDate').value=l.freeVal; document.getElementById('lm_formCard').scrollIntoView({behavior:'smooth'}); }
     function lm_deleteLoan(id){ if(confirm("确认删除?")){ lm_records=lm_records.filter(l=>l.id!==id); lm_saveToLocal(); triggerAutoSync(); lm_renderList(); checkGlobalAlerts(); }}
-    function lm_resetForm(){ document.getElementById('lm_editId').value=''; document.getElementById('lm_formTitle').innerText="✏️ 录入贷款"; document.getElementById('lm_submitBtn').innerText="➕ 生成精准还款计划"; document.getElementById('lm_platform').value=''; document.getElementById('lm_amount').value=''; lm_applyDateOffset(); }
+    
+    function lm_resetForm(){ 
+        document.getElementById('lm_editId').value=''; document.getElementById('lm_formTitle').innerText="✏️ 录入贷款"; document.getElementById('lm_submitBtn').innerText="➕ 生成精准还款计划"; 
+        document.getElementById('lm_amount').value=''; lm_applyDateOffset(); 
+        document.getElementById('lm_platform').value = localStorage.getItem('wm_last_lm_platform') || '';
+    }
+    
     function lm_saveToLocal(){ localStorage.setItem('loan_max_records_v3', JSON.stringify(lm_records)); }
     function lm_saveConfig() { lm_config.platforms = document.getElementById('lm_cfg_platforms').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); lm_config.rates = document.getElementById('lm_cfg_rates').value.split(/[,，]/).map(s=>s.trim()).filter(s=>s); localStorage.setItem('loan_max_config_v3', JSON.stringify(lm_config)); lm_renderConfigOptions(); document.getElementById('lm_configModal').style.display = 'none'; triggerAutoSync(); }
+    
     function lm_renderConfigOptions() {
         const fill = (id, arr) => document.getElementById(id).innerHTML = `<option value="">快选...</option>`+arr.map(r=>`<option value="${r}">${r}</option>`).join('');
         fill('lm_platform_helper', lm_config.platforms); fill('lm_rate_helper', lm_config.rates);
         document.getElementById('lm_cfg_platforms').value = lm_config.platforms.join(','); document.getElementById('lm_cfg_rates').value = lm_config.rates.join(',');
+        
+        // 渲染负债端快捷胶囊
+        renderQuickTags('lm_quick_platforms', 'lm_platform', lm_config.platforms);
+        renderQuickTags('lm_quick_rates', 'lm_rate', lm_config.rates);
     }
+    
     function lm_toggleFreeInput() { const t = document.getElementById('lm_freeType').value; document.getElementById('lm_freeInputGroup').style.display = t==='none'?'none':'flex'; document.getElementById('lm_freeValDays').style.display = t==='days'?'block':'none'; document.getElementById('lm_freeValDate').style.display = t==='date'?'block':'none'; }
 
     // ================= GitHub Sync =================
@@ -720,7 +898,7 @@
         } catch(e) { console.error(e); badge.className = 'sync-badge status-error'; badgeText.innerText = '失败'; if(!isAuto) alert("❌ 同步失败"); }
     }
     async function archiveToGitHub() {
-        const {token, repo} = ghConfig; if(!token || !repo) return alert("请先配置 GitHub");
+        const {token, repo} = ghConfig; if(!token || !repo) return alert("请配置 GitHub");
         if(!confirm("创建永久存档？")) return;
         const timestamp = getTimestampStr(); const path = `backups/wealth_archive_${timestamp}.json`;
         try {
